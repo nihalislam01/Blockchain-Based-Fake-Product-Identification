@@ -26,7 +26,7 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
   user = new User({ name: name, email: email, password: password, isEnable: false, loginMethods: ['password'], tokenHash: hash, tokenExpiration: expiration });
   await user.save();
 
-  const url = `${req.protocol}://${req.get("host")}/verify-email?token=${token}`;
+  const url = `${process.env.CLIENT_DOMAIN}/verify-email?token=${token}`;
   await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url });
 
   res.status(200).json({ success: true, message: "Please check your email to verify." });

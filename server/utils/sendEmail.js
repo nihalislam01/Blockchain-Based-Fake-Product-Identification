@@ -16,7 +16,7 @@ const sendEmail = async (options) => {
   const html = await ejs.renderFile(path.join(__dirname, '../templates/verifyEmail.ejs'), {  name: options.name, url: options.url });
 
   const mailOptions = {
-    from: `"Office of Co-curricular Activities - Brac University" <${process.env.SMPT_MAIL}>`,
+    from: `"BFPI" <${process.env.SMPT_MAIL}>`,
     to: options.email,
     subject: options.subject,
     html

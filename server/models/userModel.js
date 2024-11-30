@@ -17,12 +17,6 @@ const userSchema = new mongoose.Schema({
           validator: validator.isEmail,
           message: 'Please provide a valid email',
         },
-        {
-          validator: function (v) {
-            return /@(g\.)?bracu\.ac\.bd$/.test(v);
-          },
-          message: props => `${props.value} must be a G Suite email ending with @g.bracu.ac.bd`,
-        },
       ]
     },
     password: {
