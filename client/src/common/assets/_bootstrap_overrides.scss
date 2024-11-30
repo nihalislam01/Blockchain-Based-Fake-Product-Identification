@@ -1,0 +1,50 @@
+.btn-primary {
+    background-image: linear-gradient(162deg, #7b2cbf, #9d4edd);
+    border: unset;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    box-shadow: 1px 2px 12px 1px rgb(123, 44, 191, 0.66);
+    transition: box-shadow ease 1s;
+
+    &:hover {
+        box-shadow: 1px 2px 20px 1px rgba(102, 140, 243, 0.85);
+        transition: box-shadow ease 1s;
+    }
+}
+
+.btn-link {
+    color:rgba(113, 113, 113);
+    &:hover {
+        color: rgb(80, 80, 80);
+    }
+}
+
+.btn-disabled {
+    background-image: linear-gradient(162deg, #9d9d9d, #7b7b7b);
+    box-shadow: 1px 2px 12px 1px rgba(113, 113, 113, 0.66);
+    transition: box-shadow ease 1s;
+    cursor: not-allowed;
+
+    &:hover {
+        box-shadow: 1px 2px 20px 1px rgba(113, 113, 113, 0.66);
+        transition: box-shadow ease 1s;
+    }
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 10px 20px;
+}
+
+.form-control {
+    border-radius: 0.6rem;
+    font-size: 0.85rem;
+}
+
+.btn {
+    border-radius: 0.6rem;
+}
+
+.fw-semibold {
+    font-weight: 500 !important;
+}

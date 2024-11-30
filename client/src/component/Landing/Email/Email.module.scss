@@ -1,0 +1,73 @@
+@import "../../../common/assets/variables";
+
+.emailContainer {
+    min-width: 300px;
+    padding: 30px 30px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 12px 1px rgba(0, 0, 0, 0.413);
+}
+
+.btnEmail {
+    background-color: #b40c14;
+    border: unset;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: box-shadow ease 1s;
+    color: white;
+
+    &:hover {
+        box-shadow: 1px 2px 20px 1px rgb(180, 12, 22, 0.85);
+        transition: box-shadow ease 1s;
+    }
+}
+
+@media only screen {
+    @media (min-width: $sm) {
+        .emailContainer {
+            min-width: 370px;
+            padding: 30px 30px;
+        }
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) and (max-width: $xxl) {
+
+    }
+
+    @media (min-width: $xxl) {
+
+    }
+}

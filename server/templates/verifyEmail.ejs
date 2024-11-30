@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
+    .container { width: 100%; max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0,0,0,0.1); }
+    .header { font-size: 24px; color: #333333; text-align: center; }
+    .message { font-size: 16px; color: #555555; margin: 20px 0; }
+    .button { display: block; width: 200px; text-align: center; padding: 10px 20px; margin: 0 auto; background-color: #b185db; color: white !important; text-decoration: none; border-radius: 5px; font-size: 16px; }
+    .footer { font-size: 12px; color: #777777; text-align: center; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">Verify Your Email</div>
+    <p class="message">Hi <%= name %>,</p>
+    <p class="message">Thank you for signing up! Please click the button below to verify your email address and activate your account.</p>
+    <a href="<%= url %>" class="button">Verify Email</a>
+    <p class="footer">If you did not sign up for this account, you can safely ignore this email.</p>
+  </div>
+</body>
+</html>

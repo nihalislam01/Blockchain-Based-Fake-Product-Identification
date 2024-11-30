@@ -1,0 +1,78 @@
+@import "../../common/assets/variables";
+
+.logo {
+    max-width: 200px;
+}
+
+.sidebar {
+    padding-right: 45px;
+    padding-left: 45px;
+}
+
+.content {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+@media only screen {
+    @media (max-width: $sm) {
+
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xxl) {
+        .content {
+            padding-left: 100px;
+        }
+
+        .sidebar {
+            padding-right: 20px;
+            padding-left: 30px;
+        }
+    }
+
+    @media (min-width: $xxl) and (max-width: 1700px) {
+        .logo {
+            max-width: 180px;
+        }
+    }
+
+    @media (min-width: 1700px) {
+        .sidebar {
+            padding-right: 45px;
+            padding-left: 45px;
+        }
+    }
+}

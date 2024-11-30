@@ -12,21 +12,52 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: [true, "Please Enter Your Email"],
       unique: true,
-      validate: [validator.isEmail, "Please Enter a valid Email"],
+      validate: [
+        {
+          validator: validator.isEmail,
+          message: 'Please provide a valid email',
+        },
+        {
+          validator: function (v) {
+            return /@(g\.)?bracu\.ac\.bd$/.test(v);
+          },
+          message: props => `${props.value} must be a G Suite email ending with @g.bracu.ac.bd`,
+        },
+      ]
     },
     password: {
       type: String,
-      required: [true, "Please Enter Your Password"],
-      minLength: [8, "Password should be greater than 8 characters"],
       select: false,
+    },
+    oauthProvider: { 
+      type: String,
+      select: false
+    },
+    oauthId: { 
+      type: String,
+      select: false 
+    },
+    loginMethods: { 
+      type: [String]
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now 
     },
     role: {
       type: String,
       default: "user",
     },
     isEnable: {
-      type: Boolean,
-      default: true
+      type: Boolean
+    },
+    tokenHash: {
+      type: String,
+      select: false
+    },
+    tokenExpiration: {
+      type: Date,
+      select: false
     }
   });
 
