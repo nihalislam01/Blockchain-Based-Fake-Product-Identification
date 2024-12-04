@@ -51,17 +51,17 @@ function Login() {
         axios.post(loginUrl, {
             ...formValues
         }).then((response) => {
-            console.log(response);
+            navigate('/profile');
         }).catch(handleAxiosError);
     }
 
     const navigateTo = () => {
-        navigate("/verify-email");
+        navigate("/forgot-password");
     }
 
     const handleGoogleLogin = () => {
         window.location.href = oAuthUrl;
-      };
+    };
       
 
     return (

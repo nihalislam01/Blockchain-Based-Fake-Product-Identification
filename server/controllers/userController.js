@@ -58,7 +58,7 @@ exports.verifyCallback = catchAsyncErrors(async (req, res, next) => {
 
   await user.save();
 
-  return res.status(200).json({ message: "Email verified successfully" });
+  return res.status(200).json({ success: true, message: "Email verified" });
 });
 
 

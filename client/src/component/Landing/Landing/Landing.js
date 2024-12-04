@@ -5,6 +5,7 @@ import Email from "../Email/Email";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
 import Signup from "../Signup/Signup";
+import Callback from "../Callback/Callback";
 
 function Landing() {
     return (
@@ -28,8 +29,12 @@ export const landingRoutes = [
         element: <Login />
     },
     {
-        path: "/verify-email",
+        path: "/forgot-password",
         element: <Email />
+    },
+    {
+        path: "/verify-email",
+        element: <Callback />
     }
 ];
 

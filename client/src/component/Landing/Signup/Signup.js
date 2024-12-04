@@ -7,9 +7,10 @@ import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { serverLocation } from "../../../const/Constants";
 
 const registerUrl = "/api/user/register";
-const oAuthUrl = "http://localhost:8080/api/user/auth/google";
+const oAuthUrl = `${serverLocation}/api/user/auth/google`;
 
 const userInputs = [
     {
