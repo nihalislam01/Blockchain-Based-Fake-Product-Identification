@@ -9,18 +9,19 @@
 
 body {
     margin: 0;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 15px;
-    color: #424242;
+    background-color: $lightColor;
+    color: $darkColor;
 }
 
-h1, h2, h3, h4 {
-    color: #3f3f3f;
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+h1, h2, h3, h4, h5, h6 {
+    color: $darkColor;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -40,6 +41,10 @@ a, a:visited, a:focus {
     width: 230px;
 }
 
-.selected * {
-    color: $primaryColor !important;
+.selected {
+    background-color: $primaryColor !important;
+    color: $lightColor !important;
+    h1, h2, h3, h4 {
+        color: $lightColor !important;
+    }
 }

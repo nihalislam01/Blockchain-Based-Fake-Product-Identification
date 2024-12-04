@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, verifyCallback, get, getAll, updatePassword, oauth, oauthCallback, login, logout } = require('../controllers/userController');
+const { register, verifyCallback, get, getAll, updatePassword, oauth, oauthCallback, login, logout, checkUser } = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
@@ -13,5 +13,6 @@ router.post('/login', login);
 router.get('/auth/google', oauth)
 router.get('/auth/google/callback', oauthCallback);
 router.post('/logout', logout);
+router.get('/check', isAuthenticatedUser, checkUser)
 
 module.exports = router;

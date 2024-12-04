@@ -1,8 +1,36 @@
-@import "../../common/assets/variables";
+@import "../../../common/assets/variables";
 
 .content {
-    padding-left: 40px;
-    padding-right: 40px;
+    position: absolute;
+    width: 100%;
+    padding: 20px 150px;
+
+}
+
+.sign-container {
+    border-radius: 10px;
+    border: 1px solid $secondaryColor;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-button {
+    border: none;
+    background: none;
+    width: 80px;
+    padding: 10px;
+}
+
+.left-selected {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.right-selected {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 @media only screen {
@@ -44,14 +72,11 @@
     }
 
     @media (min-width: $xxl) {
-
     }
 
     @media (min-width: $xxl) and (max-width: 1700px) {
-
     }
 
     @media (min-width: 1700px) {
-
     }
 }

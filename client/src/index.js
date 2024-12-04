@@ -2,14 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {routes} from "./const/Routes";
-import 'bootstrap/dist/css/bootstrap.css';
+import {Toaster} from'react-hot-toast';
+import axios from 'axios';
+import {serverLocation} from './const/Constants';
+import { AuthProvider } from './common/utils/AuthContext';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import './common/assets/common.scss';
+
+axios.defaults.baseURL = serverLocation;
+axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <RouterProvider router={router}/>
+      <Toaster />
+      <AuthProvider>
+        <RouterProvider router={router}/>
+      </AuthProvider>
   </React.StrictMode>
 );

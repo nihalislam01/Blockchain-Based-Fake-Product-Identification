@@ -103,7 +103,15 @@ exports.oauthCallback = catchAsyncErrors(async (req, res, next) => {
         return res.status(401).json({ message: 'Authentication failed', info });
     }
 
-    sendToken(user, 201, res);
+    const token = user.getJWTToken();
+  
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'PRODUCTION',
+        sameSite: 'strict',
+        expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000)
+    })
+    res.redirect(`${process.env.CLIENT_DOMAIN}/profile`);
   })(req, res, next);
 });
 
@@ -135,6 +143,10 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
   }
 
   sendToken(user, 200, res);
+});
+
+exports.checkUser = catchAsyncErrors(async (req, res, next) => {
+  res.json({ success: true, isLoggedIn: true });
 });
 
 exports.logout = catchAsyncErrors(async (req, res, next) => {

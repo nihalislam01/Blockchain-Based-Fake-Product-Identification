@@ -17,7 +17,7 @@ const userInputs = [
     }
 ];
 
-const pageTitle = "BFPI - Verify Email";
+const pageTitle = "Hexis - Verify Email";
 
 function Email() {
 

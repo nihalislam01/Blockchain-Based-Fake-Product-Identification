@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const passport = require('passport');
+const cors = require('cors');
 
 const errorMiddleware = require("./middleware/error");
 
@@ -14,8 +15,14 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 require('./config/passport');
 
+const corsOptions = {
+  origin: process.env.CLIENT_DOMAIN, 
+  credentials: true,
+};
+
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(passport.initialize());
 app.use(bodyParser.urlencoded({ extended: true }));
 

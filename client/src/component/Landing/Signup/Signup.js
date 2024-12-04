@@ -1,14 +1,23 @@
-import styles from "./Login.module.scss";
-import {useNavigate} from "react-router-dom";
+import styles from "./Signup.module.scss";
 import FormInput from "../../../common/components/FormInput/FormInput";
 import {useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const registerUrl = "/api/user/register";
+const oAuthUrl = "http://localhost:8080/api/user/auth/google";
 
 const userInputs = [
+    {
+        id: "nameInput",
+        name: "name",
+        type: "text",
+        placeholder: "Name",
+    },
     {
         id: "emailInput",
         name: "email",
@@ -21,19 +30,23 @@ const userInputs = [
         type: "password",
         placeholder: "Password"
     },
+    {
+        id: "confirmInput",
+        name: "confirmPassword",
+        type: "password",
+        placeholder: "Confirm Password"
+    },
 ];
 
-const pageTitle = "Hexis - Login Page";
-const loginUrl = "/api/user/login";
-const oAuthUrl = "http://localhost:8080/api/user/auth/google";
+const pageTitle = "Hexis - Signup Page";
 
-function Login() {
-
-    const navigate = useNavigate();
+function Signup() {
 
     const [formValues, setFormValues] = useState({
+        name: "",
         email: "",
         password: "",
+        confirmPassword: ""
     });
 
     const onChangeHandler = e => {
@@ -45,24 +58,26 @@ function Login() {
         let hasError = !Object.values(formValues).every(value => value.trim().length !== 0);
 
         if (hasError) {
+            toast.error("Please fill up all the fields");
             return;
         }
 
-        axios.post(loginUrl, {
+        let isPassword = formValues.password.trim() === formValues.confirmPassword.trim();
+
+        if (!isPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
+
+        axios.post(registerUrl, {
             ...formValues
         }).then((response) => {
-            console.log(response);
+            toast.success("Registration successful. Please verify your email to proceed");
         }).catch(handleAxiosError);
     }
-
-    const navigateTo = () => {
-        navigate("/verify-email");
-    }
-
     const handleGoogleLogin = () => {
         window.location.href = oAuthUrl;
-      };
-      
+    };
 
     return (
         <>
@@ -70,15 +85,11 @@ function Login() {
 
             <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
                 <div className={`${styles.loginContainer}`}>
-                    <div className={`d-flex flex-column justify-content-center text-center w-50`}>
-                        <h1>Hexis</h1>
-                        <h6>Blockchain Based Fake Product Identification</h6>
-                    </div>
                     <div className="d-flex flex-column justify-content-center w-50">
 
                         <div style={{marginTop: "45px"}}>
                             <div className={`mb-4`}>
-                                <h4>Log In</h4>
+                                <h4>Sign Up</h4>
                             </div>
 
                             <hr />
@@ -89,14 +100,17 @@ function Login() {
                                     <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
                                 ))}
 
-                                <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign In</button>
+                                <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign Up</button>
                             </div>
                             <button className={`${styles.google} mt-2`} onClick={handleGoogleLogin}>
                                 <FontAwesomeIcon icon={faGoogle} className="mx-2" />
-                                Sign In with google
+                                Sign Up with google
                             </button>
                         </div>
-                        <button className="btn btn-link mt-2" onClick={navigateTo}>Forgot Password? Click Here</button>
+                    </div>
+                    <div className={`d-flex flex-column justify-content-center text-center w-50`}>
+                        <h1>Hexis</h1>
+                        <h6>Blockchain Based Fake Product Identification</h6>
                     </div>
                 </div>
             </div>
@@ -104,4 +118,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Signup;
