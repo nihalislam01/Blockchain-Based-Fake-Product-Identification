@@ -1,5 +1,6 @@
 const app = require("./index");
 const connectDatabase = require("./config/database");
+const configureCloudinary = require("./config/cloudinary");
 require('dotenv').config();
 
 process.on("uncaughtException", (err) => {
@@ -9,6 +10,7 @@ process.on("uncaughtException", (err) => {
 });
 
 connectDatabase();
+configureCloudinary();
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);

@@ -1,7 +1,7 @@
 import React from "react";
 import Landing, { landingRoutes } from "../component/Landing/Landing/Landing";
-import Profile from "../component/Profile/Profile";
 import PrivateRoute from "../common/utils/PrivateRoute";
+import Main, { authenticatedRoutes } from "../component/Main/Main";
 
 export const routes = [
     {
@@ -10,11 +10,12 @@ export const routes = [
         children: landingRoutes,
     },
     {
-        path: "/profile",
+        path: "/",
         element: ( 
             <PrivateRoute>
-                <Profile />
+                <Main />
             </PrivateRoute>
-        )
+        ),
+        children: authenticatedRoutes
     }
 ];

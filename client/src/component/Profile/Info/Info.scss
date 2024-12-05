@@ -1,0 +1,97 @@
+@import "../../../common/assets/variables";
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.password-container {
+    margin-top: 20px;
+    width: 100%;
+}
+
+h2, h4 {
+    font-family: Arial !important;
+}
+
+h2 {
+    font-weight: bold !important;
+}
+
+.button {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 7px;
+    border: 1px solid light-dark(#ccc, rgb(28, 28, 28));
+}
+
+.edit-button {
+    width: 100%;
+    background-color: $forthColor;
+    color: $lightColor;
+}
+
+.save-button {
+    width: 80px;
+    color: white;
+    padding: 3px !important;
+    background-color: #386641;
+    margin: 10px 5px;
+}
+
+.cancel-button {
+    width: 80px;
+    padding: 3px !important;
+    background-color: #e5e5e5;
+    margin: 10px 5px;
+}
+
+@media only screen {
+    @media (min-width: $sm) {
+
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) and (max-width: $xxl) {
+
+    }
+
+    @media (min-width: $xxl) {
+
+    }
+}

@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       select: false,
     },
+    avatar: {
+      public_id: String,
+      url: String
+    },
     oauthProvider: { 
       type: String,
       select: false

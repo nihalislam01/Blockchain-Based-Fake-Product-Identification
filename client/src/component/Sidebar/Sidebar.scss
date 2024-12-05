@@ -1,0 +1,95 @@
+@import "../../common/assets/variables";
+
+.sidebarContainer {
+    width: 250px;
+    background: #e9e9e9;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebarIcon {
+    width: 30px;
+    height: 30px;
+}
+
+.sidebarSelected {
+    background-color: #e1e1e1;
+}
+
+.sidebarNav {
+    text-decoration: none;
+    color: $lightColor !important;
+    font-size: 20px;
+}
+
+.listItems {
+    width: 100%;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-weight: bold;
+    color: $darkColor;
+    &:hover {
+        background-color: #b9b9b9;
+    }
+}
+
+.sidebarlist {
+    margin-top: 50px;
+}
+@media only screen {
+
+    @media (max-width: $sm) {
+        .main-body {
+            padding: 0;
+        }
+    }
+    @media (min-width: $sm) {
+
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) and (max-width: $xxl) {
+
+    }
+
+    @media (min-width: $xxl) {
+
+    }
+}

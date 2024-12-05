@@ -6,6 +6,7 @@ const passport = require('passport');
 const sendEmail = require('../utils/sendEmail');
 const generateToken = require('../utils/generateToken');
 const crypto = require('crypto');
+const cloudinary = require("cloudinary");
 
 
 exports.register = catchAsyncErrors(async (req, res, next) => {
@@ -79,6 +80,11 @@ exports.getAll = catchAsyncErrors(async (req, res, next) => {
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 
   const user = await User.findById(req.user.id).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
   if (!isPasswordMatched) {
@@ -206,4 +212,65 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
   res.clearCookie('token');
   res.status(200).json({success: true, message: "Logged Out"});
 
+});
+
+exports.getAvatar = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  if (user.avatar && user.avatar.url) {
+    res.status(200).json({success: true, avatar: user.avatar});
+  } else {
+    res.status(200).json({success: false, message: "Avatar Not Found"});
+  }
+
+});
+
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({success: true, user});
+});
+
+exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  if (user.avatar && user.avatar.public_id) {
+    const imageId = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(imageId);
+  }
+
+  const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    height: 150,
+    crop: "fill",
+    gravity: "auto",
+  });
+
+  const avatar = {
+    public_id: myCloud.public_id,
+    url: myCloud.secure_url,
+  };
+
+  await User.findByIdAndUpdate(req.user.id, {avatar}, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({success: true, message: "Avatar updated"});
 });
