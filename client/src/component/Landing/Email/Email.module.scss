@@ -8,7 +8,7 @@
 }
 
 .btnEmail {
-    background-color: #b40c14;
+    background-color: $primaryColor;
     border: unset;
     font-size: 0.9rem;
     padding: 12px 20px;
@@ -17,7 +17,7 @@
     color: white;
 
     &:hover {
-        box-shadow: 1px 2px 20px 1px rgb(180, 12, 22, 0.85);
+        box-shadow: 1px 2px 20px 1px #1f2531;
         transition: box-shadow ease 1s;
     }
 }

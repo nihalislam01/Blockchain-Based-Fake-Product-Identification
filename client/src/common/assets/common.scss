@@ -48,3 +48,10 @@ a, a:visited, a:focus {
         color: $lightColor !important;
     }
 }
+
+.form-card {
+    min-width: 30%;
+    padding: 30px 30px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 12px 1px rgba(0, 0, 0, 0.413);
+}

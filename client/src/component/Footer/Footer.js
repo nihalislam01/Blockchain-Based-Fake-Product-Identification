@@ -6,11 +6,11 @@ function Footer() {
             <footer className="footer-container">
                 <h6 className='headline'>Hexis -  Your Authenticity Partner</h6>
                 <div className="footer-content">
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Press</a>
-                    <a href="#">Terms</a>
-                    <a href="#">Privacy</a>
+                    <a href="/#">About</a>
+                    <a href="/#">Contact</a>
+                    <a href="/#">Press</a>
+                    <a href="/#">Terms</a>
+                    <a href="/#">Privacy</a>
                 </div>
             </footer>
         </>

@@ -19,7 +19,7 @@ function Callback() {
             navigate("/profile");
         })
         .catch(handleAxiosError)
-    },[token])
+    },[token, navigate])
 
     return (
         <>

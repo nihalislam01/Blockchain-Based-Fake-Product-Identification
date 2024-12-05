@@ -27,7 +27,7 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   const url = `${process.env.CLIENT_DOMAIN}/verify-email?token=${token}`;
-  await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url });
+  await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url, message: "Thank you for signing up! Please click the button below to verify your email address and activate your account." });
 
   res.status(200).json({ success: true, message: "Please check your email to verify." });
 });
@@ -147,6 +147,58 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 
 exports.checkUser = catchAsyncErrors(async (req, res, next) => {
   res.json({ success: true, isLoggedIn: true });
+});
+
+exports.forgotPassword = catchAsyncErrors(async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const { token, hash, expiration } = generateToken();
+
+  user.tokenHash = hash;
+  user.tokenExpiration = expiration;
+
+  await user.save();
+
+  const url = `${process.env.CLIENT_DOMAIN}/reset-password?token=${token}`;
+  await sendEmail({ name: user.name, email: user.email, subject: "Reset Password", url, message: "Please click the button below to verify your email address and reset your password." });
+
+  res.status(200).json({ success: true, message: "Please check your email to reset password." });
+});
+
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+
+  const token = req.query.token;
+  const password = req.body.password;
+
+  if (!token) {
+    return next(new ErrorHandler("Token is missing", 400));
+  }
+
+  const hash = crypto.createHash("sha256").update(token).digest("hex");
+
+  const user = await User.findOne({ tokenHash: hash }).select("+tokenHash +tokenExpiration");
+
+  if (!user) {
+    return next(new ErrorHandler("Invalid token", 400));
+  }
+
+  if (Date.now() > user.tokenExpiration) {
+    return next(new ErrorHandler("Token has expired. Please reset password again.", 400));
+  }
+
+  user.password = password;
+  user.isEnable = true;
+  user.loginMethods.push("password");
+  user.tokenHash = undefined;
+  user.tokenExpiration = undefined;
+
+  await user.save();
+
+  sendToken(user, 200, res);
 });
 
 exports.logout = catchAsyncErrors(async (req, res, next) => {

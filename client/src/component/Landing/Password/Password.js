@@ -1,4 +1,3 @@
-import styles from "./Email.module.scss";
 import {useNavigate} from "react-router-dom";
 import FormInput from "../../../common/components/FormInput/FormInput";
 import {useState} from "react";
@@ -7,25 +6,34 @@ import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import {toast} from "react-hot-toast";
 
-const forgotPasswordUrl = `api/user/password/forgot`;
+const resetPasswordUrl = `api/user/password/reset`;
 
 const userInputs = [
     {
-        id: "emailInput",
-        name: "email",
-        type: "email",
-        placeholder: "Please enter your email",
+        id: "passwordInput",
+        name: "password",
+        type: "password",
+        placeholder: "Enter new password",
+    },
+    {
+        id: "confirmPasswordInput",
+        name: "confirmPassword",
+        type: "password",
+        placeholder: "Confirm Password",
     }
 ];
 
-const pageTitle = "Hexis - Forgot Password";
+const pageTitle = "Hexis - Reset Password";
 
-function Email() {
+function Password() {
 
     const navigate = useNavigate();
+    const queryParams = new URLSearchParams(window.location.search);
+    const token = queryParams.get("token");
 
     const [formValues, setFormValues] = useState({
-        email: ""
+        password: "",
+        confirmPassword: ""
     });
 
     const onChangeHandler = e => {
@@ -41,18 +49,11 @@ function Email() {
             return;
         }
 
-        toast.promise(
-            axios.post(forgotPasswordUrl, { ...formValues }),
-            {
-                loading: "Processing...",
-                success: "Email sent successfully. Check your inbox!",
-                error: (err) => {
-                    handleAxiosError(err);
-                },
-            }
-        ).then(() => {
-            navigate("/success-email");
-        });
+        axios.put(resetPasswordUrl + "/?token=" +token, {...formValues})
+        .then((response) => {
+            toast.success("Password reset successful. You can now log in");
+            navigate("/");
+        }).catch(handleAxiosError);
                
         
     }
@@ -66,11 +67,11 @@ function Email() {
             <CommonHelmet title={pageTitle}/>
 
             <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
-                <div className={`d-flex flex-column justify-content-center ${styles.emailContainer}`}>
+                <div className={`d-flex flex-column justify-content-center form-card`}>
 
                     <div style={{marginTop: "45px"}}>
                         <div className={`mb-4`}>
-                            <h4>Verify Email</h4>
+                            <h4>Reset Password</h4>
                         </div>
 
                         <hr />
@@ -81,7 +82,7 @@ function Email() {
                                 <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
                             ))}
 
-                            <button type="submit" className={`${styles.btnEmail} mt-2`} onClick={onFormSubmit}>Send Email</button>
+                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Reset Password</button>
                         </div>
                     </div>
                     <button className="btn btn-link mt-2" onClick={navigateTo}>Already Verified? Sign In</button>
@@ -91,4 +92,4 @@ function Email() {
     );
 }
 
-export default Email;
+export default Password;

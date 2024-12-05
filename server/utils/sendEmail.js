@@ -13,7 +13,7 @@ const sendEmail = async (options) => {
     },
   });
 
-  const html = await ejs.renderFile(path.join(__dirname, '../templates/verifyEmail.ejs'), {  name: options.name, url: options.url });
+  const html = await ejs.renderFile(path.join(__dirname, '../templates/verifyEmail.ejs'), {  name: options.name, url: options.url, message: options.message });
 
   const mailOptions = {
     from: `"Hexis" <${process.env.SMPT_MAIL}>`,
