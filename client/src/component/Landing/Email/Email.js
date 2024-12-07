@@ -6,6 +6,7 @@ import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import {toast} from "react-hot-toast";
+import Message from "../../../common/components/Message/Message";
 
 const forgotPasswordUrl = `api/user/password/forgot`;
 
@@ -24,6 +25,7 @@ function Email() {
 
     const navigate = useNavigate();
 
+    const [emailSent, setEmailSent] = useState(false);
     const [formValues, setFormValues] = useState({
         email: ""
     });
@@ -45,16 +47,22 @@ function Email() {
             axios.post(forgotPasswordUrl, { ...formValues }),
             {
                 loading: "Processing...",
-                success: "Email sent successfully. Check your inbox!",
+                success: () => {
+                    setEmailSent(true);
+                    return "Email sent successfully. Check your inbox!";
+                },
                 error: (err) => {
                     handleAxiosError(err);
                 },
             }
-        ).then(() => {
-            navigate("/success-email");
-        });
+        );
                
         
+    }
+
+    if (emailSent) {
+        return (<Message headline={"Email Sent"} message={"Please check your email to complete verification."} />
+        );
     }
 
     const navigateTo = () => {
@@ -64,28 +72,25 @@ function Email() {
     return (
         <>
             <CommonHelmet title={pageTitle}/>
+            <div className={`d-flex flex-column justify-content-center ${styles.emailContainer}`}>
 
-            <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
-                <div className={`d-flex flex-column justify-content-center ${styles.emailContainer}`}>
-
-                    <div style={{marginTop: "45px"}}>
-                        <div className={`mb-4`}>
-                            <h4>Verify Email</h4>
-                        </div>
-
-                        <hr />
-
-                        <div className={`d-flex flex-column`}>
-
-                            {userInputs.map(e => (
-                                <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
-                            ))}
-
-                            <button type="submit" className={`${styles.btnEmail} mt-2`} onClick={onFormSubmit}>Send Email</button>
-                        </div>
+                <div style={{marginTop: "45px"}}>
+                    <div className={`mb-4`}>
+                        <h4>Verify Email</h4>
                     </div>
-                    <button className="btn btn-link mt-2" onClick={navigateTo}>Already Verified? Sign In</button>
+
+                    <hr />
+
+                    <div className={`d-flex flex-column`}>
+
+                        {userInputs.map(e => (
+                            <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+                        ))}
+
+                        <button type="submit" className={`${styles.btnEmail} mt-2`} onClick={onFormSubmit}>Send Email</button>
+                    </div>
                 </div>
+                <button className="btn btn-link mt-2" onClick={navigateTo}>Already Verified? Sign In</button>
             </div>
         </>
     );

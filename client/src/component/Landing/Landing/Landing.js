@@ -6,17 +6,17 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
 import Signup from "../Signup/Signup";
 import Callback from "../Callback/Callback";
-import Message from "../../../common/components/Message/Message";
 import Password from "../Password/Password";
+import "./Landing.scss";
 
 function Landing() {
     return (
         <>
-            <section className={`w-100 min-vh-100`}>
-                <Navbar />
+            <Navbar />
+            <div className="main-content">
                 <Outlet/>
-                <Footer />
-            </section>
+            </div>
+            <Footer />
         </>
     );
 }
@@ -37,10 +37,6 @@ export const landingRoutes = [
     {
         path: "/verify-email",
         element: <Callback />
-    },
-    {
-        path: "/success-email",
-        element: <Message headline={"Email Sent"} message={"Please check your email to complete verification."} />
     },
     {
         path: "/reset-password",

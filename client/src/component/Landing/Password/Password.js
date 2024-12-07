@@ -65,28 +65,25 @@ function Password() {
     return (
         <>
             <CommonHelmet title={pageTitle}/>
+            <div className={`d-flex flex-column justify-content-center form-card`}>
 
-            <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
-                <div className={`d-flex flex-column justify-content-center form-card`}>
-
-                    <div style={{marginTop: "45px"}}>
-                        <div className={`mb-4`}>
-                            <h4>Reset Password</h4>
-                        </div>
-
-                        <hr />
-
-                        <div className={`d-flex flex-column`}>
-
-                            {userInputs.map(e => (
-                                <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
-                            ))}
-
-                            <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Reset Password</button>
-                        </div>
+                <div style={{marginTop: "45px"}}>
+                    <div className={`mb-4`}>
+                        <h4>Reset Password</h4>
                     </div>
-                    <button className="btn btn-link mt-2" onClick={navigateTo}>Already Verified? Sign In</button>
+
+                    <hr />
+
+                    <div className={`d-flex flex-column`}>
+
+                        {userInputs.map(e => (
+                            <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+                        ))}
+
+                        <button type="submit" className={`btn btn-primary mt-2`} onClick={onFormSubmit}>Reset Password</button>
+                    </div>
                 </div>
+                <button className="btn btn-link mt-2" onClick={navigateTo}>Already Verified? Sign In</button>
             </div>
         </>
     );

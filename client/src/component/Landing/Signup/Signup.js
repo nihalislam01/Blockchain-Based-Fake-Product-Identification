@@ -96,36 +96,33 @@ function Signup() {
     return (
         <>
             <CommonHelmet title={pageTitle}/>
+            <div className={`${styles.loginContainer}`}>
+                <div className="d-flex flex-column justify-content-center w-50">
 
-            <div className={`d-flex justify-content-center align-items-center min-vh-100`}>
-                <div className={`${styles.loginContainer}`}>
-                    <div className="d-flex flex-column justify-content-center w-50">
-
-                        <div style={{marginTop: "45px"}}>
-                            <div className={`mb-4`}>
-                                <h4>Sign Up</h4>
-                            </div>
-
-                            <hr />
-
-                            <div className={`d-flex flex-column`}>
-
-                                {userInputs.map(e => (
-                                    <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
-                                ))}
-
-                                <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign Up</button>
-                            </div>
-                            <button className={`${styles.google} mt-2`} onClick={handleGoogleLogin}>
-                                <FontAwesomeIcon icon={faGoogle} className="mx-2" />
-                                Sign Up with google
-                            </button>
+                    <div style={{marginTop: "45px"}}>
+                        <div className={`mb-4`}>
+                            <h4>Sign Up</h4>
                         </div>
+
+                        <hr />
+
+                        <div className={`d-flex flex-column`}>
+
+                            {userInputs.map(e => (
+                                <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+                            ))}
+
+                            <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign Up</button>
+                        </div>
+                        <button className={`${styles.google} mt-2`} onClick={handleGoogleLogin}>
+                            <FontAwesomeIcon icon={faGoogle} className="mx-2" />
+                            Sign Up with google
+                        </button>
                     </div>
-                    <div className={`d-flex flex-column justify-content-center text-center w-50`}>
-                        <h1>Hexis</h1>
-                        <h6>Blockchain Based Fake Product Identification</h6>
-                    </div>
+                </div>
+                <div className={`d-flex flex-column justify-content-center text-center w-50`}>
+                    <h1>Hexis</h1>
+                    <h6>Blockchain Based Fake Product Identification</h6>
                 </div>
             </div>
         </>

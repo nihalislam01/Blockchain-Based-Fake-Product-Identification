@@ -1,0 +1,118 @@
+@import "../../common/assets/variables";
+
+.plan-container {
+    display: flex;
+    width: 100%;
+    min-height: 80vh;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.plan-box {
+    position: relative;
+    width: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.plan-box .select-indicator {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #999;
+    background-color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.plan-box.selectedPlan .select-indicator {
+    background: $primaryColor;
+    border-color: $primaryColor;
+}
+.plan-box h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+.plan-box p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 10px 0 20px;
+}
+.plan-box .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+.plan-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+.plan-box ul li {
+    font-size: 0.9em;
+    color: #555;
+    margin: 5px 0;
+}
+
+.plan-info-container {
+    height: 100px;
+    overflow-y: auto;
+}
+
+@media only screen {
+    @media (min-width: $sm) {
+
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) and (max-width: $xxl) {
+
+    }
+
+    @media (min-width: $xxl) {
+
+    }
+}

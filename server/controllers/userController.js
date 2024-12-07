@@ -257,7 +257,7 @@ exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
     folder: "avatars",
     width: 150,
     height: 150,
-    crop: "fill",
+    crop: "scale",
     gravity: "auto",
   });
 

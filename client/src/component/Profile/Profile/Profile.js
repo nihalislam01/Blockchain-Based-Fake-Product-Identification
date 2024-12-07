@@ -5,7 +5,6 @@ import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import Info from "../Info/Info";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
-
 const getUserUrl = "/api/user/get";
 const pageTitle = "Hexis - Profile";
 
@@ -30,9 +29,11 @@ const Profile = () => {
     return (
         <>
             <CommonHelmet title={pageTitle} />
-            <div className={styles.infoContainer}>
-                <Avatar avatar={avatar} />
-                <Info email={user.email} name={name} setName={setName}/>
+            <div className="container">
+                <div className={styles.infoContainer}>
+                    <Avatar avatar={avatar} />
+                    <Info email={user.email} name={name} setName={setName}/>
+                </div>
             </div>
         </>
     );

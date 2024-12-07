@@ -1,8 +1,13 @@
-@import "../../common/assets/variables";
+@import "../../../common/assets/variables";
 
-.content {
-    padding-left: 40px;
-    padding-right: 40px;
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 80vh;
+    padding: 20px;
 }
 
 @media only screen {

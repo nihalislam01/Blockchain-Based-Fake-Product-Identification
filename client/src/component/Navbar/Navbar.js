@@ -51,7 +51,7 @@ function Navbar({imageUrl, toggleSidebar, isSidebarOpen}) {
     
     return (
         <>
-            <div className={`${styles.navbar}`}>
+            <div className={`${styles.navbar} z-1`}>
                 <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`${styles.sidebarIcon}`} style={{ display: isSidebarOpen ? "none" : "block" }} />
                 <div className="d-flex justify-content-between align-items-center w-100">
                     <h3 className="m-0">Hexis</h3>

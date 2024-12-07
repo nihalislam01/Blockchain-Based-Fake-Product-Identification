@@ -14,6 +14,10 @@
         box-shadow: 1px 2px 20px 1px #1f2531;
         transition: box-shadow ease 1s;
     }
+
+    &:active {
+        background-color: $primaryColor !important;
+    }
 }
 
 .btn-link {
@@ -51,4 +55,8 @@
 
 .fw-semibold {
     font-weight: 500 !important;
+}
+
+.container {
+    padding: 20px;
 }

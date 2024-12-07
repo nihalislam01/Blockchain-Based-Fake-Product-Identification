@@ -56,7 +56,8 @@ const userSchema = new mongoose.Schema({
     tokenExpiration: {
       type: Date,
       select: false
-    }
+    },
+    stripeSessionId: {type: String, select: false}
   });
 
 userSchema.pre('save', async function (next) {

@@ -7,6 +7,9 @@ import Dashboard from "../Dashboard/Dashboard";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Product from "../Product/Product";
+import Plan from "../Plan/Plan";
+import BusinessForm from "../BusinessForm/BusinessForm";
+import UpdateStatusCallback from "../UpdateStatusCallback/UpdateStatusCallback";
 
 const Main = () => {
 
@@ -45,7 +48,19 @@ export const authenticatedRoutes = [
     {
         path: "/product",
         element: <Product />
-    }
+    },
+    {
+        path: "/plan",
+        element: <Plan />
+    },
+    {
+        path: "/business-form/:id",
+        element: <BusinessForm />
+    },
+    {
+        path: "/business/updateStatus",
+        element: <UpdateStatusCallback />
+    },
 ];
 
 export default Main;

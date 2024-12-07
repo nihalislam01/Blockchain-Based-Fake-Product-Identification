@@ -1,21 +1,21 @@
 @import "../../common/assets/variables";
 
-.mainContainer {
-    flex: 1;
-    transition: margin-left 0.3s ease-in-out;
+.business-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    min-height: 100vh;
-}
-.main-body {
     min-height: 80vh;
+    padding: 20px;
+}
+
+.form-container {
+    width: 50%;
 }
 
 @media only screen {
 
     @media (max-width: $sm) {
-        .main-body {
-            padding: 0;
-        }
     }
     @media (min-width: $sm) {
 
