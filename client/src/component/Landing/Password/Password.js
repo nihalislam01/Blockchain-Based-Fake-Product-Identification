@@ -65,7 +65,7 @@ function Password() {
     return (
         <>
             <CommonHelmet title={pageTitle}/>
-            <div className={`d-flex flex-column justify-content-center form-card`}>
+            <div className={`d-flex flex-column justify-content-center form-card`} style={{backgroundColor: "white"}}>
 
                 <div style={{marginTop: "45px"}}>
                     <div className={`mb-4`}>

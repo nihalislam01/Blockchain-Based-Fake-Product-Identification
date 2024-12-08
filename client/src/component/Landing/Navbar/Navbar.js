@@ -7,7 +7,7 @@ function Navbar() {
 
     return (
         <>
-            <div className="navbar-container">
+            <div className="navbar-container-unauth">
                 <h2>Hexis</h2>
                 <div className="sign-container">
                     <Link to="/"><button className={`sign-button ${location.pathname === "/" ? "selected left-selected" : ""}`}>Sign In</button></Link>

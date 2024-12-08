@@ -8,7 +8,7 @@ import handleAxiosError from "../../../common/utils/ErrorHandler";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { serverLocation } from "../../../const/Constants";
-import {useNavigate} from "react-router-dom";
+import Message from "../../../common/components/Message/Message";
 
 const registerUrl = "/api/user/register";
 const oAuthUrl = `${serverLocation}/api/user/auth/google`;
@@ -44,7 +44,7 @@ const pageTitle = "Hexis - Signup Page";
 
 function Signup() {
 
-    const navigate = useNavigate();
+    const [emailSent, setEmailSent] = useState(false);
 
     const [formValues, setFormValues] = useState({
         name: "",
@@ -79,16 +79,23 @@ function Signup() {
             }),
             {
                 loading: "Processing...",
-                success: "Registration successful. Please verify your email to proceed",
+                success: () => {
+                    setEmailSent(true);
+                    return "Registration successful.";
+                },
                 error: (err) => {
                     handleAxiosError(err);
                 },
             }
-        ).then(() => {
-            navigate("/success-email");
-        });
+        );
 
     }
+
+    if (emailSent) {
+        return (<Message headline={"Email Sent"} message={"Thank you for signing in. Please check your email to complete verification."} />
+        );
+    }
+
     const handleGoogleLogin = () => {
         window.location.href = oAuthUrl;
     };

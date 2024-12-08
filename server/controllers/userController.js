@@ -1,7 +1,7 @@
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
-const sendToken = require("../utils/jwtToken");
+const setToken = require("../utils/jwtToken");
 const passport = require('passport');
 const sendEmail = require('../utils/sendEmail');
 const generateToken = require('../utils/generateToken');
@@ -27,7 +27,7 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
   user = new User({ name: name, email: email, password: password, isEnable: false, loginMethods: ['password'], tokenHash: hash, tokenExpiration: expiration });
   await user.save();
 
-  const url = `${process.env.CLIENT_DOMAIN}/verify-email?token=${token}`;
+  const url = `${req.protocol}://${req.get("host")}/api/user/verify-email?token=${token}`;
   await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url, message: "Thank you for signing up! Please click the button below to verify your email address and activate your account." });
 
   res.status(200).json({ success: true, message: "Please check your email to verify." });
@@ -59,7 +59,8 @@ exports.verifyCallback = catchAsyncErrors(async (req, res, next) => {
 
   await user.save();
 
-  return res.status(200).json({ success: true, message: "Email verified" });
+  setToken(user, res);
+  res.redirect(`${process.env.CLIENT_DOMAIN}`);
 });
 
 
@@ -94,7 +95,8 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   user.password = req.body.newPassword;
   await user.save();
 
-  sendToken(user, 200, res);
+  setToken(user, res);
+  res.status(200).json({success: true, user, message: 'Password Updated.'});
 
 });
 
@@ -109,15 +111,9 @@ exports.oauthCallback = catchAsyncErrors(async (req, res, next) => {
         return res.status(401).json({ message: 'Authentication failed', info });
     }
 
-    const token = user.getJWTToken();
-  
-    res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'PRODUCTION',
-        sameSite: 'strict',
-        expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000)
-    })
-    res.redirect(`${process.env.CLIENT_DOMAIN}/profile`);
+    setToken(user, res);
+
+    res.redirect(`${process.env.CLIENT_DOMAIN}`);
   })(req, res, next);
 });
 
@@ -135,7 +131,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (!user.isEnable) {
-    return next(new ErrorHandler("User is not verified yet. Please check your email and verify", 401));
+    return next(new ErrorHandler("Please check your email to verify", 401));
   }
 
   if (!user.loginMethods.includes('password')) {
@@ -148,7 +144,8 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid password", 401));
   }
 
-  sendToken(user, 200, res);
+  setToken(user, res);
+  res.status(200).json({success: true, user, message: 'User authenticated.'});
 });
 
 exports.checkUser = catchAsyncErrors(async (req, res, next) => {
@@ -198,13 +195,16 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   user.password = password;
   user.isEnable = true;
-  user.loginMethods.push("password");
+  if (!user.loginMethods.includes("password")){
+    user.loginMethods.push("password");
+  }
   user.tokenHash = undefined;
   user.tokenExpiration = undefined;
 
   await user.save();
 
-  sendToken(user, 200, res);
+  setToken(user, res);
+  res.status(200).json({success: true, user, message: 'Password Reset Successful.'});
 });
 
 exports.logout = catchAsyncErrors(async (req, res, next) => {

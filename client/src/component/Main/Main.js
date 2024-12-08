@@ -4,6 +4,7 @@ import Profile from "../Profile/Profile/Profile";
 import './Main.scss';
 import Navbar from "../Navbar/Navbar";
 import Dashboard from "../Dashboard/Dashboard";
+import Home from "../Home/Home";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Product from "../Product/Product";
@@ -37,6 +38,10 @@ const Main = () => {
 };
 
 export const authenticatedRoutes = [
+    {
+        path: "/home",
+        element: <Home />
+    },
     {
         path: "/dashboard",
         element: <Dashboard />

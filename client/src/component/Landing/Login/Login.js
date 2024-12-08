@@ -1,12 +1,13 @@
 import styles from "./Login.module.scss";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import FormInput from "../../../common/components/FormInput/FormInput";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGoogle } from '@fortawesome/free-brands-svg-icons';
+import {useAuth} from "../../../common/utils/AuthContext";
 
 const userInputs = [
     {
@@ -30,6 +31,16 @@ const oAuthUrl = "http://localhost:8080/api/user/auth/google";
 function Login() {
 
     const navigate = useNavigate();
+    const {checkAuth} = useAuth();
+    const [auth, setAuth] = useState(false);
+
+    useEffect(()=>{
+        const checkAuthentication = async () => {
+            const isAuthenticated = await checkAuth();
+            setAuth(isAuthenticated);
+        }
+        checkAuthentication();
+    },[checkAuth, navigate])
 
     const [formValues, setFormValues] = useState({
         email: "",
@@ -51,7 +62,7 @@ function Login() {
         axios.post(loginUrl, {
             ...formValues
         }).then((response) => {
-            navigate('/profile');
+            setAuth(response.data.success);
         }).catch(handleAxiosError);
     }
 
@@ -62,7 +73,10 @@ function Login() {
     const handleGoogleLogin = () => {
         window.location.href = oAuthUrl;
     };
-      
+    
+    if (auth) {
+        return <Navigate to="/home" />
+    }
 
     return (
         <>

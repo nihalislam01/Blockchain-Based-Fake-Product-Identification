@@ -5,7 +5,6 @@ import Email from "../Email/Email";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../../Footer/Footer";
 import Signup from "../Signup/Signup";
-import Callback from "../Callback/Callback";
 import Password from "../Password/Password";
 import "./Landing.scss";
 
@@ -33,10 +32,6 @@ export const landingRoutes = [
     {
         path: "/forgot-password",
         element: <Email />
-    },
-    {
-        path: "/verify-email",
-        element: <Callback />
     },
     {
         path: "/reset-password",

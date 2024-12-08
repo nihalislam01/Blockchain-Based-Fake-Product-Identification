@@ -21,6 +21,7 @@ SMPT_PASSWORD =(Your PASSWORD)
 #Google OAuth Configuration Setup
 GOOGLE_CLIENT_ID=(Your CLIENT ID)
 GOOGLE_CLIENT_SECRET=(Your CLIENT SECRRET)
+GOOGLE_CALLBACK_URL=http://localhost:8080/api/user/auth/google/callback
 
 #JWT Configuration Setup
 JWT_SECRET = 12345
@@ -30,4 +31,9 @@ JWT_EXPIRE = 7d
 CLOUDINARY_CLOUD_NAME=(Your CLOUD NAME)
 CLOUDINARY_API_KEY=(Your API KEY)
 CLOUDINARY_API_SECRET=(Your API SECRET)
+
+STRIPE_SECRET_KEY=(Your Stripe Secret Key)
+YEARLY_PRICE_ID=price_1QSw5iEAoji8m5XPZ1wtqmLx
+MONTHLY_PRICE_ID=price_1QSw2fEAoji8m5XPBbqvoHYP
+STRIPE_CALLBACK_URL=http://localhost:3000/business/updateStatus
 ```

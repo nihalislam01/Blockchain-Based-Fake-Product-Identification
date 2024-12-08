@@ -2,7 +2,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import handleAxiosError from "../../common/utils/ErrorHandler";
-import styles from "./Navbar.module.scss";
+import "./Navbar.scss";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 
@@ -51,22 +51,28 @@ function Navbar({imageUrl, toggleSidebar, isSidebarOpen}) {
     
     return (
         <>
-            <div className={`${styles.navbar} z-1`}>
-                <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`${styles.sidebarIcon}`} style={{ display: isSidebarOpen ? "none" : "block" }} />
+            <div className={`navbar-container z-1`}>
+                <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`sidebarIcon`} style={{ display: isSidebarOpen ? "none" : "block" }} />
                 <div className="d-flex justify-content-between align-items-center w-100">
                     <h3 className="m-0">Hexis</h3>
-                    <div className={`${styles.avatarContainer}`}>
-                        <img src={avatar} alt="avatar" className={`${styles.navImg}`} onClick={togglePopup} ref={avatarRef} />
-                        {isPopupVisible && (
-                            <div className={`${styles.popup}`} ref={popupRef}>
-                                <ul>
-                                    <Link to="/profile" className={`${styles.navItems}`}><li>Profile</li></Link>
-                                    <hr className="m-1"/>
-                                    <li onClick={signout}>Sign Out</li>
-                                </ul>
-                            </div>
-                        )}
+                    <div className="nav-content">
+                        <Link to="/home" className="nav-content-link">Home</Link>
+                        <Link to="/#" className="nav-content-link">About</Link>
+                        <Link to="/#" className="nav-content-link">Contact</Link>
+                        <Link to="/#" className="nav-content-link">Notifications</Link>
                     </div>
+                </div>
+                <div className={`avatarContainer`}>
+                    <img src={avatar} alt="avatar" className={`navImg`} onClick={togglePopup} ref={avatarRef} />
+                    {isPopupVisible && (
+                        <div className={`popup`} ref={popupRef}>
+                            <ul>
+                                <Link to="/profile" className={`navItems`}><li>Profile</li></Link>
+                                <hr className="m-1"/>
+                                <li onClick={signout}>Sign Out</li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

@@ -12,7 +12,24 @@
     color: #003049 !important;
 }
 
-.navbar {
+.nav-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    gap: 20px;
+}
+
+.nav-content-link {
+    color: $darkColor;
+    text-decoration: none;
+    transition: color ease 0.3s;
+    &:hover {
+        color: $primaryColor;
+    }
+}
+
+.navbar-container {
     position: sticky;
     top: 0;
     background-color: $lightColor;
