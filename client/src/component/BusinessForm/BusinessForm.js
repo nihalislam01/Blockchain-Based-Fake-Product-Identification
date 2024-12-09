@@ -2,7 +2,7 @@ import axios from "axios";
 import "./BusinessForm.scss";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";
 import FormInput from "../../common/components/FormInput/FormInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {useParams} from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectInput from "../../common/components/SelectInput/SelectInput";
@@ -56,6 +56,7 @@ const formInputs = [
     },
 ];
 const createAccountUrl = "/api/business/create/";
+const subscriptionCheck = "/api/business/subscriptionCheck";
 
 const BusinessForm = () => {
 
@@ -70,6 +71,16 @@ const BusinessForm = () => {
     zipCode: "",
     contactEmail: "",
   });
+
+  useEffect(()=>{
+    axios.get(subscriptionCheck).then((response)=>{
+      if (!response.data.success) {
+        axios.post(createAccountUrl+id,{...formValues})
+        .then(response=>window.location.href = response.data.url)
+        .catch(handleAxiosError)
+      }
+    }).catch(handleAxiosError)
+  },[formValues, id])
 
   const onChangeHandler = e => {
       setFormValues({...formValues, [e.target.name]: e.target.value});
@@ -100,20 +111,20 @@ const BusinessForm = () => {
             {formInputs.slice(0,2).map(e => (
                 <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
             ))}
-            <SelectInput onChange={onChangeHandler} {...formInputs[2]} />
+            <SelectInput onChange={onChangeHandler} value={formValues.country} {...formInputs[2]} />
             <div className="row">
               <div className="col">
                 <FormInput onChange={onChangeHandler} {...formInputs[3]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onChangeHandler} {...formInputs[4]} />
+                <SelectInput onChange={onChangeHandler} value={formValues.city} {...formInputs[4]} />
               </div>
               <div className="w-100"></div>
               <div className="col">
                 <FormInput onChange={onChangeHandler} {...formInputs[5]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onChangeHandler} {...formInputs[6]} />
+                <SelectInput onChange={onChangeHandler} value={formValues.state} {...formInputs[6]} />
               </div>
             </div>
 

@@ -149,7 +149,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.checkUser = catchAsyncErrors(async (req, res, next) => {
-  res.json({ success: true, isLoggedIn: true });
+  res.json({ success: true, user: req.user });
 });
 
 exports.forgotPassword = catchAsyncErrors(async (req, res) => {

@@ -37,7 +37,7 @@ function Login() {
     useEffect(()=>{
         const checkAuthentication = async () => {
             const isAuthenticated = await checkAuth();
-            setAuth(isAuthenticated);
+            setAuth(isAuthenticated!=='unauthorized');
         }
         checkAuthentication();
     },[checkAuth, navigate])

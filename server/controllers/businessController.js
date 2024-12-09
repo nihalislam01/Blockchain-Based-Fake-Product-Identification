@@ -16,6 +16,12 @@ exports.check = catchAsyncErrors(async (req, res, next) => {
 
 exports.create = catchAsyncErrors(async (req, res, next) => {
 
+    const user = await User.findById(req.user.id).select("+stripeSessionId");
+
+    if (user.role==='owner') {
+        return next(new ErrorHandler("You are already a subscription user.", 403));
+    }
+
     const priceId = req.params.id;
     var price = process.env.MONTHLY_PRICE_ID;
     if (priceId == "1") {
@@ -37,7 +43,7 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
 
     const session = await stripe.checkout.sessions.create({
         success_url: process.env.STRIPE_CALLBACK_URL,
-        cancel_url: process.env.CLIENT_DOMAIN + "/profile",
+        cancel_url: process.env.CLIENT_DOMAIN + "/home",
         line_items: [
         {
             price: price,
@@ -46,7 +52,7 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
         ],
         mode: 'subscription',
     });
-    const user = await User.findById(req.user.id).select("+stripeSessionId");
+
     user.stripeSessionId = session.id;
     user.save();
 
@@ -90,7 +96,14 @@ exports.updateStatus = catchAsyncErrors(async (req, res, next) => {
 exports.cancel = catchAsyncErrors(async (req, res, next) => {
 
     const userId = req.user.id;
-    const user = await User.findById(userId).select("+stripeSessionId");
+    const user = await User.findById(userId).select("+stripeSessionId").select("+password");
+    
+    const {password} = req.body;
+    const isPasswordMatched = await user.comparePassword(password);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler("Password is incorrect", 400));
+    }
     const session = await stripe.checkout.sessions.retrieve(user.stripeSessionId);
     const subscriptionId = session.subscription;
     const canceledSubscription = await stripe.subscriptions.cancel(subscriptionId);
@@ -101,5 +114,18 @@ exports.cancel = catchAsyncErrors(async (req, res, next) => {
         user.save();
     }
     
-    res.status(200).json({ success: true, canceledSubscription });
+    res.status(200).json({ success: true, message: "Membership has been canceled" });
+});
+
+exports.getBusinessData = catchAsyncErrors(async (req, res, next) => {
+    const business = await Business.findOne({ownerId: req.user.id});
+    res.status(200).json({ success: true, businessData: business });
+});
+
+exports.subscriptionCheck = catchAsyncErrors(async (req, res, next) => {
+    const business = await Business.findOne({ownerId: req.user.id});
+    if (business) {
+        res.status(200).json({ success: false});
+    }
+    res.status(200).json({ success: true});
 });

@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 const getUserAvatarUrl = '/api/user/getAvatar';
 const logoutUrl = `/api/user/logout`;
 
-function Navbar({imageUrl, toggleSidebar, isSidebarOpen}) {
+function Navbar({isOwner, toggleSidebar, isSidebarOpen}) {
 
     const [avatar, setAvatar] = useState("/avatar/avatar.png");
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -52,8 +52,8 @@ function Navbar({imageUrl, toggleSidebar, isSidebarOpen}) {
     return (
         <>
             <div className={`navbar-container z-1`}>
-                <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`sidebarIcon`} style={{ display: isSidebarOpen ? "none" : "block" }} />
-                <div className="d-flex justify-content-between align-items-center w-100">
+                {isOwner && <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`sidebarIcon`} style={{ display: isSidebarOpen ? "none" : "block" }} />}
+                <div className="sub-navbar-container">
                     <h3 className="m-0">Hexis</h3>
                     <div className="nav-content">
                         <Link to="/home" className="nav-content-link">Home</Link>
@@ -68,6 +68,8 @@ function Navbar({imageUrl, toggleSidebar, isSidebarOpen}) {
                         <div className={`popup`} ref={popupRef}>
                             <ul>
                                 <Link to="/profile" className={`navItems`}><li>Profile</li></Link>
+                                {!isOwner && <Link to="/plan" className={`navItems`}><li>Subscription Plans</li></Link>}
+                                {isOwner && <Link to="/cancel-plan" className={`navItems`}><li>Cancel Subscription</li></Link>}
                                 <hr className="m-1"/>
                                 <li onClick={signout}>Sign Out</li>
                             </ul>

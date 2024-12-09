@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import Message from "../components/Message/Message";
 import { useAuth } from "./AuthContext";
 
 const PrivateRoute = ({ children }) => {
@@ -10,13 +11,17 @@ const PrivateRoute = ({ children }) => {
     useEffect(() => {
         const verifyAuth = async () => {
             const result = await checkAuth();
-            setIsAuthenticated(result);
+            setIsAuthenticated(result!=='unauthorized');
         };
         verifyAuth();
     }, [checkAuth]);
 
     if (isAuthenticated === null) {
-        return <div>Loading...</div>;
+        return (
+            <div className="d-flex flex-column justify-content-center align-items-center w-100 min-vh-100">
+                <Message headline="Loading..." message="Please be patient while the page loads" />
+            </div>
+        );
     }
 
     return isAuthenticated ? children : <Navigate to="/" />;

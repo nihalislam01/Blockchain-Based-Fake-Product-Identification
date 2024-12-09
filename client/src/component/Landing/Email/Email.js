@@ -61,8 +61,7 @@ function Email() {
     }
 
     if (emailSent) {
-        return (<Message headline={"Email Sent"} message={"Please check your email to complete verification."} />
-        );
+        return (<Message headline={"Email Sent"} message={"Please check your email to complete verification."} />);
     }
 
     const navigateTo = () => {

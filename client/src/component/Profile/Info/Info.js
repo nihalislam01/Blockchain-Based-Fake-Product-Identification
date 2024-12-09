@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useState } from 'react';
-import  {Link} from "react-router-dom";
 import { toast } from 'react-hot-toast';
 import FormInput from '../../../common/components/FormInput/FormInput';
 import handleAxiosError from '../../../common/utils/ErrorHandler';
@@ -81,7 +80,6 @@ function Info({email, name, setName}) {
                     <button className={`button edit-button`} onClick={toggleEdit} >Edit Profile</button>
                     <button className={`button edit-button`} onClick={togglePassword} >Change Password</button>
                 </div>
-                <Link className="w-100" to="/plan"><button className="button edit-button">Upload your own products</button></Link>
             </div>}
             {isEdit && !isPassword && <div className='info-container'>
                     <input type="text" value={name} className="form-control" onChange={nameChangeHandler} />

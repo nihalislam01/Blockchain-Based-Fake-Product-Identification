@@ -3,31 +3,42 @@ import { Outlet } from "react-router-dom";
 import Profile from "../Profile/Profile/Profile";
 import './Main.scss';
 import Navbar from "../Navbar/Navbar";
-import Dashboard from "../Dashboard/Dashboard";
 import Home from "../Home/Home";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
-import Product from "../Product/Product";
 import Plan from "../Plan/Plan";
 import BusinessForm from "../BusinessForm/BusinessForm";
 import UpdateStatusCallback from "../UpdateStatusCallback/UpdateStatusCallback";
+import {useAuth} from  '../../common/utils/AuthContext';
+import Dashboard from "../Dashboard/Dashboard";
+import Product from "../Product/Product";
+import OwnerRoute from "../../common/utils/OwnerRoute";
+import UserRoute from "../../common/utils/UserRoute";
+import CancelPlan from "../CancelPlan/CancelPlan";
 
 const Main = () => {
 
+    const {checkAuth} = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
     useEffect(()=>{
-    },[])
+        const auth = async () => {
+            const result = await checkAuth();
+            setIsOwner(result==='owner');
+        }
+        auth();
+    },[checkAuth])
 
     return (
         <div style={{ display: "flex", height: "100vh" }}>
-            <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
+            {isOwner && <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>}
             <main className={`mainContainer`} style={{marginLeft: isSidebarOpen ? "250px" : "0"}}>
-                <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} style={{marginLeft: isSidebarOpen ? "250px" : "0"}}/>
+                <Navbar toggleSidebar={toggleSidebar} isOwner={isOwner} isSidebarOpen={isSidebarOpen} style={{marginLeft: isSidebarOpen ? "250px" : "0"}}/>
                 <div className="main-body">
                     <Outlet />
                 </div>
@@ -43,29 +54,33 @@ export const authenticatedRoutes = [
         element: <Home />
     },
     {
-        path: "/dashboard",
-        element: <Dashboard />
-    },
-    {
         path: "/profile",
         element: <Profile />
     },
     {
-        path: "/product",
-        element: <Product />
-    },
-    {
         path: "/plan",
-        element: <Plan />
+        element: <UserRoute><Plan /></UserRoute>
     },
     {
         path: "/business-form/:id",
-        element: <BusinessForm />
+        element: <UserRoute><BusinessForm /></UserRoute>
     },
     {
         path: "/business/updateStatus",
-        element: <UpdateStatusCallback />
+        element: <UserRoute><UpdateStatusCallback /></UserRoute>
     },
+    {
+        path: "/dashboard",
+        element: <OwnerRoute><Dashboard /></OwnerRoute>
+    },
+    {
+        path: "/product",
+        element: <OwnerRoute><Product /></OwnerRoute>
+    },
+    {
+        path: "/cancel-plan",
+        element: <OwnerRoute><CancelPlan /></OwnerRoute>
+    }
 ];
 
 export default Main;

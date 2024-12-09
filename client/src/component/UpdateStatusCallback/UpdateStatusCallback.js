@@ -10,7 +10,9 @@ function UpdateStatusCallback() {
     },[])
     return (
         <>
-        <Message headline={"Payment Success"} message={"You have become a owner. Start registering your products now."} />
+        <div className="d-flex flex-column justify-content-center align-items-center w-100" style={{minHeight: "90vh"}}>
+            <Message headline={"Payment Success"} message={"You have become a owner. Start registering your products now."} />
+        </div>
         </>
     )
 }

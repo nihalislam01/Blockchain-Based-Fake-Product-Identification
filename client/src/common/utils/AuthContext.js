@@ -7,10 +7,10 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuth = async () => {
         try {
-            await axios.get('/api/user/check');
-            return true;
+            const response = await axios.get('/api/user/check');
+            return response.data.user.role;
         } catch (error) {
-            return false;
+            return "unauthorized";
         }
     };
 

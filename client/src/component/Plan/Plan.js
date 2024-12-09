@@ -14,12 +14,12 @@ function Plan() {
     return (
         <>
             <CommonHelmet title="Hexis - Plan"/>
-            <div class="plan-container">
-                <div class={`plan-box ${planSelected === "0" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("0")}>
-                    <div class="select-indicator"></div>
+            <div className="plan-container">
+                <div className={`plan-box ${planSelected === "0" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("0")}>
+                    <div className="select-indicator"></div>
                     <h2>Monthly Plan</h2>
                     <p>Perfect for short-term usage</p>
-                    <div class="price">$19.99/month</div>
+                    <div className="price">$19.99/month</div>
                     <div className="plan-info-container">
                         <ul>
                             <li>Access to blockchain verification</li>
@@ -33,11 +33,11 @@ function Plan() {
                     </Link>
                 </div>
 
-                <div class={`plan-box ${planSelected === "1" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("1")}>
-                    <div class="select-indicator"></div>
+                <div className={`plan-box ${planSelected === "1" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("1")}>
+                    <div className="select-indicator"></div>
                     <h2>Yearly Plan</h2>
                     <p>Best value for long-term users</p>
-                    <div class="price">$199.99/year</div>
+                    <div className="price">$199.99/year</div>
                     <div className="plan-info-container">
                         <ul>
                             <li>Access to blockchain verification</li>
