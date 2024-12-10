@@ -56,46 +56,52 @@ const formInputs = [
     },
 ];
 const createAccountUrl = "/api/business/create/";
-const subscriptionCheck = "/api/business/subscriptionCheck";
+const getBusinessInfoUrl = "/api/business/get";
 
 const BusinessForm = () => {
 
   const {id} = useParams();
 
-  const [formValues, setFormValues] = useState({
+  const [businessInfo, setBusinessInfo] = useState({
     organizationName: "",
+    contactEmail: "",
+  });
+  const [address, setAdress] = useState({
     country: "",
     street: "",
     city: "",
     state: "",
     zipCode: "",
-    contactEmail: "",
   });
 
   useEffect(()=>{
-    axios.get(subscriptionCheck).then((response)=>{
-      if (!response.data.success) {
-        axios.post(createAccountUrl+id,{...formValues})
-        .then(response=>window.location.href = response.data.url)
-        .catch(handleAxiosError)
+    axios.get(getBusinessInfoUrl).then((response)=>{
+      if (response.data.success) {
+        setBusinessInfo({organizationName: response.data.businessData.organizationName, contactEmail: response.data.businessData.contactEmail});
+        setAdress(response.data.businessData.address);
       }
     }).catch(handleAxiosError)
-  },[formValues, id])
+  },[])
 
-  const onChangeHandler = e => {
-      setFormValues({...formValues, [e.target.name]: e.target.value});
+  const onInfoChangeHandler = e => {
+      setBusinessInfo({...businessInfo, [e.target.name]: e.target.value});
+  };
+
+  const onAddressChangeHandler = e => {
+    setAdress({...address, [e.target.name]: e.target.value});
   };
 
   const onFormSubmit = e => {
       e.preventDefault();
-      let hasError = !Object.values(formValues).every(value => value.trim().length !== 0);
+      let hasError = !Object.values(businessInfo).every(value => value.trim().length !== 0) && !Object.values(address).every(value => value.trim().length !== 0);
 
       if (hasError) {
           toast.error("Please fill in all the fields");
           return;
       }
 
-      axios.post(createAccountUrl+id,{...formValues})
+      businessInfo.address = address;
+      axios.post(createAccountUrl+id,{...businessInfo})
       .then(response=>window.location.href = response.data.url)
       .catch(handleAxiosError)
   }
@@ -109,22 +115,22 @@ const BusinessForm = () => {
             <h2>Business Info</h2>
             <hr />
             {formInputs.slice(0,2).map(e => (
-                <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+                <FormInput key={e.id} onChange={onInfoChangeHandler} value={businessInfo[e.name]} {...e}/>
             ))}
-            <SelectInput onChange={onChangeHandler} value={formValues.country} {...formInputs[2]} />
+            <SelectInput onChange={onAddressChangeHandler} value={address.country} {...formInputs[2]} />
             <div className="row">
               <div className="col">
-                <FormInput onChange={onChangeHandler} {...formInputs[3]} />
+                <FormInput onChange={onAddressChangeHandler} value={address.street} {...formInputs[3]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onChangeHandler} value={formValues.city} {...formInputs[4]} />
+                <SelectInput onChange={onAddressChangeHandler} value={address.city} {...formInputs[4]} />
               </div>
               <div className="w-100"></div>
               <div className="col">
-                <FormInput onChange={onChangeHandler} {...formInputs[5]} />
+                <FormInput onChange={onAddressChangeHandler} value={address.zipCode} {...formInputs[5]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onChangeHandler} value={formValues.state} {...formInputs[6]} />
+                <SelectInput onChange={onAddressChangeHandler} value={address.state} {...formInputs[6]} />
               </div>
             </div>
 

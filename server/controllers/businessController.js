@@ -34,11 +34,8 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
 
     if (!business) {
         const businessInfo = req.body;
-        await Business.create( {organizationName: businessInfo.organizationName, 
-            ownerId: req.user.id, contactEmail: businessInfo.contactEmail, 
-        "address.country": businessInfo.country, "address.street": businessInfo.street, 
-        "address.state": businessInfo.state, "address.zipCode": businessInfo.zipCode,
-        "address.city": businessInfo.city} );
+        businessInfo.ownerId = req.user.id;
+        await Business.create( businessInfo );
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -119,13 +116,9 @@ exports.cancel = catchAsyncErrors(async (req, res, next) => {
 
 exports.getBusinessData = catchAsyncErrors(async (req, res, next) => {
     const business = await Business.findOne({ownerId: req.user.id});
-    res.status(200).json({ success: true, businessData: business });
-});
-
-exports.subscriptionCheck = catchAsyncErrors(async (req, res, next) => {
-    const business = await Business.findOne({ownerId: req.user.id});
-    if (business) {
-        res.status(200).json({ success: false});
+    if (!business) {
+        res.status(200).json({ success: false, message: "User does not have any business account" });
+        return;
     }
-    res.status(200).json({ success: true});
+    res.status(200).json({ success: true, businessData: business });
 });
