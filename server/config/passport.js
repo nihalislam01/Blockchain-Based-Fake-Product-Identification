@@ -11,21 +11,21 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ oauthId: profile.id });
+        let user = await User.findOne({ "oauth.id": profile.id }).select("+oauth");
         if (!user) {
             user = await User.findOne({ email: profile.emails[0].value });
             if (!user) {
                 user = await User.create({
-                    oauthProvider: 'google',
-                    oauthId: profile.id,
+                    "oauth.provider": 'google',
+                    "oauth.id": profile.id,
                     name: profile.displayName,
                     email: profile.emails[0].value,
+                    username: `${Math.floor(Math.random() * 100000)}`,
                     isEnable: true,
                     loginMethods: ['oauth']
                 });
             } else {
-                user.oauthProvider = 'google',
-                user.oauthId = profile.id,
+                user.oauth = {provider: 'google', id: profile.id},
                 user.isEnable = true,
                 user.loginMethods.push('oauth')
                 user.save()

@@ -10,9 +10,9 @@ const cloudinary = require("cloudinary");
 
 
 exports.register = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body;
 
-  let user = await User.findOne({ email });
+  const userInfo = req.body;
+  let user = await User.findOne({ email: userInfo.email });
 
   if (user) {
     if (!user.isEnable) {
@@ -22,9 +22,10 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
     }
   }
 
+  userInfo.username = `${Math.floor(Math.random() * 100000)}`;
   const { token, hash, expiration } = generateToken();
-
-  user = new User({ name: name, email: email, password: password, isEnable: false, loginMethods: ['password'], tokenHash: hash, tokenExpiration: expiration });
+  userInfo.token = {hash, expiration};
+  user = new User(userInfo);
   await user.save();
 
   const url = `${req.protocol}://${req.get("host")}/api/user/verify-email?token=${token}`;
@@ -43,19 +44,19 @@ exports.verifyCallback = catchAsyncErrors(async (req, res, next) => {
 
   const hash = crypto.createHash("sha256").update(token).digest("hex");
 
-  const user = await User.findOne({ tokenHash: hash }).select("+tokenHash +tokenExpiration");
+  const user = await User.findOne({ "token.hash": hash }).select("+token");
 
   if (!user) {
     return next(new ErrorHandler("Invalid token", 400));
   }
 
-  if (Date.now() > user.tokenExpiration) {
+  if (Date.now() > user.token.expiration) {
     return next(new ErrorHandler("Token has expired. Please Register again.", 400));
   }
 
   user.isEnable = true;
-  user.tokenHash = undefined;
-  user.tokenExpiration = undefined;
+  user.token.hash = undefined;
+  user.token.expiration = undefined;
 
   await user.save();
 
@@ -96,7 +97,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   setToken(user, res);
-  res.status(200).json({success: true, user, message: 'Password Updated.'});
+  res.status(200).json({success: true, user, message: 'Password Updated'});
 
 });
 
@@ -118,16 +119,19 @@ exports.oauthCallback = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.login = catchAsyncErrors(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
-    return next(new ErrorHandler("Please Enter Email & Password", 400));
+  if (!username || !password) {
+    return next(new ErrorHandler("Please Enter Username & Password", 400));
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  let user = await User.findOne({ email: username }).select("+password");
 
   if (!user) {
-    return next(new ErrorHandler("Invalid email", 401));
+    user = await User.findOne({username}).select("+password");
+    if (!user) {
+      return next(new ErrorHandler("Invalid credentials", 401));
+    }
   }
 
   if (!user.isEnable) {
@@ -160,10 +164,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res) => {
   }
 
   const { token, hash, expiration } = generateToken();
-
-  user.tokenHash = hash;
-  user.tokenExpiration = expiration;
-
+  user.token = {hash,expiration};
   await user.save();
 
   const url = `${process.env.CLIENT_DOMAIN}/reset-password?token=${token}`;
@@ -183,13 +184,13 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   const hash = crypto.createHash("sha256").update(token).digest("hex");
 
-  const user = await User.findOne({ tokenHash: hash }).select("+tokenHash +tokenExpiration");
+  const user = await User.findOne({ "token.hash": hash }).select("+token");
 
   if (!user) {
     return next(new ErrorHandler("Invalid token", 400));
   }
 
-  if (Date.now() > user.tokenExpiration) {
+  if (Date.now() > user.token.expiration) {
     return next(new ErrorHandler("Token has expired. Please reset password again.", 400));
   }
 
@@ -198,8 +199,8 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   if (!user.loginMethods.includes("password")){
     user.loginMethods.push("password");
   }
-  user.tokenHash = undefined;
-  user.tokenExpiration = undefined;
+  user.token.hash = undefined;
+  user.token.expiration = undefined;
 
   await user.save();
 
@@ -228,9 +229,8 @@ exports.getAvatar = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const newUserData = {
-    name: req.body.name
-  };
+  
+  const newUserData = req.body;
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
@@ -238,7 +238,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     useFindAndModify: false,
   });
 
-  res.status(200).json({success: true, user});
+  res.status(200).json({success: true, user, message: "Profile Updated"});
 });
 
 exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {

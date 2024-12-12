@@ -11,10 +11,10 @@ import {useAuth} from "../../../common/utils/AuthContext";
 
 const userInputs = [
     {
-        id: "emailInput",
-        name: "email",
-        type: "email",
-        placeholder: "Email",
+        id: "usernameInput",
+        name: "username",
+        type: "text",
+        placeholder: "Username or email",
     },
     {
         id: "passwordInput",
@@ -43,7 +43,7 @@ function Login() {
     },[checkAuth, navigate])
 
     const [formValues, setFormValues] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 

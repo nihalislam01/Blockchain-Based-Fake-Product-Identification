@@ -11,19 +11,28 @@ const pageTitle = "Hexis - Profile";
 const Profile = () => {
 
     const [user, setUser] = useState({});
-    const [name, setName] = useState(user.name);
+    const [editableUser, setEditableUser] = useState({});
+    const [dob, setDob] = useState(null);
     const [avatar, setAvatar] = useState("/avatar/avatar.png");
 
     useEffect(()=>{
         axios.get(getUserUrl)
         .then((response) => {
             setUser(response.data.user);
-            setName(response.data.user.name);
+            setEditableUser(response.data.user);
             if (response.data.user.avatar) {
                 setAvatar(response.data.user.avatar.url);
             }
+            if (response.data.user.dateOfBirth!==null) {
+                setDob(formatdate(response.data.user.dateOfBirth));
+            }
         }).catch(handleAxiosError);
     },[])
+
+    const formatdate = (date) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString('en-US', options);
+    }
 
 
     return (
@@ -32,7 +41,7 @@ const Profile = () => {
             <div className="container">
                 <div className={styles.infoContainer}>
                     <Avatar avatar={avatar} />
-                    <Info email={user.email} name={name} setName={setName}/>
+                    <Info user={user} dob={dob} editableUser={editableUser} setEditableUser={setEditableUser} setUser={setUser}/>
                 </div>
             </div>
         </>

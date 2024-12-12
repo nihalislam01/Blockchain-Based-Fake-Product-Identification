@@ -1,3 +1,5 @@
+import { faBirthdayCake, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -14,37 +16,77 @@ const passwordInputs = [
         name: "oldPassword",
         type: "password",
         placeholder: "Old password",
+        category: "input"
     },
     {
         id: "newPasswordInput",
         name: "newPassword",
         type: "password",
         placeholder: "New password",
+        category: "input"
     },
     {
         id: "confirmPasswordInput",
         name: "confirmPassword",
         type: "password",
         placeholder: "Confirm password",
+        category: "input"
     },
 ];
 
-function Info({email, name, setName}) {
+const userInputs = [
+    {
+        id: "nameInput",
+        name: "name",
+        type: "text",
+        placeholder: "Name",
+        category: "input"
+    },
+    {
+        id: "usernameInput",
+        name: "username",
+        type: "text",
+        placeholder: "Username",
+        category: "input"
+    },
+    {
+        id: "bioInput",
+        name: "bio",
+        type: "text",
+        placeholder: "Bio (Optional)",
+        category: "textarea"
+    },
+    {
+        id: "genderInput",
+        name: "gender",
+        options: ["Male", "Female", "Other"],
+        placeholder: "Select Gender",
+        category: "select"
+    },
+    {
+        id: "dateOfBirthInput",
+        name: "dateOfBirth",
+        type: "date",
+        category: "input"
+    },
+];
+
+function Info({user, dob, editableUser, setEditableUser, setUser}) {
 
     const [isEdit, setIsEdit] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
-    const [formValues, setFormValues] = useState({
+    const [passwordForm, setPasswordForm] = useState({
         oldPassword: "",
         newPassword: "",
         confirmPassword: "",
     });
 
-    const nameChangeHandler = (e) => {
-        setName(e.target.value);
+    const onUserChangeHandler = (e) => {
+        setEditableUser({...editableUser, [e.target.name]: e.target.value});
     }
 
-    const onChangeHandler = e => {
-        setFormValues({...formValues, [e.target.name]: e.target.value});
+    const onPasswordChangeHandler = e => {
+        setPasswordForm({...passwordForm, [e.target.name]: e.target.value});
     };
 
     const toggleEdit = () => {
@@ -56,17 +98,18 @@ function Info({email, name, setName}) {
     }
 
     const saveEdit = () => {
-        axios.put(updateUserUrl,{name})
+        axios.put(updateUserUrl, {...editableUser})
         .then(response=>{
-            toast.success("Profile Updated");
+            toast.success(response.data.message);
+            setUser(response.data.user);
         })
         .catch(handleAxiosError)
         setIsEdit(false);
     }
 
     const savePassword = () => {
-        axios.put(updatePasswordUrl, {...formValues})
-        .then(response=>toast.success("Password Updated"))
+        axios.put(updatePasswordUrl, {...passwordForm})
+        .then(response=>toast.success(response.data.message))
         .catch(handleAxiosError)
        setIsPassword(false);
     }
@@ -74,15 +117,21 @@ function Info({email, name, setName}) {
     return (
         <>
             {!isEdit && !isPassword && <div className='info-container'>
-                <h2>{name}</h2>
-                <h4>{email}</h4>
+                <h2 className='m-0'>{user.name}</h2>
+                <h4>{user.username}</h4>
+                {user.bio!=="" && <p>{user.bio}</p>}
+                {user.gender!=="" && <p className='m-0'><FontAwesomeIcon icon={faUser} /> {user.gender}</p>}
+                {dob!==null && <p className='m-0'><FontAwesomeIcon icon={faBirthdayCake} /> {dob}</p>}
+                <p className='m-0'><FontAwesomeIcon icon={faEnvelope} /> {user.email}</p>
                 <div className='d-flex w-100 gap-2'>
                     <button className={`button edit-button`} onClick={toggleEdit} >Edit Profile</button>
                     <button className={`button edit-button`} onClick={togglePassword} >Change Password</button>
                 </div>
             </div>}
             {isEdit && !isPassword && <div className='info-container'>
-                    <input type="text" value={name} className="form-control" onChange={nameChangeHandler} />
+                    {userInputs.map(e => (
+                        <FormInput key={e.id} onChange={onUserChangeHandler} value={editableUser[e.name]} {...e}/>
+                    ))}
                     <div className="d-flex">
                         <button className={`button save-button`} onClick={saveEdit} >Save</button>
                         <button className={`button cancel-button`} onClick={toggleEdit} >Cancel</button>
@@ -91,7 +140,7 @@ function Info({email, name, setName}) {
             }
             {isPassword && !isEdit && <div className='password-container'>
                     {passwordInputs.map(e => (
-                        <FormInput key={e.id} onChange={onChangeHandler} {...e}/>
+                        <FormInput key={e.id} onChange={onPasswordChangeHandler} {...e}/>
                     ))}
                     <div className="d-flex">
                         <button className={`button save-button`} onClick={savePassword} >Save</button>

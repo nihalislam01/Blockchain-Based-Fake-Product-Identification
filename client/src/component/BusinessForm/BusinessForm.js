@@ -5,7 +5,6 @@ import FormInput from "../../common/components/FormInput/FormInput";
 import { useEffect, useState } from "react";
 import {useParams} from "react-router-dom";
 import { toast } from "react-hot-toast";
-import SelectInput from "../../common/components/SelectInput/SelectInput";
 import handleAxiosError from "../../common/utils/ErrorHandler";
 
 const formInputs = [
@@ -14,45 +13,52 @@ const formInputs = [
       name: "organizationName",
       type: "text",
       label: "Organization's Name",
+      category: "input"
     },
     {
       id: "emailInput",
       name: "contactEmail",
       type: "email",
       label: "Organization's Email",
+      category: "input"
     },
     {
       id: "countryInput",
       name: "country",
       label: "Country",
       placeholder: "Select a country",
-      options: ["Bangladesh", "United States", "Canada", "United Kingdom", "Australia"]
+      options: ["Bangladesh", "United States", "Canada", "United Kingdom", "Australia"],
+      category: "select"
     },
     {
       id: "streetInput",
       name: "street",
       type: "text",
-      label: "Street"
+      label: "Street",
+      category: "input"
     },
     {
       id: "cityInput",
       name: "city",
       label: "City",
       placeholder: "Select a city",
-      options: ["Badda", "Gulshan", "Banani", "Bashundhara", "Rampura"]
+      options: ["Badda", "Gulshan", "Banani", "Bashundhara", "Rampura"],
+      category: "select"
     },
     {
       id: "zipInput",
       name: "zipCode",
       type: "text",
-      label: "Zip Code"
+      label: "Zip Code",
+      category: "input"
     },
     {
       id: "stateInput",
       name: "state",
       label: "State",
       placeholder: "Select a sate",
-      options: ["Dhaka", "Rangpur", "Chittagong", "Sylhet", "Barishal"]
+      options: ["Dhaka", "Rangpur", "Chittagong", "Sylhet", "Barishal"],
+      category: "select"
     },
 ];
 const createAccountUrl = "/api/business/create/";
@@ -83,12 +89,13 @@ const BusinessForm = () => {
     }).catch(handleAxiosError)
   },[])
 
-  const onInfoChangeHandler = e => {
-      setBusinessInfo({...businessInfo, [e.target.name]: e.target.value});
-  };
-
-  const onAddressChangeHandler = e => {
-    setAdress({...address, [e.target.name]: e.target.value});
+  const onChangeHandler = e => {
+    if (e.target.name in businessInfo) {
+      setBusinessInfo({ ...businessInfo, [e.target.name]: e.target.value });
+    }
+    if (e.target.name in address) {
+      setAdress({ ...address, [e.target.name]: e.target.value });
+    }
   };
 
   const onFormSubmit = e => {
@@ -115,22 +122,22 @@ const BusinessForm = () => {
             <h2>Business Info</h2>
             <hr />
             {formInputs.slice(0,2).map(e => (
-                <FormInput key={e.id} onChange={onInfoChangeHandler} value={businessInfo[e.name]} {...e}/>
+                <FormInput key={e.id} onChange={onChangeHandler} value={businessInfo[e.name]} {...e}/>
             ))}
-            <SelectInput onChange={onAddressChangeHandler} value={address.country} {...formInputs[2]} />
+            <FormInput onChange={onChangeHandler} value={address.country} {...formInputs[2]} />
             <div className="row">
               <div className="col">
-                <FormInput onChange={onAddressChangeHandler} value={address.street} {...formInputs[3]} />
+                <FormInput onChange={onChangeHandler} value={address.street} {...formInputs[3]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onAddressChangeHandler} value={address.city} {...formInputs[4]} />
+                <FormInput onChange={onChangeHandler} value={address.city} {...formInputs[4]} />
               </div>
               <div className="w-100"></div>
               <div className="col">
-                <FormInput onChange={onAddressChangeHandler} value={address.zipCode} {...formInputs[5]} />
+                <FormInput onChange={onChangeHandler} value={address.zipCode} {...formInputs[5]} />
               </div>
               <div className="col">
-                <SelectInput onChange={onAddressChangeHandler} value={address.state} {...formInputs[6]} />
+                <FormInput onChange={onChangeHandler} value={address.state} {...formInputs[6]} />
               </div>
             </div>
 

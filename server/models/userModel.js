@@ -19,43 +19,31 @@ const userSchema = new mongoose.Schema({
         },
       ]
     },
-    password: {
-      type: String,
+    username: {type: String, 
+      required: [true, "Please Enter a username"],
+      unique: true,
+    },
+    bio: {type: String, default: ""},
+    dateOfBirth: {type: Date, default: null},
+    gender: {type: String, enum: ["", "Male", "Female", "Other"], default: ""},
+    password: {type: String, select: false},
+    avatar: {public_id: String, url: String},
+    loginMethods: { type: [String], default: ["password"]},
+    role: {type: String, default: "user"},
+    isEnable: {type: Boolean, default: false},
+    oauth: {
+      type: {
+        provider: String,
+        id: String,
+      },
       select: false,
     },
-    avatar: {
-      public_id: String,
-      url: String
-    },
-    oauthProvider: { 
-      type: String,
-      select: false
-    },
-    oauthId: { 
-      type: String,
-      select: false 
-    },
-    loginMethods: { 
-      type: [String]
-    },
-    createdAt: { 
-      type: Date, 
-      default: Date.now 
-    },
-    role: {
-      type: String,
-      default: "user",
-    },
-    isEnable: {
-      type: Boolean
-    },
-    tokenHash: {
-      type: String,
-      select: false
-    },
-    tokenExpiration: {
-      type: Date,
-      select: false
+    token: {
+      type: {
+        hash: String,
+        expiration: String,
+      },
+      select: false,
     },
     stripeSessionId: {type: String, select: false}
   });

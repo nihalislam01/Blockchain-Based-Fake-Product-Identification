@@ -31,11 +31,16 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
     }
 
     const business = await Business.findOne({ownerId: req.user.id})
-
+    const businessInfo = req.body;
     if (!business) {
-        const businessInfo = req.body;
         businessInfo.ownerId = req.user.id;
         await Business.create( businessInfo );
+    } else {
+        await Business.findByIdAndUpdate(business._id, businessInfo, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+          });
     }
 
     const session = await stripe.checkout.sessions.create({
