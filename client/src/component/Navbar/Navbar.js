@@ -1,5 +1,3 @@
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import handleAxiosError from "../../common/utils/ErrorHandler";
 import "./Navbar.scss";
@@ -9,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 const getUserAvatarUrl = '/api/user/getAvatar';
 const logoutUrl = `/api/user/logout`;
 
-function Navbar({isOwner, toggleSidebar, isSidebarOpen}) {
+function Navbar({isOwner}) {
 
     const [avatar, setAvatar] = useState("/avatar/avatar.png");
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -52,7 +50,6 @@ function Navbar({isOwner, toggleSidebar, isSidebarOpen}) {
     return (
         <>
             <div className={`navbar-container z-1`}>
-                {isOwner && <FontAwesomeIcon icon={faBars} size="2x" onClick={toggleSidebar} className={`sidebarIcon`} style={{ display: isSidebarOpen ? "none" : "block" }} />}
                 <div className="sub-navbar-container">
                     <h3 className="m-0">Hexis</h3>
                     <div className="nav-content">

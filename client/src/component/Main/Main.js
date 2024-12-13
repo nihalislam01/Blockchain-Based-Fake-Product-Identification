@@ -37,9 +37,9 @@ const Main = () => {
     return (
         <div style={{ display: "flex", height: "100vh" }}>
             {isOwner && <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>}
-            <main className={`mainContainer`} style={{marginLeft: isSidebarOpen ? "250px" : "0"}}>
-                <Navbar toggleSidebar={toggleSidebar} isOwner={isOwner} isSidebarOpen={isSidebarOpen} style={{marginLeft: isSidebarOpen ? "250px" : "0"}}/>
-                <div className="main-body">
+            <main className={`mainContainer`}>
+                <Navbar toggleSidebar={toggleSidebar} isOwner={isOwner} isSidebarOpen={isSidebarOpen}/>
+                <div className={`main-body ${isOwner?"authorized":""}`}>
                     <Outlet />
                 </div>
                 <Footer />

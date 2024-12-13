@@ -121,26 +121,20 @@ const BusinessForm = () => {
 
             <h2>Business Info</h2>
             <hr />
-            {formInputs.slice(0,2).map(e => (
-                <FormInput key={e.id} onChange={onChangeHandler} value={businessInfo[e.name]} {...e}/>
+            {formInputs.slice(0, 3).map((input, index) => (
+              <div key={input.id} className="row mb-3">
+                <div className="col">
+                  <FormInput onChange={onChangeHandler} value={index < 2 ? businessInfo[input.name] : address.country} {...input} />
+                </div>
+              </div>
             ))}
-            <FormInput onChange={onChangeHandler} value={address.country} {...formInputs[2]} />
             <div className="row">
-              <div className="col">
-                <FormInput onChange={onChangeHandler} value={address.street} {...formInputs[3]} />
-              </div>
-              <div className="col">
-                <FormInput onChange={onChangeHandler} value={address.city} {...formInputs[4]} />
-              </div>
-              <div className="w-100"></div>
-              <div className="col">
-                <FormInput onChange={onChangeHandler} value={address.zipCode} {...formInputs[5]} />
-              </div>
-              <div className="col">
-                <FormInput onChange={onChangeHandler} value={address.state} {...formInputs[6]} />
-              </div>
+              {formInputs.slice(3, 7).map(input => (
+                <div key={input.id} className="col-6">
+                  <FormInput onChange={onChangeHandler} value={address[input.name]} {...input} />
+                </div>
+              ))}
             </div>
-
             <button type="submit" className={`btn btn-primary mt-2 w-100`} onClick={onFormSubmit}>Next</button>
             </div>
         </div>

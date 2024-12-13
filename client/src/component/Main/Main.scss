@@ -1,13 +1,14 @@
 @import "../../common/assets/variables";
 
 .mainContainer {
-    flex: 1;
-    transition: margin-left 0.3s ease-in-out;
     width: 100%;
     min-height: 100vh;
 }
 .main-body {
     min-height: 90vh;
+}
+.main-body.authorized {
+    margin-left: 70px;
 }
 
 @media only screen {
