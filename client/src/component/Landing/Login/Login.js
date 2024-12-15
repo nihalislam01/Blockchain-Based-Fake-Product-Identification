@@ -8,6 +8,7 @@ import handleAxiosError from "../../../common/utils/ErrorHandler";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {useAuth} from "../../../common/utils/AuthContext";
+import { toast } from "react-hot-toast";
 
 const userInputs = [
     {
@@ -56,6 +57,7 @@ function Login() {
         let hasError = !Object.values(formValues).every(value => value.trim().length !== 0);
 
         if (hasError) {
+            toast.error("Please fill up all the fields");
             return;
         }
 

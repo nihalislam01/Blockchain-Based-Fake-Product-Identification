@@ -1,8 +1,8 @@
 function FormInput(props) {
 
     return (
-        <div className="mb-3 w-100">
-            { props.label && <label htmlFor={props.id} className="form-label" style={{cursor: "pointer"}}>{props.label}</label> }
+        <div className={`${props.noMargin?"":"mb-3"} w-100`}>
+            { props.label && <label htmlFor={props.id} className="form-label" style={{fontWeight: "bold"}}>{props.label}</label> }
 
             {(!props.category || props.category==="input") && <input className="form-control"
                    id={props.id}

@@ -1,11 +1,11 @@
-const express = require('express');
 const crypto = require('crypto');
-const Product = require('../models/Product');
-const { ethers } = require('ethers');
+const Product = require('../models/productModel');
+const ErrorHandler = require("../utils/errorhandler");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const { ethers, keccak256, toUtf8Bytes } = require('ethers');
 const contractABI = require('../utils/contractABI.json');
-const contractAddress = process.env.BLOCKCHAIN_PUBLIC_KEY;
+const contractAddress = process.env.BLOCKCHAIN_CONTRACT_ADDRESS;
 
-const router = express.Router();
 const provider = new ethers.JsonRpcProvider(process.env.BLOCKCHAIN_RPC_SERVER);
 const wallet = new ethers.Wallet(process.env.BLOCKCHAIN_PRIVATE_KEY, provider);
 const contract = new ethers.Contract(contractAddress, contractABI, wallet);
@@ -13,12 +13,13 @@ const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 exports.uploadSingleProduct = catchAsyncErrors(async (req, res) => {
 
     const productInfo = req.body;
-    const hash = crypto.createHash('sha256').update(productInfo.productId).digest('hex');
-    await contract.addProduct(hash);
+    const productHash = keccak256(toUtf8Bytes(productInfo.productId));
+    await contract.addProduct(productHash);
+    productInfo.hashedValue = productHash;
     productInfo.ownerId = req.user.id;
     const newProduct = new Product(productInfo);
     await newProduct.save();
-    res.status(201).json({ message: 'Product uploaded successfully' });
+    res.status(201).json({ success: true, message: 'Product uploaded successfully' });
 
 });
 
@@ -48,8 +49,18 @@ exports.uploadBulkProduct = catchAsyncErrors(async (req, res) => {
       const newProduct = new Product(product);
       await newProduct.save();
     }
-    res.status(201).json({ message: 'Bulk products uploaded successfully' });
+    res.status(201).json({ success: true, message: 'Bulk products uploaded successfully' });
 
 });
 
-module.exports = router;
+exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
+
+  const productId = req.params.id;
+  const productHash = keccak256(toUtf8Bytes(productId));
+  const isVerified = await contract.verifyProduct(productHash);
+  if (!isVerified) {
+    return next(new ErrorHandler("Product is not registered", 400));
+  }
+  res.status(201).json({ success: true, message: 'Product is verified' });
+
+});
