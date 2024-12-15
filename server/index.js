@@ -13,6 +13,7 @@ const errorMiddleware = require("./middleware/error");
 
 const user = require("./routes/userRoute");
 const business = require("./routes/businessRoute");
+const product = require("./routes/productRoute");
 
 const corsOptions = {
   origin: process.env.CLIENT_DOMAIN, 
@@ -27,6 +28,7 @@ app.use(passport.initialize());
 
 app.use("/api/user", user);
 app.use("/api/business", business);
+app.use("/api/product", product);
 
 app.use(errorMiddleware);
 

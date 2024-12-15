@@ -5,10 +5,11 @@
     padding: 25px 16px 6px 16px;
     position: fixed;
     height: 100%;
-    background-color: $lightColor;
+    background-color: #fffffc;
     z-index: 2;
     border-radius:15px;
-    box-shadow: 0px 0 30px rgba(0,0,0,.1);
+    // box-shadow: 0px 0px 10px 1px #dfdfdf;
+    border: 2px solid #dfdfdf;
     transition: all 0.3s ease-in-out;
     text-align: center;
 }
@@ -24,7 +25,8 @@
 }
 
 .sidebarSelected {
-    background-color: #e3e3e3;
+    background-color: $primaryColor;
+    color: $lightColor !important;
 }
 
 .sidebarNav {
@@ -39,25 +41,30 @@
     gap: 10px;
     width: 100%;
     border-radius: 5px;
-    padding: 2px 10px;
+    padding: 5px 10px;
     margin-bottom: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     font-weight: bold;
     color: $darkColor;
     &:hover {
-        background-color: #e3e3e3;
+        background-color: $primaryColor;
+        color: $lightColor !important;
     }
 }
 
+.listItems.active {
+    justify-content: center;
+    padding: 5px;
+}
+
 .list-element {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    display: none;
     margin: 0px;
 }
 
 .list-element.active {
-    opacity: 1;
+    display:block;
 }
 
 .sidebarlist {

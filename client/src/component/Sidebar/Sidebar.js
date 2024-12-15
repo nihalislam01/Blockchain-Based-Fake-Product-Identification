@@ -13,13 +13,13 @@ function Sidebar({isSidebarOpen, toggleSidebar}) {
                 <nav className={`sidebarlist`}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
                         <Link to="/dashboard" className={`sidebarNav`} >
-                            <li className={`listItems ${location.pathname === "/dashboard" ? "sidebarSelected" : ""}`}>
+                            <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/dashboard" ? "sidebarSelected" : ""}`}>
                                 <FontAwesomeIcon icon={faChartLine} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Dashboard</p>
                             </li>
                         </Link>
 
                         <Link to="/product" className={`sidebarNav`} >
-                            <li className={`listItems  ${isSidebarOpen? "active": ""} ${location.pathname === "/product" ? "sidebarSelected" : ""}`}>
+                            <li className={`listItems  ${isSidebarOpen? "": "active"} ${location.pathname === "/product" ? "sidebarSelected" : ""}`}>
                             <FontAwesomeIcon icon={faBox} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Products</p>
                             </li>
                         </Link>
