@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Profile from "../Profile/Profile/Profile";
 import './Main.scss';
 import Navbar from "../Navbar/Navbar";
-import Home from "../Home/Home";
+import Home, { homePages } from "../Home/Home";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Plan from "../Plan/Plan";
@@ -50,8 +50,9 @@ const Main = () => {
 
 export const authenticatedRoutes = [
     {
-        path: "/home",
-        element: <Home />
+        path: "/",
+        element: <Home />,
+        children: homePages
     },
     {
         path: "/profile",

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";
+import handleAxiosError from "../../common/utils/ErrorHandler";
 import './Product.scss';
 import SingleProductForm from "./SingleProductForm";
 
@@ -7,6 +9,13 @@ const pageTitle = "Hexis - Product";
 
 function Product() {
     const [showPopup, setShowPopup] = useState(false);
+    const [products, setProducts] = useState([]);
+
+    useEffect(()=>{
+        axios.get('/api/product/get')
+        .then(response =>setProducts(response.data.products))
+        .catch(handleAxiosError)
+    },[])
 
     const openCreateSingleProduct = () => {
         setShowPopup(true);
@@ -27,6 +36,30 @@ function Product() {
                     </p>
                 </div>
                 <hr />
+                <div className="product-container">
+                    <table className="table text-center">
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product, index) => (
+                                <tr key={index}>
+                                    <td>{product.productId}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.description}</td>
+                                    <td>{product.price}</td>
+                                    <td>Edit</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
                 {showPopup && (
                     <SingleProductForm showPopup={showPopup} closePopup={closePopup} />

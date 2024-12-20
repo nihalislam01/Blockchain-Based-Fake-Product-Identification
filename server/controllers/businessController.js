@@ -127,3 +127,13 @@ exports.getBusinessData = catchAsyncErrors(async (req, res, next) => {
     }
     res.status(200).json({ success: true, businessData: business });
 });
+
+exports.getAll = catchAsyncErrors(async (req, res, next) => {
+    const businesses = await Business.find().select('_id organizationName');
+
+    const result = businesses.map(business => ({
+        id: business._id,
+        name: business.organizationName
+    }));
+    res.status(200).json({ success: true, businesses: result });
+})

@@ -24,6 +24,11 @@ module.exports = (err, req, res, next) => {
     err = new ErrorHandler(message, 400);
   }
 
+  if (err.error?.message.includes("Product already exists")) {
+    const message = `Product already exists`;
+    err = new ErrorHandler(message, 400);
+  }
+
   res.status(err.statusCode).json({
     success: false,
     message: err.message,

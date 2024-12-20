@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const Product = require('../models/productModel');
+const Business = require('../models/businessModel');
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { ethers, keccak256, toUtf8Bytes } = require('ethers');
@@ -10,13 +11,18 @@ const provider = new ethers.JsonRpcProvider(process.env.BLOCKCHAIN_RPC_SERVER);
 const wallet = new ethers.Wallet(process.env.BLOCKCHAIN_PRIVATE_KEY, provider);
 const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 
-exports.uploadSingleProduct = catchAsyncErrors(async (req, res) => {
+exports.uploadSingleProduct = catchAsyncErrors(async (req, res, next) => {
 
     const productInfo = req.body;
-    const productHash = keccak256(toUtf8Bytes(productInfo.productId));
+    const business = await Business.findOne({ownerId: req.user.id});
+    const productHash = keccak256(toUtf8Bytes(`${productInfo.productId}${business._id}`));
+    const isVerified = await contract.verifyProduct(productHash);
+    if (isVerified) {
+      return next(new ErrorHandler("Product already exists", 400));
+    }
     await contract.addProduct(productHash);
     productInfo.hashedValue = productHash;
-    productInfo.ownerId = req.user.id;
+    productInfo.businessId = business._id;
     const newProduct = new Product(productInfo);
     await newProduct.save();
     res.status(201).json({ success: true, message: 'Product uploaded successfully' });
@@ -55,12 +61,20 @@ exports.uploadBulkProduct = catchAsyncErrors(async (req, res) => {
 
 exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
 
-  const productId = req.params.id;
-  const productHash = keccak256(toUtf8Bytes(productId));
+  const productId = req.params.productId;
+  const businessId = req.params.businessId;
+  const productHash = keccak256(toUtf8Bytes(`${productId}${businessId}`));
   const isVerified = await contract.verifyProduct(productHash);
   if (!isVerified) {
     return next(new ErrorHandler("Product is not registered", 400));
   }
   res.status(201).json({ success: true, message: 'Product is verified' });
 
+});
+
+exports.getProductsByBusiness = catchAsyncErrors(async (req, res, next) => {
+  const business = await Business.findOne({ownerId: req.user.id});
+  const businessId = business._id;
+  const products = await Product.find({ businessId });
+  res.status(200).json({ success: true, products });
 });
