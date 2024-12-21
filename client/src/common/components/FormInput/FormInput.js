@@ -21,7 +21,7 @@ function FormInput(props) {
                 <select className="form-select" id={props.id} value={props.value} name={props.name} onChange={props.onChange} style={{borderRadius: "10px"}}>
                     <option value="" disabled>{props.placeholder}</option>
                     {props.options.map(e => (
-                        <option key={e} value={e}>{e}</option>
+                        <option key={e.value} value={e.value}>{e.name}</option>
                     ))}
                 </select>
             }

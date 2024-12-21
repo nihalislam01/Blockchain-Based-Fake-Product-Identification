@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faBox, faChartLine } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faBox, faChartLine, faCreditCard, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./Sidebar.scss";
 import { Link, useLocation } from 'react-router-dom';
 
-function Sidebar({isSidebarOpen, toggleSidebar}) {
+function Sidebar({role, isSidebarOpen, toggleSidebar}) {
 
     const location = useLocation();
     return (
@@ -12,17 +12,28 @@ function Sidebar({isSidebarOpen, toggleSidebar}) {
                 <FontAwesomeIcon icon={faBars} onClick={toggleSidebar} style={{ cursor: "pointer", fontWeight: "bold", fontSize: "20px" }} />
                 <nav className={`sidebarlist`}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
-                        <Link to="/dashboard" className={`sidebarNav`} >
+                        {role==='owner' && <Link to="/dashboard" className={`sidebarNav`} >
                             <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/dashboard" ? "sidebarSelected" : ""}`}>
                                 <FontAwesomeIcon icon={faChartLine} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Dashboard</p>
                             </li>
-                        </Link>
+                        </Link>}
 
-                        <Link to="/product" className={`sidebarNav`} >
+                        {role==='owner' && <Link to="/product" className={`sidebarNav`} >
                             <li className={`listItems  ${isSidebarOpen? "": "active"} ${location.pathname === "/product" ? "sidebarSelected" : ""}`}>
                             <FontAwesomeIcon icon={faBox} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Products</p>
                             </li>
-                        </Link>
+                        </Link>}
+                        {role==='admin' && <Link to="/users" className={`sidebarNav`} >
+                            <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/users" ? "sidebarSelected" : ""}`}>
+                                <FontAwesomeIcon icon={faUser} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>User Manager</p>
+                            </li>
+                        </Link>}
+
+                        {role==='admin' && <Link to="/payment-manager" className={`sidebarNav`} >
+                            <li className={`listItems  ${isSidebarOpen? "": "active"} ${location.pathname === "/payment-manager" ? "sidebarSelected" : ""}`}>
+                            <FontAwesomeIcon icon={faCreditCard} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Payment Manager</p>
+                            </li>
+                        </Link>}
                     </ul>
                 </nav>
             </aside>

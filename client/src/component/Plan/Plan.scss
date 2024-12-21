@@ -18,6 +18,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease;
+    overflow: auto;
     cursor: pointer;
     &:hover {
         transform: translateY(-10px);

@@ -1,11 +1,27 @@
 import "./Plan.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";
+import axios from "axios";
+import handleAxiosError from "../../common/utils/ErrorHandler";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const getPlanUrl = "/api/stripe/get";
 
 function Plan() {
 
-    const [planSelected, setPlanSelected] = useState("1");
+    const [planSelected, setPlanSelected] = useState("");
+    const [payments, setPayments] = useState([]);
+
+    useEffect(()=>{
+        axios.get(getPlanUrl)
+        .then(response=>{
+            setPayments(response.data.payment);
+            setPlanSelected(response.data.payment[0]._id);
+        })
+        .catch(handleAxiosError)
+    },[])
 
     const selectPlan = (planId) => {
         setPlanSelected(planId);
@@ -15,42 +31,24 @@ function Plan() {
         <>
             <CommonHelmet title="Hexis - Plan"/>
             <div className="plan-container">
-                <div className={`plan-box ${planSelected === "0" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("0")}>
-                    <div className="select-indicator"></div>
-                    <h2>Monthly Plan</h2>
-                    <p>Perfect for short-term usage</p>
-                    <div className="price">$19.99/month</div>
-                    <div className="plan-info-container">
-                        <ul>
-                            <li>Access to blockchain verification</li>
-                            <li>Register unlimited products</li>
-                            <li>24/7 support</li>
-                            <li>Analytics and insights</li>
-                        </ul>
+                {payments.map(payment=>(
+                    <div className={`plan-box ${planSelected===payment._id? "selectedPlan" : ""}`} onClick={()=>selectPlan(payment._id)}>
+                        <div className="select-indicator"></div>
+                        <h2>{payment.name}</h2>
+                        <p>{payment.quote}</p>
+                        <div className="price">{payment.price}/{payment.session}</div>
+                        <div className="plan-info-container">
+                            <ul>
+                                {payment.description.map((desc, index)=>(
+                                    <div className="d-flex align-items-center gap-3"><FontAwesomeIcon icon={faCircle} size="xs" /><li key={index}>{desc}</li></div>
+                                ))}
+                            </ul>
+                        </div>
+                        <Link to={`/business-form/${payment._id}`}>
+                            <button className="btn btn-primary mt-2" style={{borderRadius: "30px"}}>Select Plan</button>
+                        </Link>
                     </div>
-                    <Link to={`/business-form/0`}>
-                        <button className="btn btn-primary mt-2" style={{borderRadius: "30px"}}>Select Plan</button>
-                    </Link>
-                </div>
-
-                <div className={`plan-box ${planSelected === "1" ? "selectedPlan" : ""}`} onClick={()=>selectPlan("1")}>
-                    <div className="select-indicator"></div>
-                    <h2>Yearly Plan</h2>
-                    <p>Best value for long-term users</p>
-                    <div className="price">$199.99/year</div>
-                    <div className="plan-info-container">
-                        <ul>
-                            <li>Access to blockchain verification</li>
-                            <li>Register unlimited products</li>
-                            <li>Priority 24/7 support</li>
-                            <li>Analytics and insights</li>
-                            <li>Exciting discount</li>
-                        </ul>
-                    </div>
-                    <Link to={`/business-form/1`}>
-                        <button className="btn btn-primary mt-2" style={{borderRadius: "30px"}}>Select Plan</button>
-                    </Link>
-                </div>
+                ))}
             </div>
         </>
     )

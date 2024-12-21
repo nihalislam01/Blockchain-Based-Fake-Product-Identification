@@ -61,6 +61,9 @@
 .list-element {
     display: none;
     margin: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .list-element.active {

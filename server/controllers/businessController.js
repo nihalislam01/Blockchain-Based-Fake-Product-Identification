@@ -3,6 +3,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Business = require("../models/businessModel");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const User = require("../models/userModel");
+const Stripe = require("../models/stripeModel");
 
 exports.check = catchAsyncErrors(async (req, res, next) => {
 
@@ -22,13 +23,11 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("You are already a subscription user.", 403));
     }
 
-    const priceId = req.params.id;
-    var price = process.env.MONTHLY_PRICE_ID;
-    if (priceId == "1") {
-        price = process.env.YEARLY_PRICE_ID;
-    } else if (priceId != "0" && priceId != "1") {
-        return next(new ErrorHandler("Invalid price ID", 400));
+    const payment = await Stripe.findById(req.params.id);
+    if (!payment.active) {
+        return next(new ErrorHandler("Payment not active", 404));
     }
+    const priceId = payment.priceId;
 
     const business = await Business.findOne({ownerId: req.user.id})
     const businessInfo = req.body;
@@ -48,7 +47,7 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
         cancel_url: process.env.CLIENT_DOMAIN + "/home",
         line_items: [
         {
-            price: price,
+            price: priceId,
             quantity: 1,
         },
         ],

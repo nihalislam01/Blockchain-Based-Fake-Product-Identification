@@ -15,12 +15,14 @@ import Product from "../Product/Product";
 import OwnerRoute from "../../common/utils/OwnerRoute";
 import UserRoute from "../../common/utils/UserRoute";
 import CancelPlan from "../CancelPlan/CancelPlan";
+import PaymentManager from "../PaymentManager/PaymentManager";
+import UserManager from "../UserManager/UserManager";
 
 const Main = () => {
 
     const {checkAuth} = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isOwner, setIsOwner] = useState(false);
+    const [role, setRole] = useState("");
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -29,17 +31,17 @@ const Main = () => {
     useEffect(()=>{
         const auth = async () => {
             const result = await checkAuth();
-            setIsOwner(result==='owner');
+            setRole(result);
         }
         auth();
     },[checkAuth])
 
     return (
         <div style={{ display: "flex", height: "100vh" }}>
-            {isOwner && <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>}
+            {(role==='owner' || role==='admin') && <Sidebar role={role} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>}
             <main className={`mainContainer`}>
-                <Navbar toggleSidebar={toggleSidebar} isOwner={isOwner} isSidebarOpen={isSidebarOpen}/>
-                <div className={`main-body ${isOwner?"authorized":""}`}>
+                <Navbar toggleSidebar={toggleSidebar} isOwner={role==='owner'} isSidebarOpen={isSidebarOpen}/>
+                <div className={`main-body ${(role==='owner' || role==='admin')?"authorized":""}`}>
                     <Outlet />
                 </div>
                 <Footer />
@@ -81,6 +83,14 @@ export const authenticatedRoutes = [
     {
         path: "/cancel-plan",
         element: <OwnerRoute><CancelPlan /></OwnerRoute>
+    },
+    {
+        path: "/users",
+        element: <UserManager />
+    },
+    {
+        path: "/payment-manager",
+        element: <PaymentManager />
     }
 ];
 

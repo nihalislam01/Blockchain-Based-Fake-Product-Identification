@@ -1,4 +1,4 @@
-import { faCircle, faCircleDot } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Outlet } from "react-router-dom";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";

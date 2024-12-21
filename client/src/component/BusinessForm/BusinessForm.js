@@ -27,7 +27,11 @@ const formInputs = [
       name: "country",
       label: "Country",
       placeholder: "Select a country",
-      options: ["Bangladesh", "United States", "Canada", "United Kingdom", "Australia"],
+      options: [{name:"Bangladesh", value:"Bangladesh"}, 
+        {name:"United States", value:"United States"}, 
+        {name:"Canada", value:"Canada"}, 
+        {name:"United Kingdom", value:"United Kingdom"}, 
+        {name:"Australia", value:"Australia"}],
       category: "select"
     },
     {
@@ -42,7 +46,11 @@ const formInputs = [
       name: "city",
       label: "City",
       placeholder: "Select a city",
-      options: ["Badda", "Gulshan", "Banani", "Bashundhara", "Rampura"],
+      options: [{name:"Badda", value:"Badda"}, 
+        {name: "Gulshan",value: "Gulshan"}, 
+        {name: "Banani", value: "Banani"}, 
+        {name: "Bashundhara",value: "Bashundhara"}, 
+        {name:"Rampura", value: "Rampura"}],
       category: "select"
     },
     {
@@ -57,7 +65,11 @@ const formInputs = [
       name: "state",
       label: "State",
       placeholder: "Select a sate",
-      options: ["Dhaka", "Rangpur", "Chittagong", "Sylhet", "Barishal"],
+      options: [{name: "Dhaka", value: "Dhaka"}, 
+        {name: "Rangpur", value: "Rangpur"}, 
+        {name: "Chittagong", value: "Chittagong"}, 
+        {name: "Sylhet", value: "Sylhet"}, 
+        {name: "Barishal", value:"Barishal"}],
       category: "select"
     },
 ];
