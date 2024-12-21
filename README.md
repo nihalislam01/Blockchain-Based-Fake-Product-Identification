@@ -33,7 +33,5 @@ CLOUDINARY_API_KEY=(Your API KEY)
 CLOUDINARY_API_SECRET=(Your API SECRET)
 
 STRIPE_SECRET_KEY=(Your Stripe Secret Key)
-YEARLY_PRICE_ID=price_1QSw5iEAoji8m5XPZ1wtqmLx
-MONTHLY_PRICE_ID=price_1QSw2fEAoji8m5XPBbqvoHYP
 STRIPE_CALLBACK_URL=http://localhost:3000/business/updateStatus
 ```

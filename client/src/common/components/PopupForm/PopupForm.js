@@ -34,7 +34,7 @@ function SingleProductForm(props){
         <div className="popup-overlay">
             <div className="popup-content" ref={popupRef} >
                 <button className="close-btn" onClick={props.closePopup}>&times;</button>
-                <h3>Create Product</h3>
+                <h3>{props.headline}</h3>
                 <div className="form-box">
                     {props.formInputs.map((e)=>(
                         <FormInput key={e.id} onChange={onChangeHandler} value={props.formValues[e.name]} noMargin={true} {...e} />

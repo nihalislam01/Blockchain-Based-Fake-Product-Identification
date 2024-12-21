@@ -38,11 +38,9 @@ function Plan() {
                         <p>{payment.quote}</p>
                         <div className="price">{payment.price}/{payment.session}</div>
                         <div className="plan-info-container">
-                            <ul>
-                                {payment.description.map((desc, index)=>(
-                                    <div className="d-flex align-items-center gap-3"><FontAwesomeIcon icon={faCircle} size="xs" /><li key={index}>{desc}</li></div>
-                                ))}
-                            </ul>
+                            {payment.description.map((desc, index)=>(
+                                <div className="d-flex align-items-center gap-3"><FontAwesomeIcon icon={faCircle} size="xs" /><p className="m-0" key={index}>{desc}</p></div>
+                            ))}
                         </div>
                         <Link to={`/business-form/${payment._id}`}>
                             <button className="btn btn-primary mt-2" style={{borderRadius: "30px"}}>Select Plan</button>

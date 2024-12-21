@@ -5,10 +5,12 @@ import handleAxiosError from "../../common/utils/ErrorHandler";
 import PopupForm from "../../common/components/PopupForm/PopupForm";
 import toast from "react-hot-toast";
 import FormInput from "../../common/components/FormInput/FormInput";
+import CommonHelmet from "../../common/components/Head/CommonHelmet";
 
 const getPaymentsUrl = "/api/stripe/getAll";
 const createPaymentUrl = "/api/stripe/create";
 const updateStatusUrl = "api/stripe/updateStatus/";
+const pageTitle = "Hexis - Payment Manager";
 
 const paymentInputs = [
     {
@@ -110,6 +112,7 @@ function PaymentManager() {
 
     return (
         <>  
+            <CommonHelmet title={pageTitle} />
             <div className="container">
                 <div className="d-flex justify-content-between align-items-center">
                     <h2>Payment Manager</h2>
@@ -118,11 +121,11 @@ function PaymentManager() {
                 <hr />
                 <div className="table-container">
                     <Table keys={["name", "quote", "price", "priceId"]} rows={payments} 
-                    renderActions={(row) => (<FormInput onChange={(event) => onChangeHandler(event, row._id)} value={row.active} {...activeInput}/>)}/>
+                    renderActions={(row) => (<FormInput noMargin={true} onChange={(event) => onChangeHandler(event, row._id)} value={row.active} {...activeInput}/>)}/>
                 </div>
             </div>
             {showPopup && (
-                <PopupForm formValues={paymentValues} setFormValues={setPaymentValues} onFormSubmit={onFormSubmit} formInputs={paymentInputs} showPopup={showPopup} closePopup={closePopup} />
+                <PopupForm headline="New Subscription Plan" formValues={paymentValues} setFormValues={setPaymentValues} onFormSubmit={onFormSubmit} formInputs={paymentInputs} showPopup={showPopup} closePopup={closePopup} />
             )}
         </>
     )
