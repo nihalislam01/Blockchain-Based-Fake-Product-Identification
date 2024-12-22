@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";
 import handleAxiosError from "../../common/utils/ErrorHandler";
 import './Product.scss';
@@ -45,7 +45,8 @@ const productInputs = [
     }
 ];
 function Product() {
-    const [showPopup, setShowPopup] = useState(false);
+    const [showSingleUploadPopup, setShowSingleUploadPopup] = useState(false);
+    const [showBulkUploadPopup, setShowBulkUploadPopup] = useState(false);
     const [products, setProducts] = useState([]);
     const [productValues, setProductValues] = useState({
         productId: "",
@@ -60,12 +61,26 @@ function Product() {
         .catch(handleAxiosError)
     },[])
 
+    const onDrop = useCallback((acceptedFiles) => {
+
+        acceptedFiles.forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const fileContent = reader.result;
+
+                console.log(fileContent);
+            };
+            reader.readAsText(file);
+        });
+    }, []);
+
     const openCreateSingleProduct = () => {
-        setShowPopup(true);
+        setShowSingleUploadPopup(true);
     };
 
     const closePopup = () => {
-        setShowPopup(false);
+        setShowSingleUploadPopup(false);
+        setShowBulkUploadPopup(false);
     };
 
     const onFormSubmit = e => {
@@ -100,9 +115,12 @@ function Product() {
                     <Table keys={["productId", "name", "description", "price"]} rows={products} />
                 </div>
 
-                {showPopup && (
-                    <PopupForm headline="Product Upload" formValues={productValues} setFormValues={setProductValues} onFormSubmit={onFormSubmit} formInputs={productInputs} showPopup={showPopup} closePopup={closePopup} />
-                )}
+                {showSingleUploadPopup && !showBulkUploadPopup &&
+                    <PopupForm headline="Product Upload" formValues={productValues} setFormValues={setProductValues} onFormSubmit={onFormSubmit} formInputs={productInputs} showPopup={showSingleUploadPopup} closePopup={closePopup} />
+                }
+                {showBulkUploadPopup && !showSingleUploadPopup &&
+                    <PopupForm onDrop={onDrop} dragandDrop={true} showPopup={showBulkUploadPopup} closePopup={closePopup} />
+                }
             </div>
         </>
     );

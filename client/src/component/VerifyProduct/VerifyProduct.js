@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Dropdown from "../../common/components/Dropdown/Dropdown";
-import FormInput from "../../common/components/FormInput/FormInput";
 import handleAxiosError from "../../common/utils/ErrorHandler";
 
 const verifyProductUrl = '/api/product/verify/';
@@ -40,7 +39,7 @@ const VerifyProduct = () => {
                 <h3>Product Verification</h3>
                 <hr />
                 <Dropdown elements={businesses} selected={selectedBusiness} setSelect={setSelectedBusiness} />
-                <FormInput type="text" onChange={onChangeHandler} name="productId" value={productId} placeholder="Insert Product ID" category="input"  />
+                <input type="text" onChange={onChangeHandler} name="productId" value={productId} placeholder="Insert Product ID" className="form-control mt-3"  />
                 <button className="btn btn-primary w-100 mt-2" onClick={onVerifyProduct}>Verify Product</button>
             </div>
         </>
