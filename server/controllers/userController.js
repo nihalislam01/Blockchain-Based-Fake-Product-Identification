@@ -86,11 +86,12 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("User not found", 404));
   }
+  if (user.loginMethods.includes("password")) {
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
-  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-
-  if (!isPasswordMatched) {
-    return next(new ErrorHandler("Old password is incorrect", 400));
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Old password is incorrect", 400));
+    }
   }
 
   user.password = req.body.newPassword;
@@ -273,4 +274,14 @@ exports.uploadAvatar = catchAsyncErrors(async (req, res, next) => {
   });
 
   res.status(200).json({success: true, message: "Avatar updated"});
+});
+
+exports.getLoginMethods = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  res.status(200).json({success: true, loginMethods: user.loginMethods});
 });

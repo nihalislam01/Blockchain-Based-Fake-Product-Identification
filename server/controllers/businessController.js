@@ -98,6 +98,10 @@ exports.cancel = catchAsyncErrors(async (req, res, next) => {
 
     const userId = req.user.id;
     const user = await User.findById(userId).select("+stripeSessionId").select("+password");
+
+    if (!user?.loginMethods.includes("password")) {
+        return next(new ErrorHandler("Please set your password before cancelling subscription", 400));
+    }
     
     const {password} = req.body;
     const isPasswordMatched = await user.comparePassword(password);

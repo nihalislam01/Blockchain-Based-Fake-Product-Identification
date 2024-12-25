@@ -2,7 +2,7 @@ const express = require('express');
 const { register, verifyCallback, get, getAll, 
     updatePassword, oauth, oauthCallback, login, logout, 
     checkUser, resetPassword, forgotPassword, getAvatar,
-    updateProfile, uploadAvatar } = require('../controllers/userController');
+    updateProfile, uploadAvatar, getLoginMethods } = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
@@ -22,5 +22,6 @@ router.get('/check', isAuthenticatedUser, checkUser);
 router.get("/getAvatar", isAuthenticatedUser, getAvatar);
 router.put("/updateProfile", isAuthenticatedUser, updateProfile);
 router.put("/uploadAvatar", isAuthenticatedUser, uploadAvatar);
+router.get('/get/login-methods', isAuthenticatedUser, getLoginMethods);
 
 module.exports = router;

@@ -75,11 +75,18 @@ function Info({user, dob, editableUser, setEditableUser, setUser}) {
 
     const [isEdit, setIsEdit] = useState(false);
     const [isPassword, setIsPassword] = useState(false);
+    const [hasPassword, setHasPassword] = useState(false);
     const [passwordForm, setPasswordForm] = useState({
         oldPassword: "",
         newPassword: "",
         confirmPassword: "",
     });
+
+    useState(()=>{
+        axios.get("/api/user/get/login-methods")
+        .then(response=>setHasPassword(response.data.loginMethods?.includes("password")))
+        .catch(handleAxiosError)
+    },[])
 
     const onUserChangeHandler = (e) => {
         setEditableUser({...editableUser, [e.target.name]: e.target.value});
@@ -139,7 +146,7 @@ function Info({user, dob, editableUser, setEditableUser, setUser}) {
                 </div>
             }
             {isPassword && !isEdit && <div className='password-container'>
-                    {passwordInputs.map(e => (
+                    {passwordInputs.slice(hasPassword ? 0 : 1).map(e => (
                         <FormInput key={e.id} onChange={onPasswordChangeHandler} {...e}/>
                     ))}
                     <div className="d-flex">

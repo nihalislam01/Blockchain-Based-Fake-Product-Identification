@@ -29,36 +29,6 @@ exports.uploadSingleProduct = catchAsyncErrors(async (req, res, next) => {
 
 });
 
-// exports.uploadBulkProduct = catchAsyncErrors(async (req, res) => {
-
-//     const { file } = req.body;
-//     if (!file) {
-//         return next(new ErrorHandler("No file provided", 404));
-//     }
-//     const base64Data = file.split(',')[1];
-//     const csvBuffer = Buffer.from(base64Data, 'base64');
-//     const products = [];
-//     csvBuffer
-//       .toString()
-//       .split('\n')
-//       .slice(1)
-//       .forEach((line) => {
-//         const [productId, name, description, price] = line.split(',');
-//         if (productId && name && description && price) {
-//           const hash = crypto.createHash('sha256').update(productId.trim()).digest('hex');
-//           products.push({ productId: productId.trim(), name,  description, price, ownerId: req.user.id, hash});
-//         }
-//       });
-
-//     for (const product of products) {
-//       await contract.addProduct(product.hash);
-//       const newProduct = new Product(product);
-//       await newProduct.save();
-//     }
-//     res.status(201).json({ success: true, message: 'Bulk products uploaded successfully' });
-
-// });
-
 exports.uploadBulkProduct = catchAsyncErrors(async (req, res, next) => {
 
   const { products } = req.body;

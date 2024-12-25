@@ -16,17 +16,20 @@ const Profile = () => {
     const [avatar, setAvatar] = useState("/avatar/avatar.png");
 
     useEffect(()=>{
-        axios.get(getUserUrl)
-        .then((response) => {
-            setUser(response.data.user);
-            setEditableUser(response.data.user);
-            if (response.data.user.avatar) {
-                setAvatar(response.data.user.avatar.url);
-            }
-            if (response.data.user.dateOfBirth!==null) {
-                setDob(formatdate(response.data.user.dateOfBirth));
-            }
-        }).catch(handleAxiosError);
+        const getUser = async () =>{
+            await axios.get(getUserUrl)
+            .then((response) => {
+                setUser(response.data.user);
+                setEditableUser(response.data.user);
+                if (response.data.user.avatar) {
+                    setAvatar(response.data.user.avatar.url);
+                }
+                if (response.data.user.dateOfBirth!==null) {
+                    setDob(formatdate(response.data.user.dateOfBirth));
+                }
+            }).catch(handleAxiosError);
+        }
+        getUser();
     },[])
 
     const formatdate = (date) => {
