@@ -10,7 +10,7 @@ import Popup from "../../common/components/Popup/Popup";
 
 const getPaymentsUrl = "/api/stripe/getAll";
 const createPaymentUrl = "/api/stripe/create";
-const updateStatusUrl = "api/stripe/updateStatus/";
+const updateStatusUrl = "/api/stripe/updateStatus/";
 const pageTitle = "Hexis - Payment Manager";
 
 const paymentInputs = [

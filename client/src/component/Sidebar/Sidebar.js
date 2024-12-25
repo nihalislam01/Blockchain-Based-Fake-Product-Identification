@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faBox, faChartLine, faCreditCard, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faBox, faBriefcase, faChartLine, faCreditCard, faUser } from '@fortawesome/free-solid-svg-icons'
 import "./Sidebar.scss";
 import { Link, useLocation } from 'react-router-dom';
 
@@ -23,9 +23,16 @@ function Sidebar({role, isSidebarOpen, toggleSidebar}) {
                             <FontAwesomeIcon icon={faBox} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Products</p>
                             </li>
                         </Link>}
-                        {role==='admin' && <Link to="/users" className={`sidebarNav`} >
-                            <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/users" ? "sidebarSelected" : ""}`}>
+
+                        {role==='admin' && <Link to="/user-manager" className={`sidebarNav`} >
+                            <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/user-manager" ? "sidebarSelected" : ""}`}>
                                 <FontAwesomeIcon icon={faUser} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>User Manager</p>
+                            </li>
+                        </Link>}
+
+                        {role==='admin' && <Link to="/business-manager" className={`sidebarNav`} >
+                            <li className={`listItems ${isSidebarOpen? "": "active"} ${location.pathname === "/business-manager" ? "sidebarSelected" : ""}`}>
+                                <FontAwesomeIcon icon={faBriefcase} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Business Manager</p>
                             </li>
                         </Link>}
 

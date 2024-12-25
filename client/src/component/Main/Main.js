@@ -8,7 +8,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Plan from "../Plan/Plan";
 import BusinessForm from "../BusinessForm/BusinessForm";
-import UpdateStatusCallback from "../UpdateStatusCallback/UpdateStatusCallback";
+import UpdateStatusCallback from "../Status/Status";
 import {useAuth} from  '../../common/utils/AuthContext';
 import Dashboard from "../Dashboard/Dashboard";
 import Product from "../Product/Product";
@@ -16,6 +16,7 @@ import OwnerRoute from "../../common/utils/OwnerRoute";
 import UserRoute from "../../common/utils/UserRoute";
 import CancelPlan from "../CancelPlan/CancelPlan";
 import PaymentManager from "../PaymentManager/PaymentManager";
+import BusinessManager from "../BusinessManager/BusinessManager";
 import UserManager from "../UserManager/UserManager";
 
 const Main = () => {
@@ -69,8 +70,8 @@ export const authenticatedRoutes = [
         element: <UserRoute><BusinessForm /></UserRoute>
     },
     {
-        path: "/business/updateStatus",
-        element: <UserRoute><UpdateStatusCallback /></UserRoute>
+        path: "/status",
+        element: <UpdateStatusCallback />
     },
     {
         path: "/dashboard",
@@ -85,8 +86,12 @@ export const authenticatedRoutes = [
         element: <OwnerRoute><CancelPlan /></OwnerRoute>
     },
     {
-        path: "/users",
+        path: "/user-manager",
         element: <UserManager />
+    },
+    {
+        path: "/business-manager",
+        element: <BusinessManager />
     },
     {
         path: "/payment-manager",

@@ -1,17 +1,18 @@
-import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Message from "../../common/components/Message/Message";
+import axios from "axios";
 import handleAxiosError from "../../common/utils/ErrorHandler";
-
-const updateStatusUrl = "/api/business/updateStatus";
 function UpdateStatusCallback() {
+    const [data, setData] = useState({});
     useEffect(()=>{
-        axios.get(updateStatusUrl).catch(handleAxiosError)
+        axios.get("/api/business/status")
+        .then(response=>setData({headline: response.data.headline, message: response.data.message}))
+        .catch(handleAxiosError)
     },[])
     return (
         <>
         <div className="d-flex flex-column justify-content-center align-items-center w-100" style={{minHeight: "90vh"}}>
-            <Message headline={"Payment Success"} message={"You have become a owner. Start registering your products now."} />
+            <Message headline={data.headline} message={data.message} />
         </div>
         </>
     )

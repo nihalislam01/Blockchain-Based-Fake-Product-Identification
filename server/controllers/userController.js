@@ -74,9 +74,18 @@ exports.get = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAll = catchAsyncErrors(async (req, res, next) => {
 
-  const users = await User.find();
+  const users = await User.find().sort({ createdAt: -1 });
   res.status(200).json({success: true, users});
 
+});
+
+exports.updateStatus = catchAsyncErrors(async (req, res, next) =>{
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  res.status(200).json({success: true, message: "Status Updated"});
 });
 
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
@@ -113,6 +122,10 @@ exports.oauthCallback = catchAsyncErrors(async (req, res, next) => {
         return res.status(401).json({ message: 'Authentication failed', info });
     }
 
+    if (!user.isEnable) {
+      return next(new ErrorHandler("Account Disabled. Please contact support.", 401));
+    }
+
     setToken(user, res);
 
     res.redirect(`${process.env.CLIENT_DOMAIN}`);
@@ -135,7 +148,9 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     }
   }
 
-  if (!user.isEnable) {
+  if (!user.isEnable && !user.token) {
+    return next(new ErrorHandler("Account Disabled. Please contact support.", 401));
+  } else if (!user.isEnable) {
     return next(new ErrorHandler("Please check your email to verify", 401));
   }
 

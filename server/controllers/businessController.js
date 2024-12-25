@@ -55,6 +55,7 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
     });
 
     user.stripeSessionId = session.id;
+    user.role = "pending";
     user.save();
 
     res.json({ url: session.url })
@@ -62,18 +63,18 @@ exports.create = catchAsyncErrors(async (req, res, next) => {
 
 exports.updateStatus = catchAsyncErrors(async (req, res, next) => {
 
-    const userId = req.user.id;
+    const userId = req.params.id;
     const user = await User.findById(userId).select("+stripeSessionId");
     if (!user) {
         return next(new ErrorHandler("User not found", 404));
     }
-    if (!user.stripeSessionId || user.stripeSessionId===undefined || user.stripeSessionId===null) {
+    if (!user.stripeSessionId || user.stripeSessionId===undefined || user.stripeSessionId===null || user.role !== "pending") {
         return next(new ErrorHandler("User is not a subscription handler", 400));
     }
     
     const session = await stripe.checkout.sessions.retrieve(user.stripeSessionId);
     if (session && session.status === "complete") {
-        user.role = "owner";
+        user.role = req.body.role;
     } else {
         user.role = "user";
     }
@@ -139,4 +140,34 @@ exports.getAll = catchAsyncErrors(async (req, res, next) => {
         name: business.organizationName
     }));
     res.status(200).json({ success: true, businesses: result });
-})
+});
+
+exports.getStatus = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select("role");
+    if (user.role === "admin") {
+        return res.status(200).json({ success: true, headline:"Admin", message: "You have priviledges to manage user and payment data." });
+    }
+    const business = await Business.findOne({ownerId: req.user.id});
+    if (user.role === "pending") {
+        return res.status(200).json({ success: true, headline:"Business Profile Created", message: "Please be patient. Your business account application is being processed." });
+    }
+    if (user.role === "owner") {
+        return res.status(200).json({ success: true, headline:"Business Owner", message: "Congratulations. You can register your products now." });
+    }
+    res.status(200).json({ success: true, headline:"User", message: "You are a general user. You can subscribe to become a business owner." });
+  });
+
+  exports.getAllPending = catchAsyncErrors(async (req, res, next) => {
+
+    const businesses = await Business.find().populate('ownerId')
+    .then((results) => {
+        return results.sort((a, b) => {
+            const aPending = a.ownerId?.role === "pending" ? 0 : 1;
+            const bPending = b.ownerId?.role === "pending" ? 0 : 1;
+            return aPending - bPending;
+        });
+    });
+    res.status(200).json({success: true, businesses});
+  
+  });
+  
