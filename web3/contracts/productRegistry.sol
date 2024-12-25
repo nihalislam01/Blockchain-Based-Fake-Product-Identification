@@ -12,6 +12,16 @@ contract ProductRegistry {
         emit ProductAdded(productHash);
     }
 
+    function bulkAddProducts(bytes32[] memory productHashesArray) public {
+        for (uint256 i = 0; i < productHashesArray.length; i++) {
+            bytes32 productHash = productHashesArray[i];
+            if (!productHashes[productHash]) {
+                productHashes[productHash] = true;
+                emit ProductAdded(productHash);
+            }
+        }
+    }
+
     function verifyProduct(bytes32 productHash) public view returns (bool) {
         return productHashes[productHash];
     }

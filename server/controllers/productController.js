@@ -29,34 +29,77 @@ exports.uploadSingleProduct = catchAsyncErrors(async (req, res, next) => {
 
 });
 
-exports.uploadBulkProduct = catchAsyncErrors(async (req, res) => {
+// exports.uploadBulkProduct = catchAsyncErrors(async (req, res) => {
 
-    const { file } = req.body;
-    if (!file) {
-        return next(new ErrorHandler("No file provided", 404));
-    }
-    const base64Data = file.split(',')[1];
-    const csvBuffer = Buffer.from(base64Data, 'base64');
-    const products = [];
-    csvBuffer
-      .toString()
-      .split('\n')
-      .slice(1)
-      .forEach((line) => {
-        const [productId, name, description, price] = line.split(',');
-        if (productId && name && description && price) {
-          const hash = crypto.createHash('sha256').update(productId.trim()).digest('hex');
-          products.push({ productId: productId.trim(), name,  description, price, ownerId: req.user.id, hash});
-        }
+//     const { file } = req.body;
+//     if (!file) {
+//         return next(new ErrorHandler("No file provided", 404));
+//     }
+//     const base64Data = file.split(',')[1];
+//     const csvBuffer = Buffer.from(base64Data, 'base64');
+//     const products = [];
+//     csvBuffer
+//       .toString()
+//       .split('\n')
+//       .slice(1)
+//       .forEach((line) => {
+//         const [productId, name, description, price] = line.split(',');
+//         if (productId && name && description && price) {
+//           const hash = crypto.createHash('sha256').update(productId.trim()).digest('hex');
+//           products.push({ productId: productId.trim(), name,  description, price, ownerId: req.user.id, hash});
+//         }
+//       });
+
+//     for (const product of products) {
+//       await contract.addProduct(product.hash);
+//       const newProduct = new Product(product);
+//       await newProduct.save();
+//     }
+//     res.status(201).json({ success: true, message: 'Bulk products uploaded successfully' });
+
+// });
+
+exports.uploadBulkProduct = catchAsyncErrors(async (req, res, next) => {
+
+  const { products } = req.body;
+
+  if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ message: 'No products to upload.' });
+  }
+  const business = await Business.findOne({ ownerId: req.user.id });
+
+  if (!business) {
+      return next(new ErrorHandler('Business not found for the user.', 404));
+  }
+
+  const validProducts = [];
+  const duplicateProducts = [];
+  for (const product of products) {
+
+      const existingProduct = await Product.findOne({
+          productId: product.productId,
+          businessId: business._id,
       });
 
-    for (const product of products) {
-      await contract.addProduct(product.hash);
-      const newProduct = new Product(product);
-      await newProduct.save();
+      if (existingProduct) {
+          duplicateProducts.push(product.productId);
+        continue;
     }
-    res.status(201).json({ success: true, message: 'Bulk products uploaded successfully' });
+    const productHash = keccak256(toUtf8Bytes(`${product.productId}${business._id}`));
+    validProducts.push({
+        ...product,
+        businessId: business._id,
+        hashedValue: productHash,
+    });
+  }
+  const productHashes = validProducts.map(product => product.hashedValue);
 
+  if (validProducts.length > 0) {
+      await contract.bulkAddProducts(productHashes);
+      await Product.insertMany(validProducts);
+  }
+
+  res.status(200).json({success: true, message: 'Products uploaded successfully.', uploaded: validProducts.length,duplicates: duplicateProducts});
 });
 
 exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
@@ -75,6 +118,6 @@ exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
 exports.getProductsByBusiness = catchAsyncErrors(async (req, res, next) => {
   const business = await Business.findOne({ownerId: req.user.id});
   const businessId = business._id;
-  const products = await Product.find({ businessId });
+  const products = await Product.find({ businessId }).sort({createdAt: -1});
   res.status(200).json({ success: true, products });
 });

@@ -59,7 +59,7 @@ const userInputs = [
     {
         id: "genderInput",
         name: "gender",
-        options: ["Male", "Female", "Other"],
+        options: [{name:"Male", value:"Male"}, {name:"Female", value:"Female"}, {name:"Other", value:"Other"}],
         placeholder: "Select Gender",
         category: "select"
     },

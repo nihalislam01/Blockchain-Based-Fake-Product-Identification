@@ -2,10 +2,11 @@ import Table from "../../common/components/Table/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import handleAxiosError from "../../common/utils/ErrorHandler";
-import PopupForm from "../../common/components/PopupForm/PopupForm";
 import toast from "react-hot-toast";
 import FormInput from "../../common/components/FormInput/FormInput";
 import CommonHelmet from "../../common/components/Head/CommonHelmet";
+import Form from "../../common/components/Form/Form";
+import Popup from "../../common/components/Popup/Popup";
 
 const getPaymentsUrl = "/api/stripe/getAll";
 const createPaymentUrl = "/api/stripe/create";
@@ -125,7 +126,9 @@ function PaymentManager() {
                 </div>
             </div>
             {showPopup && (
-                <PopupForm headline="New Subscription Plan" formValues={paymentValues} setFormValues={setPaymentValues} onFormSubmit={onFormSubmit} formInputs={paymentInputs} showPopup={showPopup} closePopup={closePopup} />
+                <Popup showPopup={showPopup} setShowPopup={setShowPopup}>
+                    <Form headline="New Subscription Plan" formValues={paymentValues} setFormValues={setPaymentValues} onFormSubmit={onFormSubmit} formInputs={paymentInputs} />
+                </Popup>
             )}
         </>
     )
