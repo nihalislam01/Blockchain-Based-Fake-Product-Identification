@@ -1,4 +1,5 @@
 import React from 'react';
+import 'chart.js/auto';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {routes} from "./const/Routes";

@@ -1,6 +1,6 @@
-const crypto = require('crypto');
 const Product = require('../models/productModel');
 const Business = require('../models/businessModel');
+const Verification = require('../models/verificationModel');
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { ethers, keccak256, toUtf8Bytes } = require('ethers');
@@ -52,7 +52,7 @@ exports.uploadBulkProduct = catchAsyncErrors(async (req, res, next) => {
       });
 
       if (existingProduct) {
-          duplicateProducts.push(product.productId);
+        duplicateProducts.push(product.productId);
         continue;
     }
     const productHash = keccak256(toUtf8Bytes(`${product.productId}${business._id}`));
@@ -75,12 +75,21 @@ exports.uploadBulkProduct = catchAsyncErrors(async (req, res, next) => {
 exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
 
   const productId = req.params.productId;
-  const businessId = req.params.businessId;
+  const business = await Business.findById(req.params.businessId);
+  if (!business) {
+    return next(new ErrorHandler("Business not found", 404));
+  }
+  const businessId = business._id;
+  const verification = new Verification({productId, businessId, verifiedBy: req.user.id});
   const productHash = keccak256(toUtf8Bytes(`${productId}${businessId}`));
   const isVerified = await contract.verifyProduct(productHash);
   if (!isVerified) {
+    verification.status = false;
+    await verification.save();
     return next(new ErrorHandler("Product is not registered", 400));
   }
+  verification.status = true;
+  await verification.save();
   res.status(201).json({ success: true, message: 'Product is verified' });
 
 });
@@ -90,4 +99,32 @@ exports.getProductsByBusiness = catchAsyncErrors(async (req, res, next) => {
   const businessId = business._id;
   const products = await Product.find({ businessId }).sort({createdAt: -1});
   res.status(200).json({ success: true, products });
+});
+
+exports.getVerifiedProducts = catchAsyncErrors(async (req, res, next) => {
+
+  const business = await Business.findOne({ownerId: req.user.id});
+  const result = await Verification.aggregate([
+    {
+      $match: {
+        businessId: business._id,
+      },
+    },
+      {
+          $group: {
+              _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+              validVerifications: { $sum: { $cond: [{ $eq: ["$status", true] }, 1, 0] } },
+              invalidVerifications: { $sum: { $cond: [{ $eq: ["$status", false] }, 1, 0] } },
+          },
+      },
+      { $sort: { _id: 1 } },
+  ]);
+  res.status(200).json({success: true, result});
+});
+
+exports.getTotalProducts = catchAsyncErrors(async (req, res, next) =>{
+  const business = await Business.findOne({ownerId: req.user.id});
+  const totalProducts = await Product.countDocuments({businessId: business._id});
+  const totalVerifications = await Verification.countDocuments({businessId: business._id});
+  res.status(200).json({ success: true, totalProducts, totalVerifications });
 });
