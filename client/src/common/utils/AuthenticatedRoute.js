@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import Message from "../components/Message/Message";
 import { useAuth } from "./AuthContext";
 
-const PrivateRoute = ({ children }) => {
+const AuthenticatedRoute = ({ children }) => {
 
     const { checkAuth } = useAuth();
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -27,4 +27,4 @@ const PrivateRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/" />;
 };
 
-export default PrivateRoute;
+export default AuthenticatedRoute;

@@ -8,16 +8,15 @@ import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Plan from "../Plan/Plan";
 import BusinessForm from "../BusinessForm/BusinessForm";
-import UpdateStatusCallback from "../Status/Status";
+import Status from "../Status/Status";
 import {useAuth} from  '../../common/utils/AuthContext';
 import Dashboard from "../Dashboard/Dashboard";
 import Product from "../Product/Product";
-import OwnerRoute from "../../common/utils/OwnerRoute";
-import UserRoute from "../../common/utils/UserRoute";
 import CancelPlan from "../CancelPlan/CancelPlan";
 import PaymentManager from "../PaymentManager/PaymentManager";
 import BusinessManager from "../BusinessManager/BusinessManager";
 import UserManager from "../UserManager/UserManager";
+import AuthorizedRoute from "../../common/utils/AuthorizedRoute";
 
 const Main = () => {
 
@@ -62,40 +61,40 @@ export const authenticatedRoutes = [
         element: <Profile />
     },
     {
+        path: "/status",
+        element: <Status />
+    },
+    {
         path: "/plan",
-        element: <UserRoute><Plan /></UserRoute>
+        element: <AuthorizedRoute role={["user"]}><Plan /></AuthorizedRoute>
     },
     {
         path: "/business-form/:id",
-        element: <UserRoute><BusinessForm /></UserRoute>
-    },
-    {
-        path: "/status",
-        element: <UpdateStatusCallback />
+        element: <AuthorizedRoute role={["user"]}><BusinessForm /></AuthorizedRoute>
     },
     {
         path: "/dashboard",
-        element: <OwnerRoute><Dashboard /></OwnerRoute>
+        element: <AuthorizedRoute role={["owner"]}><Dashboard /></AuthorizedRoute>
     },
     {
         path: "/product",
-        element: <OwnerRoute><Product /></OwnerRoute>
+        element: <AuthorizedRoute role={["owner"]}><Product /></AuthorizedRoute>
     },
     {
         path: "/cancel-plan",
-        element: <OwnerRoute><CancelPlan /></OwnerRoute>
+        element: <AuthorizedRoute role={["owner"]}><CancelPlan/></AuthorizedRoute>
     },
     {
         path: "/user-manager",
-        element: <UserManager />
+        element: <AuthorizedRoute role={["admin"]}><UserManager /></AuthorizedRoute>
     },
     {
         path: "/business-manager",
-        element: <BusinessManager />
+        element: <AuthorizedRoute role={["admin"]}><BusinessManager /></AuthorizedRoute>
     },
     {
         path: "/payment-manager",
-        element: <PaymentManager />
+        element: <AuthorizedRoute role={["admin"]}><PaymentManager /></AuthorizedRoute>
     }
 ];
 

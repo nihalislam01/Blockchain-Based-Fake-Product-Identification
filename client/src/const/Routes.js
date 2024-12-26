@@ -1,6 +1,6 @@
 import React from "react";
 import Landing, { landingRoutes } from "../component/Landing/Landing/Landing";
-import PrivateRoute from "../common/utils/PrivateRoute";
+import AuthenticatedRoute from "../common/utils/AuthenticatedRoute";
 import Main, { authenticatedRoutes } from "../component/Main/Main";
 
 export const routes = [
@@ -12,9 +12,9 @@ export const routes = [
     {
         path: "/",
         element: ( 
-            <PrivateRoute>
+            <AuthenticatedRoute>
                 <Main />
-            </PrivateRoute>
+            </AuthenticatedRoute>
         ),
         children: authenticatedRoutes
     },

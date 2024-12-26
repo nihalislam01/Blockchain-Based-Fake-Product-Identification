@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Message from "../../common/components/Message/Message";
 import axios from "axios";
 import handleAxiosError from "../../common/utils/ErrorHandler";
-function UpdateStatusCallback() {
+function Status() {
     const [data, setData] = useState({});
     useEffect(()=>{
         axios.get("/api/business/status")
@@ -18,4 +18,4 @@ function UpdateStatusCallback() {
     )
 }
 
-export default UpdateStatusCallback;
+export default Status;
