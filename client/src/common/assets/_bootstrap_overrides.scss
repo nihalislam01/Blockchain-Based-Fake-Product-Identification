@@ -17,6 +17,29 @@
 
     &:active {
         background-color: $primaryColor !important;
+        color: white;
+    }
+}
+
+.btn-secondary {
+    background-color: #e5e5e5;
+    border: unset;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: box-shadow ease 1s;
+    color: $primaryColor;
+
+    &:hover {
+        background-color: #e5e5e5;
+        color: $primaryColor;
+        box-shadow: 1px 2px 20px 1px #b0b0b0;
+        transition: box-shadow ease 1s;
+    }
+
+    &:active {
+        background-color: #e5e5e5 !important;
+        color: $primaryColor;
     }
 }
 

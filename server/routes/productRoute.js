@@ -1,5 +1,7 @@
 const express = require('express');
-const { uploadSingleProduct, uploadBulkProduct, verifyProduct, getProductsByBusiness, getVerifiedProducts, getTotalProducts } = require('../controllers/productController');
+const { uploadSingleProduct, uploadBulkProduct, verifyProduct, 
+    getProductsByBusiness, getVerifiedProducts, getTotalProducts, 
+    getVerificationHistory } = require('../controllers/productController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
@@ -10,5 +12,5 @@ router.get('/verify/:productId/:businessId',isAuthenticatedUser, verifyProduct);
 router.get('/get', isAuthenticatedUser, getProductsByBusiness);
 router.get('/verification-data', isAuthenticatedUser, authorizeRoles("owner"), getVerifiedProducts);
 router.get('/total-products', isAuthenticatedUser, authorizeRoles("owner"), getTotalProducts);
-
+router.get('/history', isAuthenticatedUser, getVerificationHistory);
 module.exports = router;

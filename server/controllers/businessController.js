@@ -170,4 +170,18 @@ exports.getStatus = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({success: true, businesses});
   
   });
+
+exports.update = catchAsyncErrors(async (req, res, next) =>{
+    const business = await Business.findOne({ownerId: req.user.id});
+    if (!business) {
+        return next(new ErrorHandler("Business not found", 404));
+    }
+    await Business.findByIdAndUpdate(business._id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({ success: true, business, message: "Business info updated" });
+});
   

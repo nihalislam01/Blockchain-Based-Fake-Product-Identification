@@ -5,6 +5,7 @@ import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
 import Info from "../Info/Info";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
+import History from "../History/History";
 const getUserUrl = "/api/user/get";
 const pageTitle = "Hexis - Profile";
 
@@ -41,11 +42,12 @@ const Profile = () => {
     return (
         <>
             <CommonHelmet title={pageTitle} />
-            <div className="container">
+            <div className="d-flex gap-4 container">
                 <div className={styles.infoContainer}>
                     <Avatar avatar={avatar} />
                     <Info user={user} dob={dob} editableUser={editableUser} setEditableUser={setEditableUser} setUser={setUser}/>
                 </div>
+                <History />
             </div>
         </>
     );

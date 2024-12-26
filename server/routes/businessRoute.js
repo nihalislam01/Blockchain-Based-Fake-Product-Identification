@@ -1,5 +1,5 @@
 const express = require('express');
-const { check, create, updateStatus, cancel, getBusinessData, getAll, getStatus, getAllPending} = require('../controllers/businessController');
+const { check, create, updateStatus, cancel, getBusinessData, getAll, getStatus, getAllPending, update} = require('../controllers/businessController');
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get('/get', isAuthenticatedUser, getBusinessData);
 router.get("/get-all", isAuthenticatedUser, authorizeRoles("admin"), getAllPending);
 router.get('/all', isAuthenticatedUser, getAll);
 router.get('/status', isAuthenticatedUser, getStatus);
+router.patch('/update',isAuthenticatedUser, authorizeRoles("owner"), update);
 
 module.exports = router;

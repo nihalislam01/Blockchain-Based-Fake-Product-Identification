@@ -128,3 +128,13 @@ exports.getTotalProducts = catchAsyncErrors(async (req, res, next) =>{
   const totalVerifications = await Verification.countDocuments({businessId: business._id});
   res.status(200).json({ success: true, totalProducts, totalVerifications });
 });
+
+exports.getVerificationHistory = catchAsyncErrors(async (req, res, next) => {
+  const verifications = await Verification.find({ verifiedBy: req.user.id })
+  .populate({
+      path: "businessId",
+      select: "organizationName",
+  })
+  .sort({ createdAt: -1 });
+  res.status(200).json({ success: true, history: verifications });
+});
