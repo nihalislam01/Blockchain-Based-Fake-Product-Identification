@@ -7,6 +7,7 @@ const sendEmail = require('../utils/sendEmail');
 const generateToken = require('../utils/generateToken');
 const crypto = require('crypto');
 const cloudinary = require("cloudinary");
+const sendNotification = require('../utils/sendNotification');
 
 
 exports.register = catchAsyncErrors(async (req, res, next) => {
@@ -30,7 +31,7 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
 
   const url = `${req.protocol}://${req.get("host")}/api/user/verify-email?token=${token}`;
   await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url, message: "Thank you for signing up! Please click the button below to verify your email address and activate your account." });
-
+  await sendNotification(`Welcome to Hexis`,`Dear ${user.name.split(" ")[0]}, thank you for joining us. Start verifying your products now.`, user._id);
   res.status(200).json({ success: true, message: "Please check your email to verify." });
 });
 
@@ -85,6 +86,7 @@ exports.updateStatus = catchAsyncErrors(async (req, res, next) =>{
   if (!user) {
     return next(new ErrorHandler("User not found", 404));
   }
+  await sendNotification(`Status updated`, `Dear ${user.name.split(" ")[0]}, your status has been updated to ${user.role}.`, user._id);
   res.status(200).json({success: true, message: "Status Updated"});
 });
 
@@ -107,6 +109,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   setToken(user, res);
+  await sendNotification(`Password updated`, `Dear ${user.name.split(" ")[0]}, your password has been updated.`, user._id);
   res.status(200).json({success: true, user, message: 'Password Updated'});
 
 });
@@ -221,6 +224,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save();
 
   setToken(user, res);
+  await sendNotification(`Password updated`, `Dear ${user.name.split(" ")[0]}, your password has been resetted.`, user._id);
   res.status(200).json({success: true, user, message: 'Password Reset Successful.'});
 });
 
@@ -253,7 +257,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
-
+  await sendNotification(`Profile info updated`, `Dear ${user.name.split(" ")[0]}, your profile info has been updated.`, user._id);
   res.status(200).json({success: true, user, message: "Profile Updated"});
 });
 

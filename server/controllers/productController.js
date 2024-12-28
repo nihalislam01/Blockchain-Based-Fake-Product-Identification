@@ -86,10 +86,12 @@ exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
   if (!isVerified) {
     verification.status = false;
     await verification.save();
+    await sendNotification(`Product verification`, `Dear ${user.name.split(" ")[0]}, product ${productId} is not a registered product.`, user._id);
     return next(new ErrorHandler("Product is not registered", 400));
   }
   verification.status = true;
   await verification.save();
+  await sendNotification(`Product verification`, `Dear ${user.name.split(" ")[0]}, product ${productId} is a valid product.`, user._id);
   res.status(201).json({ success: true, message: 'Product is verified' });
 
 });

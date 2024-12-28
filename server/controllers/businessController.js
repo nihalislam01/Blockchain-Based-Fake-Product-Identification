@@ -79,6 +79,7 @@ exports.updateStatus = catchAsyncErrors(async (req, res, next) => {
         user.role = "user";
     }
     user.save();
+    await sendNotification(`Business status updated`, `Dear ${user.name.split(" ")[0]}, your status has been updated to ${user.role}.`, user._id);
     res.status(200).json({success: true, message: "Status Updated"});
 });
 
@@ -119,7 +120,7 @@ exports.cancel = catchAsyncErrors(async (req, res, next) => {
         user.stripeSessionId = undefined;
         user.save();
     }
-    
+    await sendNotification(`Subscription cancelled`, `Dear ${user.name.split(" ")[0]}, your subscription has been cancelled.`, user._id);
     res.status(200).json({ success: true, message: "Membership has been canceled" });
 });
 
@@ -181,7 +182,7 @@ exports.update = catchAsyncErrors(async (req, res, next) =>{
         runValidators: true,
         useFindAndModify: false,
     });
-
+    await sendNotification(`Business info updated`, `Dear ${user.name.split(" ")[0]}, your business info has been updated.`, req.user.id);
     res.status(200).json({ success: true, business, message: "Business info updated" });
 });
   

@@ -21,7 +21,7 @@ function History () {
        .catch(handleAxiosError)
     },[])
     return (
-        <div className="shadow" style={{backgroundColor: "white", padding: "20px", borderRadius: "10px", width: "65%", overflow: "auto"}}>
+        <div className="shadow" style={{backgroundColor: "white", padding: "20px", borderRadius: "10px", width: "65%", height: "80vh",overflow: "auto"}}>
             {history.length <= 0 && <h6 className="text-center">No verification history available</h6>}
             {history.map((item,index) => (
                 <div style={{backgroundColor: index%2===0? "#e5e5e5" : "white", borderRadius: "10px", padding: "10px 20px", marginBottom: "5px"}}>
