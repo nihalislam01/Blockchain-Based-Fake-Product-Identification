@@ -3,6 +3,7 @@ const Business = require('../models/businessModel');
 const Verification = require('../models/verificationModel');
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const sendNotification = require('../utils/sendNotification');
 const { ethers, keccak256, toUtf8Bytes } = require('ethers');
 const contractABI = require('../utils/contractABI.json');
 const contractAddress = process.env.BLOCKCHAIN_CONTRACT_ADDRESS;
@@ -86,12 +87,12 @@ exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
   if (!isVerified) {
     verification.status = false;
     await verification.save();
-    await sendNotification(`Product verification`, `Dear ${user.name.split(" ")[0]}, product ${productId} is not a registered product.`, user._id);
+    await sendNotification(`Product verification`, `The product ${productId} from ${business.organizationName} is not a registered product.`, req.user.id);
     return next(new ErrorHandler("Product is not registered", 400));
   }
   verification.status = true;
   await verification.save();
-  await sendNotification(`Product verification`, `Dear ${user.name.split(" ")[0]}, product ${productId} is a valid product.`, user._id);
+  await sendNotification(`Product verification`, `The product ${productId} from ${business.organizationName} is a valid product.`, req.user.id);
   res.status(201).json({ success: true, message: 'Product is verified' });
 
 });

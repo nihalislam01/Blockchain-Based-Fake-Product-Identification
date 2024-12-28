@@ -43,7 +43,7 @@ const Profile = () => {
         <>
             <CommonHelmet title={pageTitle} />
             <div className="d-flex gap-4 container">
-                <div className={styles.infoContainer}>
+                <div className={`${styles.infoContainer} shadow`}>
                     <Avatar avatar={avatar} />
                     <Info user={user} dob={dob} editableUser={editableUser} setEditableUser={setEditableUser} setUser={setUser}/>
                 </div>

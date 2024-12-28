@@ -17,6 +17,7 @@ import PaymentManager from "../PaymentManager/PaymentManager";
 import BusinessManager from "../BusinessManager/BusinessManager";
 import UserManager from "../UserManager/UserManager";
 import AuthorizedRoute from "../../common/utils/AuthorizedRoute";
+import Notification from "../Authenticated/Notification/Notification";
 
 const Main = () => {
 
@@ -63,6 +64,10 @@ export const authenticatedRoutes = [
     {
         path: "/status",
         element: <Status />
+    },
+    {
+        path: "/notification",
+        element: <Notification />
     },
     {
         path: "/plan",

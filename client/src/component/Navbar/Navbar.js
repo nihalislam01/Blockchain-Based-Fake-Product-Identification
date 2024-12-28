@@ -56,7 +56,7 @@ function Navbar({isOwner}) {
                         <Link to="/home" className="nav-content-link">Home</Link>
                         <Link to="/#" className="nav-content-link">About</Link>
                         <Link to="/#" className="nav-content-link">Contact</Link>
-                        <Link to="/#" className="nav-content-link">Notifications</Link>
+                        <Link to="/notification" className="nav-content-link">Notifications</Link>
                     </div>
                 </div>
                 <div className={`avatarContainer`}>
