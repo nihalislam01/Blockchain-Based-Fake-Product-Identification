@@ -1,0 +1,64 @@
+@import "../../../../common/assets/variables";
+
+.cancel-plan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 90vh;
+    padding: 20px;
+}
+
+.cancel-form-container {
+    width: 50%;
+}
+
+@media only screen {
+
+    @media (max-width: $sm) {
+    }
+    @media (min-width: $sm) {
+
+    }
+
+    @media (min-width: $sm) and (max-width: $md) {
+
+    }
+
+    @media (max-width: $md) {
+
+    }
+
+
+    @media (min-width: $md) {
+
+    }
+
+    @media (min-width: $md) and (max-width: $lg) {
+
+    }
+
+    @media (max-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) {
+
+    }
+
+    @media (min-width: $lg) and (max-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) {
+
+    }
+
+    @media (min-width: $xl) and (max-width: $xxl) {
+
+    }
+
+    @media (min-width: $xxl) {
+
+    }
+}

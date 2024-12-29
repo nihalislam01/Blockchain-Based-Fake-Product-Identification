@@ -29,6 +29,7 @@ function Notification() {
             <div className="notification-container">
                 <h2>Notifications</h2>
                 <hr />
+                {notifications.length<=0 && <p style={{fontSize: "15px", margin: "0", textAlign: "center", fontWeight: "bold"}}>No notification yet</p>}
                 {notifications.map(notification=>(
                     <div className="notification-box border shadow">
                         <div className="d-flex justify-content-between">

@@ -3,7 +3,7 @@ import Login from '../Login/Login';
 import React from "react";
 import Email from "../Email/Email";
 import Navbar from "../Navbar/Navbar";
-import Footer from "../../Footer/Footer";
+import Footer from "../../../common/components/Footer/Footer";
 import Signup from "../Signup/Signup";
 import Password from "../Password/Password";
 import "./Landing.scss";

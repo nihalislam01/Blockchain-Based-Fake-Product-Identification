@@ -1,7 +1,7 @@
 import React from "react";
 import Landing, { landingRoutes } from "../component/Landing/Landing/Landing";
 import AuthenticatedRoute from "../common/utils/AuthenticatedRoute";
-import Main, { authenticatedRoutes } from "../component/Main/Main";
+import Authenticated, { authenticatedRoutes } from "../component/Authenticated/Authenticated/Authenticated";
 
 export const routes = [
     {
@@ -13,7 +13,7 @@ export const routes = [
         path: "/",
         element: ( 
             <AuthenticatedRoute>
-                <Main />
+                <Authenticated />
             </AuthenticatedRoute>
         ),
         children: authenticatedRoutes
