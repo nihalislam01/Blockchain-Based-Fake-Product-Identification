@@ -1,5 +1,3 @@
-import { faEnvelope, faGlobe, faLocationDot, faPenToSquare, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from "react";
 import CommonHelmet from "../../../../common/components/Head/CommonHelmet";
 import axios from "axios";
@@ -73,11 +71,11 @@ function Dashboard() {
                 {!edit && <>
                     <div className='d-flex justify-content-between align-items-center'>
                         <div>
-                            <h2>{businessInfo.organizationName} <FontAwesomeIcon style={{cursor: "pointer"}} icon={faPenToSquare} size="xs" onClick={open} /></h2>
-                            {businessInfo.contactPhone && <p className="m-0"><FontAwesomeIcon icon={faPhone} style={{marginRight: "5px"}} /> {businessInfo.contactPhone}</p>}
-                            <p className="m-0"><FontAwesomeIcon icon={faEnvelope} style={{marginRight: "5px"}} />{businessInfo.contactEmail}</p>
-                            {businessInfo.website && <p className="m-0"><FontAwesomeIcon icon={faGlobe} style={{marginRight: "5px"}} />{businessInfo.website}</p>}
-                            <p className="m-0"><FontAwesomeIcon icon={faLocationDot} style={{marginRight: "5px"}} /> {address.street}, {address.city}, {address.state} {address.zipCode}, {address.country}</p>
+                            <h2>{businessInfo.organizationName} <i class="fa-solid fa-pen-to-square fa-xs" style={{cursor: "pointer"}} onClick={open}></i></h2>
+                            {businessInfo.contactPhone && <p className="m-0"><i class="fa-solid fa-phone" style={{marginRight: "5px"}}></i> {businessInfo.contactPhone}</p>}
+                            <p className="m-0"><i class="fa-solid fa-envelope" style={{marginRight: "5px"}}></i>{businessInfo.contactEmail}</p>
+                            {businessInfo.website && <p className="m-0"><i class="fa-solid fa-globe" style={{marginRight: "5px"}}></i> {businessInfo.website}</p>}
+                            <p className="m-0"><i class="fa-solid fa-location-dot" style={{marginRight: "5px"}}></i> {address.street}, {address.city}, {address.state} {address.zipCode}, {address.country}</p>
                         </div>
                         <div className='d-flex flex-column gap-2'>
                             <div style={{textAlign: "center", color: "#F5F5F5", backgroundColor: "#293241", padding: "2px 10px", borderRadius: "5px"}}>

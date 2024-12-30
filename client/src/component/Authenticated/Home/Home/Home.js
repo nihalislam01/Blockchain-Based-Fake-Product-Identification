@@ -1,5 +1,3 @@
-import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Outlet } from "react-router-dom";
 import CommonHelmet from "../../../../common/components/Head/CommonHelmet";
 import VerifyProduct from "../VerifyProduct/VerifyProduct";
@@ -25,7 +23,7 @@ function Home() {
                     <h3>Hexis - Your Authenticity Partner</h3>
                     {keyPoints.map(point=>(
                         <div className="d-flex align-items-center gap-2" key={point}>
-                            <FontAwesomeIcon icon={faCircleDot} />
+                            <i class="fa-solid fa-circle-dot"></i>
                             <p className="m-0">{point}</p>
                         </div>
                     ))}

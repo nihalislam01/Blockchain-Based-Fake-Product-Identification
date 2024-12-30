@@ -1,5 +1,3 @@
-import { faBirthdayCake, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -127,9 +125,9 @@ function Info({user, dob, editableUser, setEditableUser, setUser}) {
                 <h2 className='m-0'>{user.name}</h2>
                 <h4>{user.username}</h4>
                 {user.bio!=="" && <p>{user.bio}</p>}
-                {user.gender!=="" && <p className='m-0'><FontAwesomeIcon icon={faUser} /> {user.gender}</p>}
-                {dob!==null && <p className='m-0'><FontAwesomeIcon icon={faBirthdayCake} /> {dob}</p>}
-                <p className='m-0'><FontAwesomeIcon icon={faEnvelope} /> {user.email}</p>
+                {user.gender!=="" && <p className='m-0'><i class="fa-solid fa-user"></i> {user.gender}</p>}
+                {dob!==null && <p className='m-0'><i class="fa-solid fa-birthday-cake"></i> {dob}</p>}
+                <p className='m-0'><i class="fa-solid fa-envelope"></i> {user.email}</p>
                 <div className='d-flex w-100 gap-2'>
                     <button className={`button edit-button`} onClick={toggleEdit} >Edit Profile</button>
                     <button className={`button edit-button`} onClick={togglePassword} >Change Password</button>

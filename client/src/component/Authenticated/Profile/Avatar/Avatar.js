@@ -3,8 +3,6 @@ import styles from "./Avatar.module.scss";
 import axios from "axios";
 import {toast} from "react-hot-toast";
 import handleAxiosError from "../../../../common/utils/ErrorHandler";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const uploadAvatarUrl = "/api/user/uploadAvatar";
 
@@ -49,7 +47,7 @@ const Avatar = ({ avatar }) => {
       <img src={avatar} alt="Profile" className={styles.image} />
       <div className={styles.overlay}>
         <label className={styles.editButton}>
-          <FontAwesomeIcon icon={faPenToSquare} size="2x" />
+          <i class="fa-solid fa-pen-to-square fa-2xl"></i>
           <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput}/>
         </label>
       </div>

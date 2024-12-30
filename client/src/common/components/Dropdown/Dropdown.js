@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import FormInput from '../FormInput/FormInput';
 import './Dropdown.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 const Dropdown = ({ elements, selected, setSelect }) => {
 
@@ -30,7 +28,7 @@ const Dropdown = ({ elements, selected, setSelect }) => {
         <div className="dropdown-container">
             <div className={`d-flex justify-content-between align-items-center form-control dropdown-button`} onClick={toggleDropdown}>
                 <p className='m-0'>{selected.name}</p>
-                <FontAwesomeIcon icon={faCaretDown} />
+                <i class="fa-solid fa-caret-down"></i>
             </div>
             {isOpen && (
                 <div className="dropdown-box">

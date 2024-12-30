@@ -5,8 +5,6 @@ import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { serverLocation } from "../../../const/Constants";
 import Message from "../../../common/components/Message/Message";
 
@@ -122,7 +120,7 @@ function Signup() {
                             <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign Up</button>
                         </div>
                         <button className={`${styles.google} mt-2`} onClick={handleGoogleLogin}>
-                            <FontAwesomeIcon icon={faGoogle} className="mx-2" />
+                            <i className="fa-brands fa-google mx-2"></i>
                             Sign Up with google
                         </button>
                     </div>

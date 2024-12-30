@@ -1,5 +1,3 @@
-import { faCopyright } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Footer.scss'
 
 function Footer() {
@@ -7,7 +5,7 @@ function Footer() {
         <>
             <footer className="footer-container">
                 <div className="footer-content">
-                    <p className='headline'>Copyright <FontAwesomeIcon icon={faCopyright} /> 2024 Hexis -  Your Authenticity Partner. All rights reserved</p>
+                    <p className='headline'>Copyright <i class="fa-solid fa-copyright"></i> 2024 Hexis -  Your Authenticity Partner. All rights reserved</p>
                     <div className="footer-list-content">
                         <a href="/#">About</a>
                         <a href="/#">Contact</a>

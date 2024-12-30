@@ -5,8 +5,6 @@ import {useEffect, useState} from "react";
 import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import axios from "axios";
 import handleAxiosError from "../../../common/utils/ErrorHandler";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {useAuth} from "../../../common/utils/AuthContext";
 import { toast } from "react-hot-toast";
 
@@ -107,7 +105,7 @@ function Login() {
                             <button type="submit" className={`${styles.btnLogin} mt-2`} onClick={onFormSubmit}>Sign In</button>
                         </div>
                         <button className={`${styles.google} mt-2`} onClick={handleGoogleLogin}>
-                            <FontAwesomeIcon icon={faGoogle} className="mx-2" />
+                            <i className="fa-brands fa-google mx-2"></i>
                             Sign In with google
                         </button>
                     </div>

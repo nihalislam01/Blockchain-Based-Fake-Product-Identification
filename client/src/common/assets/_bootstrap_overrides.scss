@@ -22,24 +22,26 @@
 }
 
 .btn-secondary {
-    background-color: #e5e5e5;
-    border: unset;
     font-size: 0.9rem;
-    padding: 12px 20px;
+    padding: 12px;
     border-radius: 10px;
+    border: 1px solid $secondaryColor;
     transition: box-shadow ease 1s;
+    background-color: $lightColor;
     color: $primaryColor;
 
     &:hover {
-        background-color: #e5e5e5;
-        color: $primaryColor;
-        box-shadow: 1px 2px 20px 1px #b0b0b0;
+        box-shadow: 1px 2px 20px 1px #afafaf;
         transition: box-shadow ease 1s;
+        background-color: $lightColor;
+        border: 1px solid $secondaryColor;
+        color: $primaryColor;
     }
 
     &:active {
-        background-color: #e5e5e5 !important;
-        color: $primaryColor;
+        background-color: $lightColor !important;
+        color: $primaryColor !important;
+        border: 1px solid $secondaryColor !important;
     }
 }
 
