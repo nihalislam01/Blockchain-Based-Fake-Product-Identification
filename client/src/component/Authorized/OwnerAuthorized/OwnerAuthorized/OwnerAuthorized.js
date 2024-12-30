@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
 import Product from "../Product/Product";
 import CancelPlan from "../CancelPlan/CancelPlan";
+import EventCalendar from "../Calendar/Calendar";
 
 const OwnerAuthorized = () => {
 
@@ -17,6 +18,10 @@ export const ownerRoutes = [
     {
         path: "/business/product",
         element: <Product />
+    },
+    {
+        path: "/business/calendar",
+        element: <EventCalendar/>
     },
     {
         path: "/business/cancel-plan",

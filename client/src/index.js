@@ -8,6 +8,7 @@ import axios from 'axios';
 import {serverLocation} from './const/Constants';
 import { AuthProvider } from './common/utils/AuthContext';
 
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './common/assets/common.scss';
 

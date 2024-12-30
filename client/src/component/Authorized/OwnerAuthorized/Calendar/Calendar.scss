@@ -1,0 +1,48 @@
+@import "../../../../common/assets/variables";
+
+.calendar .rbc-day-bg {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    &:hover {
+        background-color: $primaryShade;
+    }
+}
+
+.calendar .rbc-event {
+    background-color: $primaryColor;
+    color: $lightColor;
+    text-align: center;
+}
+
+.calendar .rbc-selected-cell {
+    background-color: $secondaryColor !important;
+}
+
+.calendar .rbc-toolbar button {
+    border: 1px solid $primaryColor;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    &:hover {
+        color: $lightColor;
+        background-color: $primaryColor;
+    }
+}
+
+.calendar .rbc-toolbar .rbc-active {
+    color: $lightColor !important;
+    background-color: $primaryColor !important;
+}
+
+.calendar .rbc-header {
+    color: $darkColor;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.calendar .rbc-today {
+    background-color: transparent;
+}
+  
+  
+  
+  

@@ -1,14 +1,10 @@
-@import "../../../../common/assets/variables";
+@import "../../../common/assets/variables";
 
 .infoContainer {
-    width: 55%;
+    width: 35%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    min-height: 80vh;
 }
 
 .button {
@@ -22,6 +18,15 @@
     width: 100%;
     background-color: $forthColor;
     color: $lightColor;
+}
+
+.verify-button {
+    background-color: $forthColor;
+    color: $lightColor;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid light-dark(#ccc, rgb(28, 28, 28));
 }
 
 @media only screen {

@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Notification.scss";
 import FormatDate from "../../../common/utils/FormatDate";
 import toast from "react-hot-toast";
+import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 
 const getNotificationsUrl = '/api/notification/get';
 const deleteNotificationsUrl = '/api/notification/delete';
@@ -25,6 +26,7 @@ function Notification() {
     }
     return (
         <>
+        <CommonHelmet title="Hexis - Notifications" />
         <div className="container d-flex justify-content-center">
             <div className="notification-container">
                 <h2>Notifications</h2>

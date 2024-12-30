@@ -7,7 +7,7 @@ import Sidebar from "../../Authorized/Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
 import Home, { homePages } from "../Home/Home/Home";
 import Notification from "../Notification/Notification";
-import Profile from "../Profile/Profile/Profile";
+import Profile from "../Profile/Profile";
 import Status from "../Status/Status";
 
 import Footer from "../../../common/components/Footer/Footer";

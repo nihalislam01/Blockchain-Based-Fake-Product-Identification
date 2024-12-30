@@ -16,6 +16,7 @@ const business = require("./routes/businessRoute");
 const product = require("./routes/productRoute");
 const stripe = require("./routes/stripeRoute");
 const notification = require("./routes/notificationRoute");
+const event = require("./routes/eventRoute");
 
 const corsOptions = {
   origin: process.env.CLIENT_DOMAIN, 
@@ -33,6 +34,7 @@ app.use("/api/business", business);
 app.use("/api/product", product);
 app.use("/api/stripe", stripe);
 app.use("/api/notification", notification);
+app.use("/api/event", event);
 
 app.use(errorMiddleware);
 

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faBox, faBriefcase, faChartLine, faCreditCard, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faBox, faBriefcase, faChartLine, faCreditCard, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import "./Sidebar.scss";
 import { Link, useLocation } from 'react-router-dom';
 
@@ -21,6 +22,12 @@ function Sidebar({role, isSidebarOpen, toggleSidebar}) {
                         {role==='owner' && <Link to="/business/product" className={`sidebarNav`} >
                             <li className={`listItems  ${isSidebarOpen? "": "active"} ${location.pathname === "/business/product" ? "sidebarSelected" : ""}`}>
                             <FontAwesomeIcon icon={faBox} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Products</p>
+                            </li>
+                        </Link>}
+
+                        {role==='owner' && <Link to="/business/calendar" className={`sidebarNav`} >
+                            <li className={`listItems  ${isSidebarOpen? "": "active"} ${location.pathname === "/business/calendar" ? "sidebarSelected" : ""}`}>
+                            <FontAwesomeIcon icon={faCalendar} /><p className={`list-element ${isSidebarOpen? "active": ""}`}>Calendar</p>
                             </li>
                         </Link>}
 

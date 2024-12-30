@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import styles from "./Profile.module.scss";
+import "./Profile.scss";
 
-import Avatar from "../Avatar/Avatar";
-import Info from "../Info/Info";
-import History from "../History/History";
+import Avatar from "./Avatar/Avatar";
+import Info from "./Info/Info";
+import History from "./History";
 
-import CommonHelmet from "../../../../common/components/Head/CommonHelmet";
-import handleAxiosError from "../../../../common/utils/ErrorHandler";
+import CommonHelmet from "../../../common/components/Head/CommonHelmet";
+import handleAxiosError from "../../../common/utils/ErrorHandler";
 
 const getUserUrl = "/api/user/get";
 
@@ -48,11 +48,13 @@ const Profile = () => {
         <>
             <CommonHelmet title={pageTitle} />
             <div className="d-flex gap-4 container">
-                <div className={`${styles.infoContainer} shadow`}>
+                <div className={`infoContainer`}>
                     <Avatar avatar={avatar} />
                     <Info user={user} dob={dob} editableUser={editableUser} setEditableUser={setEditableUser} setUser={setUser}/>
                 </div>
-                <History />
+                <div style={{width: "65%"}}>
+                    <History />
+                </div>
             </div>
         </>
     );
