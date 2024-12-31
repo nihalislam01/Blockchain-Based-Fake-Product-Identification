@@ -55,7 +55,7 @@ function Navbar({isOwner}) {
                     <h3 className="m-0">Hexis</h3>
                     <div className="nav-content">
                         <Link to="/home" className="nav-content-link" style={{fontWeight: `${location.pathname === "/home" ? "bold" : ""}`}}>Home</Link>
-                        <Link to="/#" className="nav-content-link" style={{fontWeight: `${location.pathname === "/about" ? "bold" : ""}`}}>About</Link>
+                        <Link to="/about" className="nav-content-link" style={{fontWeight: `${location.pathname === "/about" ? "bold" : ""}`}}>About</Link>
                         <Link to="/#" className="nav-content-link" style={{fontWeight: `${location.pathname === "/contact" ? "bold" : ""}`}}>Contact</Link>
                         <Link to="/notification" className="nav-content-link" style={{fontWeight: `${location.pathname === "/notification" ? "bold" : ""}`}}>Notifications</Link>
                     </div>

@@ -40,7 +40,7 @@ function Plan() {
                                 <div className="d-flex align-items-center gap-3"><i class="fa-solid fa-circle mx-2"></i><p className="m-0" key={index}>{desc}</p></div>
                             ))}
                         </div>
-                        <Link to={`/business-form/${payment._id}`}>
+                        <Link to={`/user/business-form/${payment._id}`}>
                             <button className="btn btn-primary mt-2" style={{borderRadius: "30px"}}>Select Plan</button>
                         </Link>
                     </div>

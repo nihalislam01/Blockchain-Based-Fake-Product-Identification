@@ -4,6 +4,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import Product from "../Product/Product";
 import CancelPlan from "../CancelPlan/CancelPlan";
 import EventCalendar from "../Calendar/Calendar";
+import Rule from "../Rule/Rule";
 
 const OwnerAuthorized = () => {
 
@@ -26,6 +27,10 @@ export const ownerRoutes = [
     {
         path: "/business/cancel-plan",
         element: <CancelPlan/>
+    },
+    {
+        path: "/business/rule-book",
+        element: <Rule />
     },
 ];
 

@@ -71,7 +71,7 @@ export const authenticatedRoutes = [
     },
     {
         path: "/user",
-        element: <AuthorizedRoute role={["user"]}><UserAuthorized /></AuthorizedRoute>,
+        element: <AuthorizedRoute roles={["user"]}><UserAuthorized /></AuthorizedRoute>,
         children: userRoutes
     },
     {

@@ -1,6 +1,33 @@
+import { useEffect, useState } from "react";
+
 function Table({keys, rows, renderActions }) {
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredRows, setFilteredRows] = useState(rows);
+
+    useEffect(() => {
+        setFilteredRows(rows);
+      }, [rows]);
+
+    const handleSearch = (e) => {
+        const value = e.target.value.toLowerCase();
+        setSearchTerm(value);
+    
+        const filtered = rows.filter((row) =>
+          keys.some((key) =>
+            String(row[key]).toLowerCase().includes(value)
+          )
+        );
+    
+        setFilteredRows(filtered);
+      };
+
     return (
         <>
+        <div className="d-flex align-items-center">
+            <input type="text" className="form-control text-center" style={{fontFamily: 'Arial, FontAwesome'}} placeholder="&#xf002; Search" name="search" value={searchTerm} onChange={handleSearch} />
+        </div>
+        <hr />
         <table className="table text-center">
             <thead>
                 <tr>
@@ -11,7 +38,7 @@ function Table({keys, rows, renderActions }) {
                 </tr>
             </thead>
             <tbody>
-                {rows.map((row, index)=>(
+                {filteredRows.map((row, index)=>(
                     <tr key={index}>
                         {keys.map((key, index)=>(
                             <td key={index}>{row[key]}</td>

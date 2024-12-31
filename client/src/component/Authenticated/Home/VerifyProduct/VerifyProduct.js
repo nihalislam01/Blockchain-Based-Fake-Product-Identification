@@ -4,10 +4,13 @@ import { toast } from "react-hot-toast";
 import Dropdown from "../../../../common/components/Dropdown/Dropdown";
 import handleAxiosError from "../../../../common/utils/ErrorHandler";
 import { Html5Qrcode } from 'html5-qrcode';
+import { useAlert } from "../../../../common/utils/AletContext";
 
 const verifyProductUrl = '/api/product/verify/';
 
 const VerifyProduct = () => {
+
+    const setAlert = useAlert();
 
     const qrCodeRegionId = 'qr-code-region';
     const html5QrCodeRef = useRef(null);
@@ -35,7 +38,13 @@ const VerifyProduct = () => {
             return;
         }
         axios.get(verifyProductUrl+productId+`/${selectedBusiness.id}`)
-        .then(response=>toast.success(response.data.message))
+        .then(response=>{
+            if (response.data.success) {
+                setAlert({show: true, message: `${response.data.message}`, type: "success", head: "Valid"})
+            } else {
+                setAlert({show: true, message: `${response.data.message}`, type: "danger", head: "Invalid"})
+            }
+        })
         .catch(handleAxiosError)
     }
 

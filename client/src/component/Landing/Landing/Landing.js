@@ -36,7 +36,7 @@ export const landingRoutes = [
     {
         path: "/reset-password",
         element: <Password />
-    }
+    },
 ];
 
 export default Landing;

@@ -87,7 +87,7 @@ exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
   if (!isVerified) {
     verification.status = false;
     await verification.save();
-    return next(new ErrorHandler("Product is not registered", 400));
+    return res.status(201).json({ success: false, message: 'Product is not registered' });
   }
   verification.status = true;
   await verification.save();
@@ -131,11 +131,23 @@ exports.getTotalProducts = catchAsyncErrors(async (req, res, next) =>{
 });
 
 exports.getVerificationHistory = catchAsyncErrors(async (req, res, next) => {
-  const verifications = await Verification.find({ verifiedBy: req.user.id })
+  const verifications = await Verification.find({ verifiedBy: req.user.id, isEnable: true })
   .populate({
       path: "businessId",
       select: "organizationName",
   })
   .sort({ createdAt: -1 });
   res.status(200).json({ success: true, history: verifications });
+});
+
+exports.deleteVerification = catchAsyncErrors(async (req, res, next) =>{
+  const verification = await Verification.findByIdAndUpdate(req.params.id, {isEnable: false}, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+});
+  if (!verification) {
+      return next(new ErrorHandler("Verification not found", 404));
+  }
+  res.status(200).json({ success: true, message: "Verification deleted" });
 });

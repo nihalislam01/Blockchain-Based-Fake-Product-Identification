@@ -61,9 +61,12 @@ function Product() {
     });
 
     useEffect(()=>{
-        axios.get('/api/product/get')
-        .then(response =>setProducts(response.data.products))
-        .catch(handleAxiosError)
+        const getProducts = async () => {
+            await axios.get('/api/product/get')
+            .then(response =>setProducts(response.data.products))
+            .catch(handleAxiosError)
+        }
+        getProducts();
     },[])
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -190,14 +193,12 @@ function Product() {
         <>
             <CommonHelmet title={pageTitle} />
             <div className="container">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center gap-4">
                     <h2>Product</h2>
-                    <p className="m-0" style={{ cursor: "pointer", color: "#293241", fontWeight: "bold" }} onClick={openCreateSingleProduct}>
-                        Create Product
-                    </p>
+                    <p className="m-0" style={{ cursor: "pointer", color: "#293241", fontWeight: "bold" }} onClick={openCreateSingleProduct}>Create Product</p>
                 </div>
                 <hr />
-                <div className="product-container">
+                <div className="table-container">
                     <Table keys={["productId", "name", "description", "price"]} rows={products} />
                 </div>
 

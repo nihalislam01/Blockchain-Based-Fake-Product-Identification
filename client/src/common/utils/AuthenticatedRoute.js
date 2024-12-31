@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import Message from "../components/Message/Message";
 import { useAuth } from "./AuthContext";
 
-const AuthenticatedRoute = ({ children }) => {
+const AuthenticatedRoute = ({ children, redirect }) => {
 
     const { checkAuth } = useAuth();
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -24,7 +24,7 @@ const AuthenticatedRoute = ({ children }) => {
         );
     }
 
-    return isAuthenticated ? children : <Navigate to="/" />;
+    return isAuthenticated ? children : redirect || <Navigate to="/" />;
 };
 
 export default AuthenticatedRoute;
