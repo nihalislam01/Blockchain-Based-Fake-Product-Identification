@@ -28,7 +28,7 @@ const Dropdown = ({ elements, selected, setSelect }) => {
         <div className="dropdown-container">
             <div className={`d-flex justify-content-between align-items-center form-control dropdown-button`} onClick={toggleDropdown}>
                 <p className='m-0'>{selected.name}</p>
-                <i class="fa-solid fa-caret-down"></i>
+                <i className="fa-solid fa-caret-down"></i>
             </div>
             {isOpen && (
                 <div className="dropdown-box">

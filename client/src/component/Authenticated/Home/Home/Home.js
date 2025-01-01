@@ -41,7 +41,7 @@ function Home() {
                         <h3>Hexis - Your Authenticity Partner</h3>
                         {keyPoints.map(point=>(
                             <div className="d-flex align-items-center gap-2" key={point}>
-                                <i class="fa-solid fa-circle-dot"></i>
+                                <i className="fa-solid fa-circle-dot"></i>
                                 <p className="m-0">{point}</p>
                             </div>
                         ))}

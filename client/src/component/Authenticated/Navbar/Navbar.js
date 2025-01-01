@@ -65,11 +65,12 @@ function Navbar({isOwner}) {
                     {isPopupVisible && (
                         <div className={`popup`} ref={popupRef}>
                             <ul>
-                                <a href="/profile" className={`navItems`}><li>Profile</li></a>
-                                {!isOwner && <a href="/user/plan" className={`navItems`}><li>Subscription Plans</li></a>}
-                                {isOwner && <a href="/business/cancel-plan" className={`navItems`}><li>Cancel Subscription</li></a>}
-                                <hr className="m-1"/>
-                                <li onClick={signout}>Sign Out</li>
+                                <a href="/profile" className={`navItems`}><li><i class="fa-regular fa-user mx-2"></i>Profile</li></a>
+                                <hr className="m-0"/>
+                                {!isOwner && <a href="/user/plan" className={`navItems`}><li><i class="fa-regular fa-credit-card mx-2"></i>Subscription Plans</li></a>}
+                                {isOwner && <a href="/business/cancel-plan" className={`navItems`}><li><i class="fa-regular fa-credit-card mx-2"></i>Cancel Subscription</li></a>}
+                                <hr className="m-0" />
+                                <li onClick={signout}><i class="fa-solid fa-arrow-right-from-bracket mx-2"></i> Sign Out</li>
                             </ul>
                         </div>
                     )}

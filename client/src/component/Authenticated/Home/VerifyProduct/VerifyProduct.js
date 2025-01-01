@@ -33,6 +33,7 @@ const VerifyProduct = () => {
     }
 
     const onVerifyProduct = () => {
+        console.log(selectedBusiness);
         if (selectedBusiness.id.trim().length===0) {
             toast.error("Please select a company");
             return;
@@ -63,8 +64,11 @@ const VerifyProduct = () => {
                 qrbox: { width: 400, height: 400 },
             },
             (decodedText) => {
-                setProductId(decodedText);
-                toast.success(`Product id ${decodedText} collected`);
+                const [name, pId] = decodedText.split(",");
+                const theBusiness = businesses.find(business=>business.name === name.trim());
+                setSelectedBusiness(theBusiness);
+                setProductId(pId.trim());
+                toast.success("Product Id collected");
                 stopScanning();
             },
           );
@@ -90,7 +94,7 @@ const VerifyProduct = () => {
                 <input type="text" onChange={onChangeHandler} name="productId" value={productId} placeholder="Insert Product ID" className="form-control mt-3"  />
                 <button className="btn btn-primary w-100 mt-2" onClick={onVerifyProduct}>Verify Product</button>
                 <button className="btn btn-secondary w-100 mt-2" onClick={startScanning}>
-                    <i class="fa-solid fa-qrcode mx-2"></i>
+                    <i className="fa-solid fa-qrcode mx-2"></i>
                     Scan QR Code
                 </button></>}
                 {scanning && 

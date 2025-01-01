@@ -18,6 +18,7 @@ import AuthorizedRoute from "../../../common/utils/AuthorizedRoute";
 import OwnerAuthorized, { ownerRoutes } from "../../Authorized/OwnerAuthorized/OwnerAuthorized/OwnerAuthorized";
 import UserAuthorized, { userRoutes } from "../../Authorized/UserAuthorized/UserAuthorized/UserAuthorized";
 import AdminAuthorized, { adminRoutes } from "../../Authorized/AdminAuthorized/AdminAuthorized/AdminAuthorized";
+import EventCalendar from "../../Authorized/Calendar/Calendar";
 
 const Authenticated = () => {
 
@@ -68,6 +69,10 @@ export const authenticatedRoutes = [
     {
         path: "/status",
         element: <Status />
+    },
+    {
+        path: "/calendar",
+        element: <AuthorizedRoute roles={["admin", "owner"]}><EventCalendar /></AuthorizedRoute>
     },
     {
         path: "/user",

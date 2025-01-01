@@ -8,7 +8,6 @@
     background-color: #fffffc;
     z-index: 2;
     border-radius:15px;
-    // box-shadow: 0px 0px 10px 1px #dfdfdf;
     border: 2px solid #dfdfdf;
     transition: all 0.3s ease-in-out;
     text-align: center;
@@ -42,7 +41,7 @@
     width: 100%;
     border-radius: 5px;
     padding: 5px 10px;
-    margin-bottom: 5px;
+    margin: 5px 0px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     font-weight: bold;

@@ -47,7 +47,7 @@ const Avatar = ({ avatar }) => {
       <img src={avatar} alt="Profile" className={styles.image} />
       <div className={styles.overlay}>
         <label className={styles.editButton}>
-          <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+          <i className="fa-solid fa-pen-to-square fa-2xl"></i>
           <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput}/>
         </label>
       </div>

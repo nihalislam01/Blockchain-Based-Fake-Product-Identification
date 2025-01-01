@@ -3,11 +3,11 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./Calendar.scss";
-import Popup from "../../../../common/components/Popup/Popup";
-import CommonHelmet from "../../../../common/components/Head/CommonHelmet";
+import Popup from "../../../common/components/Popup/Popup";
+import CommonHelmet from "../../../common/components/Head/CommonHelmet";
 import toast from "react-hot-toast";
-import Form from "../../../../common/components/Form/Form";
-import handleAxiosError from "../../../../common/utils/ErrorHandler";
+import Form from "../../../common/components/Form/Form";
+import handleAxiosError from "../../../common/utils/ErrorHandler";
 import axios from "axios";
 
 const localizer = momentLocalizer(moment);

@@ -49,7 +49,7 @@ function History () {
             </div>
             {filteredHistory.length <= 0 && <h6 className="text-center">No verification history available</h6>}
             {filteredHistory.map(item => (
-                <>
+                <div key={item._id}>
                 <hr />
                 <div style={{padding: "10px 20px"}}>
                     <div className="d-flex justify-content-between align-items-center">
@@ -59,12 +59,12 @@ function History () {
                         </div>
                         <div className="d-flex align-items-center gap-2">
                             <p className="m-0">{item.date}</p>
-                            <i className="fa-solid fa-ban" style={{cursor: "pointer"}} onClick={() => deleteVerification(item._id)}></i>
+                            <i className="fa-regular fa-trash-can" style={{cursor: "pointer"}} onClick={() => deleteVerification(item._id)}></i>
                         </div>
                     </div>
                     <p style={{fontSize: "12px"}}>Product ID: {item.productId}</p>
                 </div>
-                </>
+                </div>
             ))}
         </>
     )

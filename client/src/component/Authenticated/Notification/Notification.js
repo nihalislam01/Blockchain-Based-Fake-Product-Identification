@@ -36,7 +36,7 @@ function Notification() {
                     <div className="notification-box border shadow">
                         <div className="d-flex justify-content-between">
                             <p className="notification-headline">{notification.title}</p>
-                            <button style={{background: "none", border: "none", fontSize: "20px"}} onClick={() => deleteNotification(notification._id)}>&times;</button>
+                            <button style={{background: "none", border: "none", fontSize: "20px"}} onClick={() => deleteNotification(notification._id)}><i className="fa-regular fa-circle-xmark fa-xs"></i></button>
                         </div>
                         <p className="m-0" style={{textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{notification.description}</p>
                         <p className="m-0" style={{fontSize: "12px"}}>{FormatDate(notification.createdAt)}</p>
