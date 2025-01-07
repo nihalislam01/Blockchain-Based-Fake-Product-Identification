@@ -31,7 +31,6 @@ exports.register = catchAsyncErrors(async (req, res, next) => {
 
   const url = `${req.protocol}://${req.get("host")}/api/user/verify-email?token=${token}`;
   await sendEmail({ name: user.name, email: user.email, subject: "Verify Email", url, message: "Thank you for signing up! Please click the button below to verify your email address and activate your account." });
-  await sendNotification(`Welcome to Hexis`,`Dear ${user.name.split(" ")[0]}, thank you for joining us. Start verifying your products now.`, user._id);
   res.status(200).json({ success: true, message: "Please check your email to verify." });
 });
 
@@ -60,9 +59,9 @@ exports.verifyCallback = catchAsyncErrors(async (req, res, next) => {
   user.token.expiration = undefined;
 
   await user.save();
-
+  await sendNotification(`Welcome to Hexis`,`Dear ${user.name.split(" ")[0]}, thank you for joining us. Start verifying your products now.`, user._id);
   setToken(user, res);
-  res.redirect(`${process.env.CLIENT_DOMAIN}`);
+  res.redirect(`${process.env.CLIENT_DOMAIN}/home`);
 });
 
 
@@ -106,6 +105,9 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   user.password = req.body.newPassword;
+  if (!user.loginMethods.includes("password")) {
+    user.loginMethods.push("password");
+  }
   await user.save();
 
   setToken(user, res);
@@ -126,12 +128,12 @@ exports.oauthCallback = catchAsyncErrors(async (req, res, next) => {
     }
 
     if (!user.isEnable) {
-      return next(new ErrorHandler("Account Disabled. Please contact support.", 401));
+      return res.redirect(`${process.env.CLIENT_DOMAIN}/account-disabled`);
     }
 
     setToken(user, res);
 
-    res.redirect(`${process.env.CLIENT_DOMAIN}`);
+    res.redirect(`${process.env.CLIENT_DOMAIN}/home`);
   })(req, res, next);
 });
 

@@ -4,6 +4,7 @@ import AuthenticatedRoute from "../common/utils/AuthenticatedRoute";
 import Authenticated, { authenticatedRoutes } from "../component/Authenticated/Authenticated/Authenticated";
 import Message from "../common/components/Message/Message";
 import WhatAreWe, { whatAreWeRoutes } from "../component/WhatAreWe/WhatAreWe";
+import DontHavePass from "../component/DontHavePass/DontHavePass";
 
 export const routes = [
     {
@@ -24,6 +25,10 @@ export const routes = [
             </AuthenticatedRoute>
         ),
         children: authenticatedRoutes
+    },
+    {
+        path: "/account-disabled",
+        element: <DontHavePass />,
     },
     {
         path: "/*",

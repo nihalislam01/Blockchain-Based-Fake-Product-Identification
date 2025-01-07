@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Table({keys, rows, renderActions }) {
+function Table({keys, rows, renderActions, onRowClick }) {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredRows, setFilteredRows] = useState(rows);
@@ -39,12 +39,12 @@ function Table({keys, rows, renderActions }) {
             </thead>
             <tbody>
                 {filteredRows.map((row, index)=>(
-                    <tr key={index}>
+                    <tr key={index} style={{cursor: onRowClick?  "pointer":""}} onClick={onRowClick ? () => onRowClick(row._id) : undefined} >
                         {keys.map((key, index)=>(
                             <td key={index}>{row[key]}</td>
                         ))}
                         {renderActions && (
-                            <td>{renderActions(row)}</td>
+                            <td onClick={(e) => {e.stopPropagation();}}>{renderActions(row)}</td>
                         )}
                     </tr>
                 ))}

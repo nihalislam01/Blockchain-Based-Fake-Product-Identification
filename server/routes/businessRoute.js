@@ -10,7 +10,7 @@ router.patch('/updateStatus/:id',isAuthenticatedUser, authorizeRoles("admin"), u
 router.post('/cancel',isAuthenticatedUser, authorizeRoles("owner"), cancel);
 router.get('/get', isAuthenticatedUser, getBusinessData);
 router.get("/get-all", isAuthenticatedUser, authorizeRoles("admin"), getAllPending);
-router.get('/all', isAuthenticatedUser, getAll);
+router.get('/all', getAll);
 router.get('/status', isAuthenticatedUser, getStatus);
 router.patch('/update',isAuthenticatedUser, authorizeRoles("owner"), update);
 

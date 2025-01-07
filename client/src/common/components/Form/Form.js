@@ -10,6 +10,7 @@ function Form(props){
     return (
         <>
             <h3>{props.headline}</h3>
+            <hr />
             <div className="form-box">
                 {props.formInputs?.map((e)=>(
                     <FormInput key={e.id} onChange={onChangeHandler} value={props.formValues[e.name]} noMargin={true} {...e} />

@@ -24,7 +24,7 @@ const AuthenticatedRoute = ({ children, redirect }) => {
         );
     }
 
-    return isAuthenticated ? children : redirect || <Navigate to="/" />;
+    return isAuthenticated ? children : redirect || <Navigate to="/login" />;
 };
 
 export default AuthenticatedRoute;

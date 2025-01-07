@@ -15,8 +15,8 @@ function Plan() {
     useEffect(()=>{
         axios.get(getPlanUrl)
         .then(response=>{
-            setPayments(response.data.payment);
-            setPlanSelected(response.data.payment[0]._id);
+            setPayments(response?.data?.payment);
+            setPlanSelected(response?.data?.payment[0]?._id);
         })
         .catch(handleAxiosError)
     },[])

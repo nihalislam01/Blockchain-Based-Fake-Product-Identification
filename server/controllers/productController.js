@@ -81,7 +81,7 @@ exports.verifyProduct = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Business not found", 404));
   }
   const businessId = business._id;
-  const verification = new Verification({productId, businessId, verifiedBy: req.user.id});
+  const verification = new Verification({productId, businessId, verifiedBy: req?.user?.id || undefined});
   const productHash = keccak256(toUtf8Bytes(`${productId}${businessId}`));
   const isVerified = await contract.verifyProduct(productHash);
   if (!isVerified) {

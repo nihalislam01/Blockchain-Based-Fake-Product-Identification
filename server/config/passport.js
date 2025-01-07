@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/userModel');
+const sendNotification = require('../utils/sendNotification');
 
 passport.use(
   new GoogleStrategy(
@@ -24,14 +25,15 @@ passport.use(
                     isEnable: true,
                     loginMethods: ['oauth']
                 });
+                await sendNotification(`Welcome to Hexis`,`Dear ${user.name.split(" ")[0]}, thank you for joining us. Start verifying your products now.`, user._id);
             } else {
                 user.oauth = {provider: 'google', id: profile.id},
                 user.isEnable = true,
                 user.loginMethods.push('oauth')
-                user.save()
+                await user.save()
             }
         }
-        user = await User.findById(user._id)
+        user = await User.findById(user._id);
         done(null, user);
       } catch (error) {
         return done(error, false);

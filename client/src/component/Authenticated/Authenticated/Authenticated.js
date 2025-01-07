@@ -55,7 +55,7 @@ const Authenticated = () => {
 export const authenticatedRoutes = [
     {
         path: "/",
-        element: <Home />,
+        element: <div className="d-flex flex-column align-items-center justify-content-center container w-100" style={{minHeight: "90vh"}}><Home /></div>,
         children: homePages
     },
     {

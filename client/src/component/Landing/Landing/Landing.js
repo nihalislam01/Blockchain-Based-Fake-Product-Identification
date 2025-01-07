@@ -6,6 +6,7 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../../../common/components/Footer/Footer";
 import Signup from "../Signup/Signup";
 import Password from "../Password/Password";
+import Home, { unAuthenticatedHomePages } from "../../Authenticated/Home/Home/Home";
 import "./Landing.scss";
 
 function Landing() {
@@ -22,11 +23,16 @@ function Landing() {
 
 export const landingRoutes = [
     {
+        path: "/",
+        element: <Home />,
+        children: unAuthenticatedHomePages
+    },
+    {
         path: "/signup",
         element: <Signup />
     },
     {
-        path: "/",
+        path: "/login",
         element: <Login />
     },
     {

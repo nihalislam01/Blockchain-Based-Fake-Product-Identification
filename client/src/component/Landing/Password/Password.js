@@ -59,7 +59,7 @@ function Password() {
     }
 
     const navigateTo = () => {
-        navigate("/");
+        navigate("/login");
     }
 
     return (

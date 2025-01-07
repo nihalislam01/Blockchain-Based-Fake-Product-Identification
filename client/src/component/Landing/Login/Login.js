@@ -39,7 +39,7 @@ function Login() {
             setAuth(isAuthenticated!=='unauthorized');
         }
         checkAuthentication();
-    },[checkAuth, navigate])
+    },[checkAuth])
 
     const [formValues, setFormValues] = useState({
         username: "",

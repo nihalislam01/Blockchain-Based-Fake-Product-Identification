@@ -4,6 +4,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import Product from "../Product/Product";
 import CancelPlan from "../CancelPlan/CancelPlan";
 import Rule from "../Rule/Rule";
+import UploadProduct from "../Product/UploadProduct";
 
 const OwnerAuthorized = () => {
 
@@ -26,6 +27,13 @@ export const ownerRoutes = [
     {
         path: "/business/rule-book",
         element: <Rule />
+    },
+];
+
+export const businessHomeRoutes = [
+    {
+        path: "/business/upload",
+        element: <UploadProduct />
     },
 ];
 

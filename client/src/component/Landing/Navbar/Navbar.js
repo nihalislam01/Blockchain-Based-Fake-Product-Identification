@@ -8,9 +8,9 @@ function Navbar() {
     return (
         <>
             <div className="navbar-container-unauth">
-                <h2>Hexis</h2>
+                <Link to="/" style={{cursor: "pointer", textDecoration: "none"}}><h2>Hexis</h2></Link>
                 <div className="sign-container">
-                    <Link to="/"><button className={`sign-button ${location.pathname === "/" ? "selected left-selected" : ""}`}>Sign In</button></Link>
+                    <Link to="/login"><button className={`sign-button ${location.pathname === "/login" ? "selected left-selected" : ""}`}>Sign In</button></Link>
                     <Link to="/signup"><button className={`sign-button ${location.pathname === "/signup" ? "selected right-selected" : ""}`}>Sign Up</button></Link>
                 </div>
             </div>

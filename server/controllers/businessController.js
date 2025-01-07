@@ -69,7 +69,7 @@ exports.updateStatus = catchAsyncErrors(async (req, res, next) => {
     if (!user) {
         return next(new ErrorHandler("User not found", 404));
     }
-    if (!user.stripeSessionId || user.stripeSessionId===undefined || user.stripeSessionId===null || user.role !== "pending") {
+    if (!user.stripeSessionId || user.stripeSessionId===undefined || user.stripeSessionId===null) {
         return next(new ErrorHandler("User is not a subscription handler", 400));
     }
     
@@ -135,7 +135,8 @@ exports.getBusinessData = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.getAll = catchAsyncErrors(async (req, res, next) => {
-    const businesses = await Business.find().select('_id organizationName');
+    let businesses = await Business.find().populate("ownerId").select('_id organizationName ownerId');
+    businesses = businesses.filter(business => business.ownerId.role!=="pending");
 
     const result = businesses.map(business => ({
         id: business._id,
@@ -159,7 +160,7 @@ exports.getStatus = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({ success: true, headline:"User", message: "You are a general user. You can subscribe to become a business owner." });
   });
 
-  exports.getAllPending = catchAsyncErrors(async (req, res, next) => {
+exports.getAllPending = catchAsyncErrors(async (req, res, next) => {
 
     const businesses = await Business.find().populate('ownerId')
     .then((results) => {
@@ -170,8 +171,8 @@ exports.getStatus = catchAsyncErrors(async (req, res, next) => {
         });
     });
     res.status(200).json({success: true, businesses});
-  
-  });
+
+});
 
 exports.update = catchAsyncErrors(async (req, res, next) =>{
     const business = await Business.findOne({ownerId: req.user.id});

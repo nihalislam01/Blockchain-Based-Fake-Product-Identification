@@ -13,6 +13,7 @@ import handleAxiosError from "../../../../common/utils/ErrorHandler";
 const getPaymentsUrl = "/api/stripe/getAll";
 const createPaymentUrl = "/api/stripe/create";
 const updateStatusUrl = "/api/stripe/updateStatus/";
+const updatePaymentUrl = "/api/stripe/update/";
 
 const pageTitle = "Hexis - Payment Manager";
 
@@ -23,6 +24,14 @@ const paymentInputs = [
         type: "text",
         placeholder: "Plan Name (e.g. Basic, Premium)",
         label: "Name",
+        category: "input",
+    },
+    {
+        id: "sessionInput",
+        name: "session",
+        type: "text",
+        placeholder: "Sessiob (e.g. Month, Year)",
+        label: "Session",
         category: "input",
     },
     {
@@ -70,8 +79,10 @@ function PaymentManager() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [payments, setPayments] = useState([]);
+    const [isUpdate, setIsUpdate] = useState(false);
     const [paymentValues, setPaymentValues] = useState({
         name: "",
+        session: "",
         quote: "",
         price: "",
         description: "",
@@ -93,19 +104,28 @@ function PaymentManager() {
 
     const onFormSubmit = e => {
         e.preventDefault();
+        console.log(paymentValues);
         let hasError = !Object.values(paymentValues).every(value => value.trim().length !== 0);
 
         if (hasError) {
             toast.error("Please fill up all the fields");
             return;
         }
-
-        axios.post(createPaymentUrl, {
-            ...paymentValues
-        }).then((response) => {
-            toast.success(response.data.message);
-            closePopup();
-        }).catch(handleAxiosError);
+        if (isUpdate) {
+            axios.patch(updatePaymentUrl + paymentValues._id, {
+                ...paymentValues
+            }).then((response) => {
+                toast.success(response.data.message);
+                closePopup();
+            }).catch(handleAxiosError);
+        } else {
+            axios.post(createPaymentUrl, {
+                ...paymentValues
+            }).then((response) => {
+                toast.success(response.data.message);
+                closePopup();
+            }).catch(handleAxiosError);
+        }
     };
 
     const onChangeHandler = (e, id) => {
@@ -113,6 +133,12 @@ function PaymentManager() {
         .then((response)=>toast.success(response.data.message))
         .catch(handleAxiosError)
     };
+
+    const showUpdatePopup = (id) => {
+        setPaymentValues(payments.find(payment => payment._id === id));
+        setShowPopup(true);
+        setIsUpdate(true);
+    }
 
     return (
         <>  
@@ -124,7 +150,7 @@ function PaymentManager() {
                 </div>
                 <hr />
                 <div className="table-container">
-                    <Table keys={["name", "quote", "price", "priceId"]} rows={payments} 
+                    <Table keys={["name","session", "quote", "price", "priceId"]} rows={payments} onRowClick={showUpdatePopup}
                     renderActions={(row) => (<FormInput noMargin={true} onChange={(event) => onChangeHandler(event, row._id)} value={row.active} {...activeInput}/>)}/>
                 </div>
             </div>

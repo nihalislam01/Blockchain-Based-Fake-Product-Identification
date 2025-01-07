@@ -17,6 +17,20 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
 });
 
+exports.handlesAll = catchAsyncErrors(async (req, res, next) => {
+
+  const { token } = req.cookies;
+
+  if (!token) {
+    return next();
+  }
+
+  const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = await User.findById(decodedData.id);
+  next();
+
+});
+
 exports.authorizeRoles = (...roles) => {
 
   return (req, res, next) => {

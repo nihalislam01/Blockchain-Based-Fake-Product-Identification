@@ -36,7 +36,10 @@ const Dropdown = ({ elements, selected, setSelect }) => {
                     <hr className='m-0'/>
                     <div className="dropdown-list">
                         {filteredElements.map((element, index) => (
-                            <button key={index} className="dropdown-box-item" onClick={()=>selectItem(element)}>{element.name}</button>
+                            <div key={index}>
+                                <button className="dropdown-box-item" onClick={()=>selectItem(element)}>{element.name}</button>
+                                <hr className='m-0' />
+                            </div>
                         ))}
                     </div>
                 </div>

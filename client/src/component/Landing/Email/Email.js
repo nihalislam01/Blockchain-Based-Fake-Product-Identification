@@ -65,7 +65,7 @@ function Email() {
     }
 
     const navigateTo = () => {
-        navigate("/");
+        navigate("/login");
     }
 
     return (

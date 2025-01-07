@@ -5,6 +5,7 @@ import Dropdown from "../../../../common/components/Dropdown/Dropdown";
 import handleAxiosError from "../../../../common/utils/ErrorHandler";
 import { Html5Qrcode } from 'html5-qrcode';
 import { useAlert } from "../../../../common/utils/AletContext";
+import {Link} from "react-router-dom";
 
 const verifyProductUrl = '/api/product/verify/';
 
@@ -33,7 +34,6 @@ const VerifyProduct = () => {
     }
 
     const onVerifyProduct = () => {
-        console.log(selectedBusiness);
         if (selectedBusiness.id.trim().length===0) {
             toast.error("Please select a company");
             return;
@@ -66,6 +66,11 @@ const VerifyProduct = () => {
             (decodedText) => {
                 const [name, pId] = decodedText.split(",");
                 const theBusiness = businesses.find(business=>business.name === name.trim());
+                if (!theBusiness) {
+                    toast.error("Company does not have entry");
+                    stopScanning();
+                    return;
+                }
                 setSelectedBusiness(theBusiness);
                 setProductId(pId.trim());
                 toast.success("Product Id collected");
@@ -86,23 +91,22 @@ const VerifyProduct = () => {
       };
     return (
         <>
-            <div className="border text-center" style={{padding: "20px", borderRadius: "10px", backgroundColor: "white", width: "70%"}}>
-                <h3>Product Verification</h3>
-                <hr />
-                <div id={qrCodeRegionId} style={{ width: '100%', height: 'auto', position: "fixed", display: scanning ? "" : "none" }} />
-                {!scanning && <><Dropdown elements={businesses} selected={selectedBusiness} setSelect={setSelectedBusiness} />
-                <input type="text" onChange={onChangeHandler} name="productId" value={productId} placeholder="Insert Product ID" className="form-control mt-3"  />
-                <button className="btn btn-primary w-100 mt-2" onClick={onVerifyProduct}>Verify Product</button>
-                <button className="btn btn-secondary w-100 mt-2" onClick={startScanning}>
-                    <i className="fa-solid fa-qrcode mx-2"></i>
-                    Scan QR Code
-                </button></>}
-                {scanning && 
-                    <button className="btn btn-secondary w-100 mt-2" onClick={stopScanning}>
-                        Stop scanning
-                    </button>
-                }
-            </div>
+            <h3>Product Verification</h3>
+            <hr />
+            <div id={qrCodeRegionId} style={{ width: '100%', height: 'auto', position: "fixed", display: scanning ? "" : "none" }} />
+            {!scanning && <><Dropdown elements={businesses} selected={selectedBusiness} setSelect={setSelectedBusiness} />
+            <input type="text" onChange={onChangeHandler} name="productId" value={productId} placeholder="Insert Product ID" className="form-control mt-3"  />
+            <button className="btn btn-primary w-100 mt-2" onClick={onVerifyProduct}>Verify Product</button>
+            <button className="btn btn-secondary w-100 mt-2" onClick={startScanning}>
+                <i className="fa-solid fa-qrcode mx-2"></i>
+                Scan QR Code
+            </button></>}
+            {scanning && 
+                <button className="btn btn-secondary w-100 mt-2" onClick={stopScanning}>
+                    Stop scanning
+                </button>
+            }
+            <Link to="/business/upload"><button className="btn btn-link">upload your own products</button></Link>
         </>
     )
 }

@@ -11,7 +11,7 @@ function DragAndDrop(props) {
     return (
         <>
             <h4 className="text-start m-0" style={{padding: "0px 5px"}}>Upload file</h4>
-            <div {...getRootProps()} style={{border: '2px dashed #e5e5e5',textAlign: 'center',borderRadius: '10px', padding: "100px 20px", transition: "background-color 0.3s ease", backgroundColor: isDragActive ? "#edf2fb": ""}}>
+            <div {...getRootProps()} style={{border: '2px dashed #e5e5e5',textAlign: 'center',borderRadius: '10px', padding: "100px 20px", transition: "background-color 0.3s ease", backgroundColor: isDragActive ? "#edf2fb": "", margin: "10px 0px"}}>
                 <input {...getInputProps()} />
                 <div className="d-flex justify-content-center align-items-center gap-2">
                     <p className="m-0" style={{fontWeight: "bold"}}>Drag and drop file here or</p>
@@ -36,6 +36,7 @@ function DragAndDrop(props) {
                 ))}
             </div>
             <button className="btn btn-primary w-100" onClick={props.onUpload}>Upload</button>
+            {props.link && <button className='btn btn-link' onClick={props.link?.action}>{props.link?.name}</button>}
         </>
     )
 }
